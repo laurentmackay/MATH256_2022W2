@@ -1,0 +1,121 @@
+\input{notes.tex}
+
+\iftoggle{dualscreen}{\setbeameroption{show notes on second screen=right}}{}
+
+\begin{document}
+
+
+\section{Lecture 2}
+
+\subsection{Introduction}
+\slide[Recall]{
+We saw how to solve ODEs of the form \[y\p=f(t)\cdot g(y) \qquad -\qquad \text{Separable Equations}\]
+
+\student{\[\frac{dy}{g(y)}  = f(t)dt \dots \text{integrate and isolate $y$} \]}\vfill
+Now we want to solve something a little more general...
+\[y\p =f(t) \cdot g(y) + h(t)\]
+\student{
+This is not separable :(
+
+\vfill
+
+To keep things simple, we focus on linear equations with $g(y)=y$
+}
+}
+
+\slide[General form of a 1$^{st}$ order linear ODE]{\vspace{-1.25em}
+\[y\p +p(t) y =h(t) \]
+\student{Operator form: \subitem{Stuff with $y$ goes on the left \item stuff without $y$ goes on the right.}}\vfill
+Two cases: 
+\itmz{
+\item $h(t)=0$: \student{call this a Homogeneous equation
+\subitem{Separable - we know how to solve \item  Homogeneous $\Leftrightarrow$ separable for linear equations only}}\vfill
+\item $h(t)\neq0$: \student{call this a $\underset{\text{Inhomogeneous}}{\overset{\text{Non-Homogenous}}{\text{or}}}$ equation
+\subitem{$h(t)=$ the inhomogeneity \vfill}}\vfill
+}
+}
+
+\slide{
+\ex{Solve $y\p+2ty=t^2e^{t}$}\\
+\student{First we do something very odd, multiply everything by $e^{t^2}$
+\algn{ e^{t^2}y\p + \underbrace{2te^{t^2}}_{\small \dd{}{t}e^{t^2}}y &= t^2e^{t^3} &\rightarrow
+ \underbrace{e^{t^2}\dd{}{t}y+\dd{}{t}e^{t^2}y}_{\text{product rule applied to } e^{t^2}y} &=t^2 e^{t^3} \\\\
+\dd{}{t}\paren{e^{t^2}y} &= t^2e^{t^3} & \int d\paren{e^{t^2}y} &=  \int t^2e^{t^3} dt\\\\
+e^{t^2}y &= \frac13 \int e^{u} du & \carray{u = t^3 \\ du = 3t^2}\\
+e^{t^2}y & = \frac13 e^{u} + C \\&= \frac13 e^{t^3} +C & y(t) &= \frac13 e^t +Ce^{-t^2}
+}
+}
+
+}
+
+\subsection{Method of integrating factors}
+\slide[Method of integrating factors: $y\p+p(t)y=h(t) $ ]{
+\enum{
+\item Multiply by the integrating factor $\mu(t)=e^{\intop p(t)\text{d}t  }$ \student{\algn{\mu(t)y\p +\underbrace{p(t)\mu(t)}_{\mu\p(t)}y &= h(t)\mu(t) \\
+\dd{}{t}(\mu \cdot y) &= h(t)\mu(t)\\
+\text{d}(\mu \cdot y) &= h(t)\mu(t)\text{d}t
+}}
+\item Integrate: \student{\[\mu \cdot y = \intop h(t)\mu(t)\text{d}t + C \]}
+
+\item Isolate $y(t)$: \student{\[ y(t) = \frac{\intop h(t)\mu(t)\text{d}t + C}{\mu(t)} \]}}
+}
+
+
+\subsection{Method of integrating factors: $y\p+p(t)y=h(t) $}
+\slide[Existence of solutions \hspace{4em} $\rarray{ y(t) = \frac{\intop h(t)\mu(t)\text{d}t + C}{\mu(t)} \\ \mu(t)=e^{\intop p(t)\text{d}t }}$]{
+For solutions to exist, we need the derivative of $y$ to be defined at all points in time.
+\vfill
+That is, $y$ must be differentiable.
+\vfill
+\itmz{
+\item What properties does $p(t)$ need to ensure $\mu(t)$ is differentiable?
+\student{\subitem{Continuous and integrable.}}
+\vfill
+\item What properties does $h(t)$ need to ensure $y(t)$ is differentiable?
+\student{\subitem{Continuous and $\mu(t) \cdot h(t)$ is integrable.}
+\vfill
+These conditions are pretty lax, but evaluating the integrals can be tough.
+}
+}
+}
+
+\slide{\ex{Find the general solution of $y\p-3y=e^t$.} \hfill $\boxed {\rarray{ y(t) = \frac{\intop h(t)\mu(t)\text{d}t + C}{\mu(t)} \\ \mu(t)=e^{\intop p(t)\text{d}t }}}$
+
+\student{\algn{\mu(t)&=e^{\intop(-3)dt}=e^{-3t}\\
+e^{-3t}y\p-3e^{-3t}y&=e^t e^{-3t}\\
+\dd{}{t}\left( e^{-3t}y \right ) &=e^{-2t}\\
+\text{d}\left( e^{-3t}y \right ) &=e^{-2t}\text{d}t\\
+e^{-3t}y(t)  &= \intop e^{-2t}\text{d}t+C\\
+y(t) &= \frac{ -\frac12 e^{-2t}+C}{e^{-3t}}\\
+&=\underbrace{-\frac12e^t}_{y_p}+\underbrace{Ce^{3t}}_{y_h}
+}
+}
+
+}
+
+\slide{\ex{Find the general solution of $y\p-3t^2y=3t^2$.}  \hfill $\boxed {\rarray{ y(t) = \frac{\intop h(t)\mu(t)\text{d}t + C}{\mu(t)} \\ \mu(t)=e^{\intop p(t)\text{d}t }}}$
+\vfill\student{\algn{\mu(t)&=e^{-\intop3t^2dt}=e^{-t^3} &                                                                                    & \carray{\text{let }u=t^3\\du=3t^2}\\
+e^{-t^3}y(t)  &= \intop3t^2e^{-t^3}\text{d}t&                                                          \intop 3t^2e^{-t^3}\text{d}t & = \intop e^{-u} du\\
+                       &                                                                                                                                                             &   & = -e^{-u}+C\\
+e^{-t^3}y(t) &= -e^{-t^3}+C\\
+y(t)&=-1+Ce^{t^3}
+}
+}
+}
+\subsection{Summary}
+\slide[Summary]{
+\itmz{
+\item General linear 1st order ODE: $y\p +p(t)y=h(t)$\vfill
+\itmz{
+\item $h(t)=0$: Homogeneous ODE
+\item $h(t)\neq0$: Inhomogeneous ODE
+\item To solve,  turn the LHS into an exact derivative: $$y\p +p(t)y \quad \rightarrow \quad \text{d}(\mu\cdot y ) = \mu\p y +\mu y\p$$
+\subitem{ Multiply by an integrating factor $\mu(t)=e^{\intop p(t)\text{d}t} $
+\item General solution: $ y(t) = \frac{\intop g(t)\mu(t)\text{d}t + C}{\mu(t)}$}
+}\vfill
+\item This method solves \uline{all} linear 1st order ODEs, provided that $p(t)$ and $g(t)$ are continuous.
+}
+}
+
+\end{document}
+

@@ -1,0 +1,139 @@
+\input{notes.tex}
+\iftoggle{dualscreen}{\setbeameroption{show notes on second screen=right}}{}
+
+
+\begin{document}
+\section{Lecture 20}
+\subsection{BVPs}
+\settoggle{covered}{true}
+\slide[Recall: Initial Value Problems (IVPs).]{\vspace{-1.5em}
+\[ ay\pp +by\p+cy=h(t), \qquad \larray{y(0)=y_0\\y\p(0)=v_0}\]
+This is a natural approach for scenarios where we know the initial state of a system (e.g., mass-spring or electrical circuit) and want to predict it behaviour at later times.\vfill
+In other scenarios, we might know the state of the system at two times $t=0$ and $t=T$.
+
+\[ ay\pp +by\p+cy=h(t), \qquad \student{ \underbrace{ \larray{y(0)=y_0\\y(T)=y_T} \quad\text{or} \quad \larray{y\p(0)=v_0\\y\p(T)=v_T}}_{\text{boundary conditions}}}\]
+\vfill
+\student{\centerline{We call these boundary value problems (BVPs).}}
+
+}
+
+\slide[Periodic BVPs]{
+In cases where $h(t)$ is a \uline{periodic function with period $T$}, i.e., \student{\[h(t+T)=h(t) \qquad \forall t,\]} the solution $y(t)$ eventually becomes periodic.
+\vfill
+Ignoring any intial transient solutions, we can find the long-term periodic solution by solving an ODE with \uline{periodic boundary conditions}, given by \vfill
+\student{\[ ay\pp +by\p+cy=h(t), \qquad \larray{y(0)=y(T)\\y\p(0)=y\p(T)} \]}
+\vfill
+}
+\subsection{Periodic BVPs}
+\slide{\ex{$y\pp + y=\cos(2\pi t), \qquad \larray{y(0)=y(1)\\y\p(0)=y\p(1)}$    }
+\student{\algn{y(t)&=y_h + y_p\qquad \qquad
+\larray{y_h=c_1\cos(t) + c_2 \sin(t)\\
+y_p=A\cos(2\pi t) + B\sin(2\pi t)}\\
+\text{M. U. C.: }&A=\frac{1}{1-4\pi^2}, \; B=0\\
+y(t)&=c_1\cos(t) + c_2 \sin(t) + \frac{1}{1-4\pi^2}\cos(2\pi t)\intertext{Boundary Conditions:}
+y(0) = c_1 + \cancel{\frac{1}{1-4\pi^2}}  &= y(1) = c_1 \cos(1) + c_2 \sin(1) +\cancel{ \frac{1}{1-4\pi^2}}\\
+ c_1  &= c_1 \cos(1) + c_2 \sin(1) \\\\
+y\p(0) = c_2 &= y\p(1)= -c_1\sin(1) + c_2\cos(1)\\
+ c_2 &=  -c_1\sin(1) + c_2\cos(1)
+}
+}
+
+}
+
+\slide{
+$\begin{array}{ll}  c_1  &= c_1 \cos(1) + c_2 \sin(1) \\  c_2  &=  -c_1\sin(1) + c_2\cos(1) \end{array}$\vspace{-2em}
+\student{
+\algn{c_2(1-\cos(1)) & =- c_1\sin(1)& c_1&=c_1\cos(1) -\frac{\overbrace{\sin^2(1)}^{1-\cos^2(1)}}{1-\cos(1)}c_1\\
+c_2=-&\frac{\sin(1)}{1-\cos(1)}c_1&c_1 &= c_1\paren{\cos(1) -\frac{(1+\cos(1))\cancel{(1-\cos(1)})}{\cancel{1-\cos(1)}}} \\
+&&c_1&=c_1\paren{\cancel{\cos(1)}-\paren{1+\cancel{\cos(1)}}}\\
+&&c_1&=-c_1 \qquad \Rightarrow c_1=c_2=0\\
+&&\Aboxed{y(t) &= \frac{1}{1-4\pi^2}\sin(2\pi t)}
+ }\vfill
+Alternatively, we can notice that the homogeneous solution have period $2\pi$ whereas the particular solution has period $1$. Since the boundary conditions require solutions with period 1, we can only keep the particular solution.
+}
+}
+
+
+\slide{
+\ex{$y\pp + y=f(t), \qquad \larray{y(0)=y(1)\\y\p(0)=y\p(1)}$ \hfill with $f(t+1)=f(t)$ }
+\vfill
+
+\student{ Due to its periodicity, we can express $f(t)$ as \[f(t) = \frac{1}{2} a_0 + \sum_{n=1}^\infty a_n \cos(2n\pi t) + b_n \sin(2n\pi t)\]
+This is called the \alert{Fourier Series} of the function $f(t)$, the coefficients $a_n$ and $b_n$ are called \alert{Fourier coefficients}.
+\vfill
+The coefficients are obtained by taking the \uline{inner product} of the function $f(t)$ and the Fourier basis\[\left\{ \cos( 2n\pi t),\; \sin(2n \pi t) \right\} \qquad n=0,\dots,\infty\]
+\vfill
+
+}
+
+}
+\slide{
+$y\pp + y =  \frac{1}{2} a_0 + \sum_{n=1}^\infty a_n \cos(2n\pi t) + b_n \sin(2n\pi t)$
+\student{
+Let's guess \[y(t)=  \sum_{n} y_n(t) = A_0 +\sum_{n=1}^\infty A_n \cos(2n\pi t) + B_n \sin(2n \pi t) \]
+
+Apply M.U.C. term-by-term for the different values of $n$. \vfill
+For $n\neq0$, the $n^{th}$ particular solution is \algn{y_n &=  A_n \cos(2n\pi t) + B_n \sin(2n\pi t) \\ y_n\pp &= -4n^2\pi^2A_n \cos(n\pi t) -4n^2\pi^2 B_n \sin(n\pi t)}
+\vspace{-3em}
+\algn{\text{\uline{ODE}: }\quad y_n\pp+y_n &=a_n \cos(2n\pi t) + b_n \sin(2n\pi t)\\\\
+A_n(1-4n^2\pi^2)  \cos(n\pi t) &+ B_n(1-4n^2\pi^2)  \sin(n\pi t)&A=\frac{a_n}{1-4n\pi^2} \\
+&=  a_n \cos(n\pi t) + b_n \sin(n\pi t)& B=\frac{b_n}{1-4n\pi^2}  }
+}
+
+}
+
+\slide{$y\pp + y =  \frac{1}{2} a_0 + \sum_{n=1}^\infty a_n \cos(n\pi t) + b_n \sin(n\pi t)$\vfill
+\student{For $n=0$, we have
+\algn{y_0&=A, y_0\pp=0\\
+A&=\frac12 a_0\\\\
+y(t) &= \frac12 a_0 + \sum_{n=1}^\infty \frac{a_n}{1-4n\pi^2}  \cos(2n\pi t)  + \frac{b_n}{1-4n\pi^2} \sin(2n\pi t) }\vfill
+Given a specific periodic $f(t)$, we can find its Fourier coefficients $a_n$ and $b_n$ and use the solution above.
+}
+}
+\subsection{Fourier Series and Basis}
+\slide[Fourier Series]{\vspace{-1em}
+Given any  periodic function $f(t)$ with period $T$, we can approximate $f(t)$ as a Fourier series
+\[ f(t) \approx \frac{1}{2} a_0 + \sum_{n=1}^\infty a_n \cos\paren{\frac{2n\pi t}{T}} + b_n \sin\paren{\frac{2n\pi t}{T}} \]with
+\algn{a_0&=\left< f(t), 1 \right> &&\student{=\frac2T\int_0^T f(t) dt}\\
+a_n&=\left< f(t),  \cos\paren{\frac{2n\pi t}{T}} \right> && \student{=\frac2T\int_0^T f(t) \cos\paren{\frac{2n\pi t}{T}} dt}\\
+b_n&=\left< f(t),  \sin\paren{\frac{2n\pi t}{T}} \right> && \student{=\frac2T\int_0^T f(t) \sin\paren{\frac{2n\pi t}{T}} dt}}
+If $f(t)$ is a continuous function, then the approximation becomes an equality.
+}
+\settoggle{covered}{false}
+
+\slide[The Fourier Basis]{\vspace{-1em}
+Computing the Fourier series of a function $f(t)$ is effectively projecting $f(t)$ onto the space of $T$-periodic functions, decomposing the function into infinitely many components.\vfill
+\twomini[.75]{.5}{.5}{
+\student{
+Vector
+\algn{
+\vec{x}& = \mat{ccc}{1&3&5}^T\\
+\vec{x} &= c_1 \mat{c}{1\\0\\0} +  c_2 \mat{c}{0\\1\\0} +  c_3 \mat{c}{0\\0\\1}\\
+c_1 &= \vec{x}\cdot \mat{c}{1\\0\\0}, \quad c_2 = \vec{x}\cdot \mat{c}{0\\1\\0}\\
+c_3 &= \vec{x}\cdot \mat{c}{0\\0\\1}
+}
+}
+}{
+\student{
+$2\pi$ Periodic Function
+\algn{f(t)&=  \frac{1}{2} a_0 \\+& \sum_{n=1}^\infty a_n \cos\paren{n\pi t} + b_n \sin\paren{n\pi t} \\\\
+ a_n& = \left< f(t),  \cos\paren{n\pi t} \right>\\
+ b_n& = \left< f(t),  \sin\paren{n\pi t} \right>
+}}
+}
+
+}
+
+\slide[The Fourier Basis is Orthonormalized]{
+\vfill
+Consider $m$ and $n$ to be any two positive integers or zero, then we have\vfill
+\algn{
+\left< \cos\paren{\nicefrac{2n\pi t}{T}} ,  \sin\paren{\nicefrac{2m\pi t}{T}} \right>  &= 0 \qquad \forall m,n  \qquad \student{\text{(Orthogonality)}}\\\\
+\left< \sin\paren{\nicefrac{2n\pi t}{T}} ,  \sin\paren{\nicefrac{2m\pi t}{T}} \right>  &= \left< \cos\paren{\nicefrac{2n\pi t}{T}} ,  \cos\paren{\nicefrac{2m\pi t}{T}} \right>\\
+&=\begin{cases} 1  & \text{if } m=n   \qquad \student{\text{(Normalization)}} \\ 0  &\text{otherwise} \qquad \student{\text{(Orthogonality)}} \end{cases} }
+
+\vfill
+\student{The normalization condition is the reason for the factors of $\frac2T$ (or $\frac1T$) in front of the Fourier coefficient integrals.}
+}
+
+\end{document}

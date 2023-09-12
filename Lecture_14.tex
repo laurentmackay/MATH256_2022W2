@@ -1,0 +1,155 @@
+\input{notes.tex}
+
+
+\iftoggle{dualscreen}{\setbeameroption{show notes on second screen=right}}{}
+\usetikzlibrary{arrows}
+
+
+\begin{document}
+\section{Lecture 14}
+\subsection{Review}
+\settoggle{covered}{true}
+\slide[Recall:]{
+ \[\dd{}{t}\vec{x} = \mathbf{A} \vec{x} \qquad \text{with } \mathbf{A} \text{ an } n\times n \text{ matrix} \]
+\vfill
+We can find $n$ solutions $\vec{x}(t)=e^{\lambda t}\vec{v}$ by finding the eigenvalues, $\lambda$, and eigenvectors, $\vec{v}$, of the matrix $\mathbf{A}$.\vfill
+\vfill
+i.e., solving
+   \[\det(\mathbf{A} - \lambda \mathbf{I}) = 0\quad\text{and}\quad (\mathbf{A} - \lambda \mathbf{I})\vec{v}= 0\]
+\vfill
+\student{\centerline{What about if we have $ \ddn{}{t}{2}\vec{x} = \mathbf{A} \vec{x}$?}
+\vfill
+Could convert to a larger 1st order system...but lets try something else.}
+}
+\subsection{Second order systems}
+\slide[Simple second order systems]{\vspace{-1em}
+Suppose we want to find the general solution to \[ \ddn{}{t}{2}\vec{x} = \mathbf{A} \vec{x} \]
+\student{
+Lets guess $\vec{x}(t) = e^{rt}\vec{v}$
+\algn{r^2 e^{rt}\vec{v} &=\mathbf{A}e^{rt}\vec{v}\\
+r^2 \vec{v} &=\mathbf{A}\vec{v} & \Rightarrow \lambda=r^2 \text{ is an eigenvalue of $\mathbf{A}$}
+}
+For matrices with real entries, 2 cases:
+\enum{
+\item $r^2>0\quad\Rightarrow\quad\vec{x}_\lambda(t) = \paren{c_1e^{\sqrt{\lambda}t}+c_2 e^{-\sqrt{\lambda}t}} \vec{v}$
+\item $r^2<0$ \algn{\Rightarrow\quad\vec{x}_\lambda(t) &= \paren{d_1e^{i\sqrt{|\lambda|}t}+d_2 e^{-i\sqrt{|\lambda|}t}} \vec{v}\\ &=\paren{c_1\cos({\sqrt{|\lambda|}t})+c_2 \sin({\sqrt{|\lambda|}t})} \vec{v}
+}
+}
+}
+}
+
+\slide[Linear model of H$_2$O]{\small\vspace{-1em}
+Consider a linear representation of a water molecule, as depicted below. \centerline{\includegraphics[width=8cm]{images/linear_water.pdf}}
+Let $x_1$ and $x_3$ be the displacement of the hydrogen atoms from their equilibrium positions, and  $x_2$ be the displacment of the oxygen molecule.
+\vfill Treat the atoms as if they are connected by springs with stiffness $k$.
+\vfill
+From Newton's 2nd law:
+
+\twomini[.3]{.45}{.65}{\vspace{-.5em}\algn{mx_1\pp &= k(x_2-x_1)\\
+Mx_2\pp &= k(x_3-x_2)-k(x_2-x_1)\\
+mx_3\pp &=- k(x_3-x_2)}\student{Let $\vec{x}= \mat{ccc}{x_1&x_2&x_3}^T\\$}
+}{
+\student{Then we have \algn{ \ddn{}{t}{2} \vec{x} &= \omega_0^2\mat{ccc}{-1&1&0\\\alpha&-2\alpha&\alpha\\0&1&-1}  \vec{x}\\  \\ w_0&=\sqrt{k/m} \qquad \alpha=m/M}}
+}
+}
+\slide[The eigensolutions of our water model]{\vspace{-2em}
+\[\ddn{}{t}{2} \vec{x} =\mathbf{A}\vec{x},\qquad \mathbf{A}=\omega_0^2\mat{ccc}{-1&1&0\\\alpha&-2\alpha&\alpha\\0&1&-1} \qquad \larray{w_0=\sqrt{k/m} \\ \alpha=m/M}\]
+\student{
+\algn{\lambda_1 &= -\omega_0^2 \qquad \qquad \quad \vec{v}_1 = \mat{ccc}{-1&0&1}^T \\
+&\vec{x}_1 = \paren{c_1\cos(\omega_0 t) + c_2\sin(\omega_0 t) }\vec{v}_1\\\\
+\lambda_2 &= 0 \qquad\qquad \qquad \quad \vec{v}_2 = \mat{ccc}{1&1&1}^T\\
+&\vec{x}_2 = (c_3+c_4t) \vec{v}_2\\\\
+\lambda_3 &=  -(1+2\alpha)\omega_0^2 \qquad \quad \vec{v}_3 = \mat{ccc}{1&-2\alpha&1}^T\\
+&\vec{x}_3 = \paren{c_4\cos(\sqrt{1+2\alpha}\omega_0 t) + c_5\sin(\sqrt{1+2\alpha}\omega_0 t) }\vec{v}_3
+}
+}
+}
+
+\settoggle{covered}{false}
+
+\slide[Eigenmode 1 ($\lambda=-\omega_0^2$)]{
+\[\vec{x}_1 = \paren{c_1\cos(\omega_0 t) + c_2\sin(\omega_0 t) }\mat{c}{-1\\0\\1}\]\vfill
+\centerline{\includegraphics[width=10cm]{images/linear_water_emode1.pdf}}\vfill
+\student{An oscillation with angular frequency $\omega_0$ where the middle atom remains fixed, and the outer atoms  move in opposite directions.}
+\vfill
+}
+
+\slide[Eigenmode 2 ($\lambda=0$)]{
+\twomini[.4]{.5}{.5}{\[\vec{x}_2 = \paren{c_3 + c_4 t }\mat{c}{1\\1\\1}\]}{\student{\algn{\text{Suppose } \vec{x}_2 &= T(t) \vec{v}_2\\
+\ddn{}{t}{2}\vec{x_2} &= \mathbf{A}\vec{x}_2 = \lambda \vec{x}_2=\vec{0}=T\pp\vec{v}_2\\
+T\pp&=0\\
+\Rightarrow T(t) &= \text{linear function}}}}\vfill
+\centerline{\includegraphics[width=10cm]{images/linear_water_emode2.pdf}}\vfill
+\student{A translation of the whole molecule.}
+\vfill
+}
+
+\slide[Eigenmode 3 ($\lambda=-(1+2\alpha)\omega_0^2$)]{
+\[\vec{x}_3 =\paren{c_4\cos(\sqrt{1+2\alpha}\omega_0 t) + c_5\sin(\sqrt{1+2\alpha}\omega_0 t) }\mat{c}{1\\-2\alpha\\1}\]\vfill
+\centerline{\includegraphics[width=10cm]{images/linear_water_emode3.pdf}}\vfill
+\student{An oscillation with angular frequency $\sqrt{1+2\alpha}\omega_0$ where the middle atom  moves in the opposite directions as the two outer atoms.}
+\vfill
+}
+
+\slide[A perturbation]{
+Suppose we displace the leftmost hydrogen a distance $d$ and release it with zero velocity.\vfill
+\centerline{\includegraphics[width=10cm]{images/linear_water_displaced_hydrogen.pdf}}\vfill
+That is, $\vec{x}(0)=\mat{c}{d\\0\\0}$ and $\vec{x}\p(0)=\vec{0}$\vfill
+
+How will the system react?  \hfill - \hfill \small \href{https://www.desmos.com/calculator/ypd58rkmjc}{[Desmos Demo]}
+
+}
+
+\slide[]{
+Notes:
+\vfill
+\student{The equations of motion of each atom can be decomposed into contributions from the three eigenmodes.
+
+\vfill
+
+How much each mode contributes is entirely determined by the initial conditions.
+
+}
+}
+\slide[Now with forcing...]{
+Suppose that  instead of moving the hydrogen atom, we apply a periodic force to it.
+\[\ddn{}{t}{2} \vec{x} = \mathbf{A} \vec{x} + \mat{c}{d\\0\\0}\sin(\Omega t)\]
+\student{
+Method of undetermined coefficients
+\[\vec{x}_p =  \cancelto{\vec{0}}{\vec{f}} \cos(\Omega t) + \vec{g}  \sin(\Omega t)\]\vfill
+This assumes we have no resonance, i.e.
+\[\Omega \neq \omega_0, 0, \sqrt{1+2\alpha}\omega_0\]
+}
+}
+
+
+\slide{
+
+\[\ddn{}{t}{2} \vec{x}_p = \mathbf{A} \vec{x}_p + \mat{c}{d\\0\\0}\sin(\Omega t)  \]\vfill
+\[ \vec{x}_p = \vec{g} \sin(\Omega t) \qquad  \student{\Rightarrow \ddn{}{t}{2} \vec{x}_p  = -\Omega^2 \sin(\Omega t) \vec{g} } \]
+\student{\algn{ -\Omega^2 \sin(\Omega t) \vec{g} & = \mathbf{A}\vec{g} \sin(\Omega t) +  \mat{c}{d\\0\\0}\sin(\Omega t) \\
+-(\mathbf{A}+\Omega^2 \mathbf{I} ) \vec{g} &=  \mat{c}{d\\0\\0} \\ \vec{g} & = -(\mathbf{A}+\Omega^2 \mathbf{I} )^{-1} \mat{c}{d\\0\\0}  } }
+
+}
+
+\slide[Resonance]{\vspace{-2em}
+\[\vec{x}(t) = \vec{x}_h(t)   -(\mathbf{A}+\Omega^2 \mathbf{I} )^{-1} \mat{c}{d\\0\\0} \sin(\Omega t) \]
+
+Does the matrix $ (\mathbf{A}+\Omega^2 \mathbf{I} )^{-1} $ always exist?\vfill
+\student{
+No, not when $-\Omega^2$ is an eigenvalue of $\mathbf{A}$.\vfill Recall, to find the eigenvalue $\lambda$: \[\det(\mathbf{A}-\lambda \mathbf{I}) =0\]
+Since, a matrix inverse has the $1/det$ in it, the matrix inverse would not exist.\vfill
+
+This corresponds to resonance.
+}\vfill
+}
+\slide[Resonance Demo]{
+\[\ddn{}{t}{2} \vec{x} = \omega_0^2\mat{ccc}{-1&1&0\\\alpha&-2\alpha&\alpha\\0&1&-1}  \vec{x} + \mat{c}{d\\0\\0}\sin(\Omega t) \quad \larray{w_0=\sqrt{k/m} \\ \alpha=m/M}\]\vfill
+With $\alpha=0.5$, $\omega_0=0.1$ we have resonances at \algn{\Omega=\sqrt{-\lambda}&=\omega_0, \;0, \sqrt{1+2\alpha}\omega_0\\
+&=0.1,\;0, \;0.141421}
+\vfill
+
+\href{https://www.desmos.com/calculator/n872rce1re}{[Desmos Demo]}
+}
+
+\end{document}

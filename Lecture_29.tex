@@ -1,0 +1,171 @@
+\input{notes.tex}
+
+\iftoggle{dualscreen}{\setbeameroption{show notes on second screen=right}}{}
+
+\usepackage{gensymb}
+\begin{document}
+
+\section{Lecture 28}\subsection{The wave equation with various boundary conditions}
+
+\slide[Generalizing D'Alembert's Solution]{
+\vspace{-1em}
+The solution method is agnostic to boundary conditions:
+\vspace{-.5em}
+\algn{y_{tt}&=c^2y_{xx} \quad  & a<x<b \\   y(x,0)&= f(x)& y_t(x,0)&=g(x)}
+\vfill
+\[\boxed{y(x,t)=A(x-ct)+B(x+ct)}\]
+\vfill
+\algn{A(z) &= \frac12 \left[ F(z) - \frac1c\int_a^z G(x) dx\right]& B(z) &= \frac12 \left[ F(z) + \frac1c\int_a^z G(x)dx \right]}
+\vfill
+\student{
+\algn{y(x,t) &= \frac{ F(x-ct) +F(x+ct)}{2} +\frac{\int_a^{x+ct} G(s)ds -\int_a^{x-ct} G(s) ds}{2c} \\
+&=\boxed{ \frac{ F(x-ct) +F(x+ct)}{2} +\frac{1}{2c} \int_{x-ct} ^{x+ct} G(s)ds }
+}
+}
+}
+
+
+\slide[Generalizing D'Alembert's Solution]{\vspace{-2em}
+\algn{y_{tt}&=c^2y_{xx} \quad  & a<x<b \\   y(x,0)&= f(x)& y_t(x,0)&=g(x)}\vfill
+\[\boxed{y(x,t) = \frac{ F(x-ct) +F(x+ct)}{2} +\frac{1}{2c} \int_{x-ct} ^{x+ct} G(s)ds }\]\vfill
+Pick $F(z)$ and $G(z)$ to match the boundary conditions.\vfill
+\itmz{\item $y(a,t)=y(b,t)=0$\\ \student{$\Rightarrow$ $F$ \& $G$ are \uline{odd} periodic extensions of $f$ and $g$}\vfill
+\item $y_x(a,t)=y_x(b,t)=0$\\ \student{$\Rightarrow$ $F$ \& $G$ are \uline{even} periodic extensions of $f$ and $g$}
+}
+\vfill
+}
+
+\slide[Separation of variables with zero-derivative boundaries]{
+\vspace{-2.5em}
+\algn{y_{tt}&=c^2y_{xx} \quad  0<x<L & y_x(0,t)&=y_x(L,t)=0 \\   y(x,0)&= f(x)& y_t(x,0)&=g(x)}
+\vfill
+Perform \uline{even} periodic extensions of the initial conditions
+\vfill
+\student{\algn{f(x)&=\frac{a_0}{2} +\sum_{n=1}^\infty a_n \cos\left( \frac{n \pi}{L} x\right)\\
+g(x)&=\frac{d_0}{2} +\sum_{n=1}^\infty d_n \cos\left( \frac{n \pi}{L} x\right)}}\vfill
+
+\[y(x,t) = \frac{d_0}{2}t + \frac{a_0}{2}+ \sum_{n=1}^\infty \cos \left( \frac{n \pi}{L} x\right) \left[ d_n\frac{L}{n\pi c} \sin\left( \frac{n\pi c}{L} t \right) +  a_n\cos\left( \frac{n\pi c}{L} t \right) \right] \]
+}
+
+
+\slide{
+\vspace{-.5em}Suppose you are given\vspace{-.5em}
+\algn{y_{tt}&=c^2y_{xx} \quad  0<x<L & y_x(0,t)&=y_x(L,t)=0 \\   y(x,0)&= f(x)& y_t(x,0)&=g(x)}
+Compare the two methods for computing the solution to this problem
+\vfill
+\student{Separation of variables
+\enum{\item Find the even periodic extension of $f(x)$
+\subitem{$a_n=$ an integral \item $a_0=$ another integral}
+\item
+\[y(x,t) = \frac{a_0}{2}+ \sum_{n=1}^\infty  a_n \cos \left( \frac{n \pi}{L} x\right) \cos\left( \frac{n\pi c}{L} t  \right)\]
+ }\vfill
+Infinite sums are too costly, in practice we only get approximate solutions.
+}\vfill
+\footnotesize\url{https://www.desmos.com/calculator/auxhik8lsh}
+}
+
+\slide{
+\vspace{-.5em}Suppose you are given\vspace{-.5em}
+\algn{y_{tt}&=c^2y_{xx} \quad  0<x<L & y_x(0,t)&=y_x(L,t)=0 \\   y(x,0)&= f(x)& y_t(x,0)&=g(x)}
+Compare the two methods for computing the solution to this problem
+\vfill
+\student{D'Alembert
+\enum{\item Define an even extension of $f(x)$ onto [-L,L]
+\[f^{\rm even}(x) = \begin{cases} f(x)& 0\leq x<L \\  -f(-x)& -L\leq x<0 \end{cases}\]
+\vfill
+\item
+
+\vspace{-2.5em} \algn{y(x,t) &= \frac12 \left[  f^{\rm even}(mod(x-ct+L, 2L)-L)\right. \\& \left.+   f^{\rm even}(mod(x+ct+L, 2L)-L)  \right]}}
+Exact solution, no infinite sums or integrals required.
+
+}
+\vfill
+\footnotesize\url{https://www.desmos.com/calculator/auxhik8lsh}
+}
+
+\slide[Other boundary conditions?]{
+Suppose we have $y(0,t)=y_0\neq0$ and $y(L,t)=y_L\neq0$\vfill\student{
+Proceed like with the heat equation
+\[y_{\rm p}(x) = y_0 + \frac{y_L-y_0}{L}x \]
+define $w(x,t)=y(x,t)-y_p(x)$
+\algn{w_{tt}&=c^2w_{xx} \quad 0<x<L & w(0,t)&=w(L,t)=0 \\   w(x,0)&= f(x)-y_p(x)& y_t(x,0)&=g(x)}\vfill
+Same strategy applies for non-zero derivatives.
+}
+}
+
+\slide[Periodic extensions of functions defined for $a<x< b$]{
+We have seen how to make odd/even periodic extensions of functions defined for $0<x< L$
+\student{\itmz{\item Graphically \vfill \item Fourier Series with period $2L$\subitem{even=Fourier Cosine Series \item odd=Fourier Sine Series}}}
+\vfill
+How does this work for a function defined for $a<x\leq b$?\vfill
+\student{\enum{\item Define a new coordinate $\tilde{x}=x-a$
+\item Take a Fourier series in $\tilde{x}$ with $L=b-a$
+}
+\vfill
+Hint: You need to do this for Assignment Q5c
+}
+
+\vfill
+}
+
+\slide[What happens as $a\to-\infty$ and $b\to\infty$ ]{\vspace{-2em}
+\algn{y_{tt}&=c^2y_{xx} \quad  & -\infty<x<\infty \\   y(x,0)&= f(x)& y_t(x,0)&=g(x)}
+\[\boxed{y(x,t) = \frac{ f(x-ct) +f(x+ct)}{2} +\frac{1}{2c} \int_{x-ct} ^{x+ct} g(s)ds }\]\vfill
+The wave extends over all space...\student{eventually.\vfill However, the wave travels at finite speed.\vfill
+Information about the initial condition at a point $x_0$  is always contained in the interval  $[x_0-ct,x_0+ct]$.}
+
+}
+
+\slide[What type of solutions do we get for $-\infty<x<\infty$?]{
+For $0<x<L$, we got 
+\student{\algn{y(x,t) &\approx \sum_{n=1}^{\infty} \left[ a_n \cos\left(\frac{2\pi t}{T_n} \right)+ b_n\sin\left( \frac{2\pi  t}{T_n} \right)\right]\left[\sin\left(\frac{2\pi x}{\lambda_n} \right)+ \cos\left( \frac{2\pi x}{\lambda_n} \right)\right]\intertext{$a_n$ and $b_n$ are found from periodic extensions of the initial conditions}
+T_n&=\frac{2L}{cn} \qquad \lambda_n=\frac{2L}{n}\qquad  \text{(periods of the vibrational modes)}\intertext{alterntively, we can rewrite this as}
+y(x,t) &=\sum_{n=-\infty}^{\infty}  c_n e^{i \frac{2\pi }{T_n}t }e^{i \frac{2\pi }{\lambda_n}x }   = \sum_{n=-\infty}^{\infty} c_n e^{2\pi i\left(  \frac{x }{\lambda_n} + \frac{t }{T_n}\right)}\\
+c_n&=\begin{cases} a_0/2 & n=0\\ \frac12 (a_n+b_n) & n>0 \\ \frac12 (a_{|n|}-b_{|n|}) & n<0 \end{cases}
+}
+}
+}
+
+\slide[What type of solutions do we get for $-\infty<x<\infty$?]{
+For $-\infty < x < \infty $, we get \vfill
+\student{
+Inspired by the finite case, we try separation of variables with $y(x,t)=e^{\alpha x} e^{\beta t}$
+\algn{y_{tt}&=c^2y_{xx}\\
+\beta^2 e^{\alpha x} e^{\beta t} &= c^2 \alpha^2 e^{\alpha x} e^{\beta t}\\
+  \beta^2 &= c^2 \alpha^2 &\beta&=\pm c \alpha
+ }
+\hrule\vspace{.25em}
+For general initial conditions, $\beta$ and $\alpha$ are purely imaginary. Let $\alpha = i k$
+\algn{y(x,t) = \int_{-\infty}^\infty w(k) e^{2\pi i k  (x+ct) }  dk}
+\centerline{The function $w(k)$ is found  from a Fourier Transform of the initial conditions}
+\centerline{NOT ON EXAM}\vspace{.25em}
+\hrule
+}
+
+}
+
+\slide[What type of solutions do we get for $-\infty<x<\infty$?]{
+For $-\infty < x < \infty $, we get \vfill
+\student{
+For some very special initial conditions, Fourier Transforms are not necessary.
+\vfill
+\ex{$y_{tt}=c^2y_{xx}$ with $y(x,0)=e^{-2x}$}\vfill
+Try $y_{1,2}(x,t)=e^{\alpha x \pm c \alpha t}$
+\algn{\text{Initial condition: } y(x,0)=e^{-2x}&=e^{\alpha x} \Rightarrow \alpha =-2 \\
+y_{1,2}(x,t)&= e^{-2 x \mp 2 c t}}
+\vfill
+}
+
+}
+
+\slide[Summary]{
+\itmz{\item D'Alembert solution to the wave equation is complementary to the Fourier series solution:
+\subitem{Same solution, different perspective}\vfill
+ \item Two waves one moving left and another moving right \subitem{ The two waves are fully determined by the initial conditions. 
+\item The initial conditions propagate through the domain at finite speed}\vfill
+ \item Finite Domain: use appropriate periodic extension + wave interference to match boundary conditions. \vfill
+\item Infinite Domain: No need to use periodic extensions, there are no boundary conditions.
+}
+}
+
+\end{document}

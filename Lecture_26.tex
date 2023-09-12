@@ -1,0 +1,110 @@
+\input{notes.tex}
+
+\iftoggle{dualscreen}{\setbeameroption{show notes on second screen=right}}{}
+
+\usepackage{gensymb}
+\begin{document}
+
+\section{Lecture 26}
+
+\subsection{Wave Equation}
+\slide[Wave Equation: $y_{tt}=c^2y_{xx}$]{
+Plucked string under tension: $c^2=\frac{T}{\rho}$ \\
+$T=$tension\\
+$\rho=$mass density of the string (mass/length)
+\vfill
+\centerline{\includegraphics[width=10cm]{images/sps-vibstr-tex4ht.pdf}}
+\vfill
+Tapped elastic rod: $c^2=\frac{E}{\rho}$ \\
+$E=$Young's Modulus\\
+$\rho=$mass density of the rod (mass/length)
+}
+
+\slide[Boundary Conditions and Initial Conditions: $y_{tt}=c^2y_{xx}$]{
+\centerline{\includegraphics[width=10cm]{images/sps-vibstr-tex4ht.pdf}}
+Boundary Conditions:
+\student{
+Clamped end-points\[y(0)=y(L)=0\]}\vfill
+Initial Conditions:\vfill
+\student{Now we need two, because of the two time derivatives\algn{y(x,0)&=f(x)\\y_t(x,0)&=g(x)}}
+\vfill
+}
+\settoggle{covered}{false}
+\slide[Decomposition into two simpler problems: Superposition]{
+\centerline{ $y_{tt}=c^2y_{xx}, \quad y(0)=y(L)=0, \quad  y(x,0)=f(x), \quad y_t(x,0)=g(x)$}
+\[y(x,t) = w(x,t) + z(x,t)\]
+Problem 1: initial velocity, but no displacement of string
+\student{\algn{w_{tt}&=c^2 w_{xx} & w(x,0)&=0  \\ w(0,t)&=w(L,t)=0&
+w_t(x,0)&=g(x) \qquad \text{for } 0<x<L
+}}
+\vspace{.25em}
+
+Problem 2: initial displacement, but no velocity of string
+\student{\algn{z_{tt}&=c^2 z_{xx} & z(x,0)&= f(x) \qquad \text{for } 0<x<L\\z(0,t)&=z(L,t)=0 & z_t(x,0)&=0
+}
+\vfill
+\centerline{Solve each problem by separation of variables}
+}
+}
+
+
+\slide[Separation of Variables: Problem 1]{\vspace{-2em}
+\algn{w_{tt}&=c^2 w_{xx} & w(x,0)&=0  \\ w(0,t)&=w(L,t)=0&
+w_t(x,0)&=g(x) \qquad \text{for } 0<x<L
+}
+Try $w(x,t)=X(x)T(t)$
+\student{\algn{\frac{T\pp(t)}{c^2T(t)} &= \frac{X\pp(x)}{X(x)} =-\lambda \\
+\text{BCs}\Rightarrow X_n(x)&= b_n\sin\left( \frac{n\pi}{L}x\right)\\
+T_n(t)&=A_n \cos\left( \frac{n\pi c}{L}t\right) + B_n \sin\left( \frac{n\pi c}{L}t\right)\\\\
+w(x,0)=0 \quad \Rightarrow \quad A_n &= 0\\
+\text{arbitrarily choose } B_n &= \frac{L}{n\pi c} \qquad \Rightarrow T_n\p(0) = 1 
+ }
+}
+}
+
+\slide[Separation of Variables + Superposition: Problem 1]{\vspace{-2em}
+\algn{w_{tt}&=c^2 w_{xx} & w(x,0)&=0  \\ w(0,t)&=w(L,t)=0&
+w_t(x,0)&=g(x) \qquad \text{for } 0<x<L
+}
+with $w_n(x,t)=\frac{L}{n\pi c} \sin\left( \frac{n\pi c}{L}t\right) b_n\sin\left( \frac{n\pi}{L}x\right) $
+\student{\algn{w(x,t)& = \sum_{n=1}^\infty w_n(x,t) \\
+\text{Initial condition: } w_t(x,0) = g(x) &= \sum_{n=1}^\infty b_n \sin\left( \frac{n\pi}{L}x\right)
+ }
+$b_n$ is obtained from an odd periodic extension of $g(x)$
+\[w(x,t) = \sum_{n=1}^\infty \frac{L}{n\pi c} \sin\left( \frac{n\pi c}{L}t\right) b_n\sin\left( \frac{n\pi}{L}x\right) \]
+}
+}
+
+\slide[Separation of Variables: Problem 2]{\vspace{-2em}
+\algn{z_{tt}&=c^2 z_{xx} & z(x,0)&= f(x) \qquad \text{for } 0<x<L\\z(0,t)&=z(L,t)=0 & z_t(x,0)&=0
+}
+Try $z(x,t)=X(x)T(t)$
+\student{\algn{\frac{T\pp(t)}{c^2T(t)} &= \frac{X\pp(x)}{X(x)} =-\lambda \\
+\text{BCs}\Rightarrow X_n(x)&= c_n\sin\left( \frac{n\pi}{L}x\right)\\
+T_n(t)&=A_n \cos\left( \frac{n\pi c}{L}t\right) + B_n \sin\left( \frac{n\pi c}{L}t\right)\\\\
+z_t(x,0)=0 \quad \Rightarrow \quad B_n &= 0\\
+\text{arbitrarily choose } A_n &=1 \qquad \Rightarrow T_n(0) = 1 
+ }
+}
+}
+
+\slide[Separation of Variables + Superposition: Problem 2]{\vspace{-2em}
+\algn{z_{tt}&=c^2 z_{xx} & z(x,0)&= f(x) \qquad \text{for } 0<x<L\\z(0,t)&=z(L,t)=0 & z_t(x,0)&=0
+}
+with $z_n(x,t)= \cos\left( \frac{n\pi c}{L}t\right) c_n\sin\left( \frac{n\pi}{L}x\right) $
+\student{\algn{z(x,t)& = \sum_{n=1}^\infty z_n(x,t) \\
+\text{Initial condition: } z(x,0) = f(x) &= \sum_{n=1}^\infty c_n \sin\left( \frac{n\pi}{L}x\right)
+ }
+$c_n$ is obtained from an odd periodic extension of $f(x)$
+\[z(x,t) = \sum_{n=1}^\infty \cos\left( \frac{n\pi c}{L}t\right) c_n\sin\left( \frac{n\pi}{L}x\right) \]
+}
+}
+
+\slide[Fourier Solution to the Wave Equation]{
+\centerline{ $y_{tt}=c^2y_{xx}, \quad y(0)=y(L)=0, \quad  y(x,0)=f(x), \quad y_t(x,0)=g(x)$}
+\vfill
+\algn{y(x,t) &= w(x,t) + z(x,t)\\&=\sum_{n=1}^\infty \sin\left( \frac{n\pi}{L}x\right) \left[ b_n \frac{L}{n\pi c} \sin\left( \frac{n\pi c}{L}t\right)  + c_n \cos\left( \frac{n\pi c}{L}t\right)  \right] }\vfill
+$c_n$ is obtained from an odd periodic extension of $f(x)$\vfill
+$b_n$ is obtained from an odd periodic extension of $g(x)$
+}
+\end{document}

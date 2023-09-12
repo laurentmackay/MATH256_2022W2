@@ -1,0 +1,418 @@
+\input{notes.tex}
+\iftoggle{dualscreen}{\setbeameroption{show notes on second screen=right}}{}
+
+
+\begin{document}
+\section{Lecture 21+22}
+\subsection{Computing Fourier Series}
+\settoggle{covered}{true}
+\slide[Fourier Series]{\vspace{-1em}
+Given any  periodic function $f(t)$ with period $T$, we can approximate $f(t)$ as a Fourier series\vspace{-1em}
+\[ f(t) \approx \frac{1}{2} a_0 + \sum_{n=1}^\infty a_n \cos\paren{\frac{2n\pi t}{T}} + b_n \sin\paren{\frac{2n\pi t}{T}} \]
+
+\vspace{-1em}with
+\vspace{-.25em}
+\algn{a_0&=\frac2T\int_0^T f(t) dt &&\student{=\frac2T\int_\alpha^{\alpha+T} f(t) dt}\\
+a_n&=\frac2T\int_0^T f(t) \cos\paren{\frac{2n\pi t}{T}} dt && \student{=\frac2T\int_\alpha^{\alpha+T} f(t) \cos\paren{\frac{2n\pi t}{T}} dt}\\
+b_n&=\frac2T\int_0^T f(t) \sin\paren{\frac{2n\pi t}{T}}dt && \student{=\frac2T\int_0^T f(t) \sin\paren{\frac{2n\pi t}{T}}dt}}
+\vfill
+\student{We integrate over one period, and can choose $\alpha$ to make the integrals simpler to evaluate.}
+}
+
+\subsection{Even and Odd Functions}
+\slide[Even and Odd Functions:]{
+Even Functions:\[\boxed{f(-x) = f(x)}\]
+\centerline{
+\tikzplot{5}{5}{1.05}{1.05}{x}{}{
+\draw[samples=50, red, smooth, domain=-3:2.9, thick] plot ({\x},{0.1*\x*\x}) node[right]{$x^2$};
+\draw[samples=50, Plum, smooth, domain=-3.5:3.5, thick] plot ({\x},{cos(deg(\x))}) node[right]{$\cos(x)$};
+\draw[samples=50, YellowOrange, smooth, domain=-2:2, thick] plot ({\x},{-0.5*abs(\x)}) node[right, xshift=-1.8cm, yshift=.2cm]{$-|x|$};
+}}
+\vfill
+Odd Functions: \[\boxed{f(-x) = -f(x)}\]
+\centerline{
+\tikzplot{5}{5}{1.05}{1.05}{x}{}{
+\draw[samples=50, red, smooth, domain=-3:3, thick] plot ({\x},{-0.03*\x*\x*\x}) node[right]{$-x^3$};
+\draw[samples=50, Plum, smooth, domain=-3.5:3.5, thick] plot ({\x},{sin(deg(\x))}) node[right]{$\sin(x)$};
+\draw[samples=50, YellowOrange, smooth, domain=-2:2, thick] plot ({\x},{0.5*\x}) node[right, xshift=-1.0cm, yshift=-.6cm]{$x$};
+}}
+}
+
+
+\slide[Even and Odd Functions: Integral Properties]{
+Even Functions: The integral of an even function on the interval $[-L, L]$ is double its integral on $[0,L]$\vfill 
+\centerline{
+\tikz[scale=.6,domain=-5:5,samples=50]{
+    \begin{axis}[axis on top=false, axis x line=middle, axis y line=middle, stack plots=y, xmin=-5, xmax=5, ymin=-.05, ymax=1.05,  width=15cm, height=4cm,ticks=none]
+        % plot first function
+        \addplot+[mark=none, domain=-6:6] {0};
+        % substract first function from the second one, since they are stacked, and plot successively the positive and negative parts
+        \addplot+[mark=none, fill=lblue,draw=red, domain=-6:6, pattern=north west lines, pattern color=lblue, thick] {0.1*x^2} \closedcycle;
+    \end{axis}
+}
+}
+\vfill
+Odd Functions: The integral of an odd function on the interval $[-L, L]$ is $0$.\vfill
+\centerline{
+\tikz[scale=.6,domain=-5:5,samples=50]{
+    \begin{axis}[axis on top=false, axis x line=middle, axis y line=middle, stack plots=y, xmin=-5, xmax=5, ymin=-1.05, ymax=1.05,  width=15cm, height=7cm,ticks=none]
+        % plot first function
+        \addplot+[mark=none, domain=0:6] {0};
+        % substract first function from the second one, since they are stacked, and plot successively the positive and negative parts
+        \addplot+[mark=none, fill=lblue,draw=red, domain=0:6, pattern=north west lines, pattern color=lblue, thick] {0.03*x^3} \closedcycle;
+
+        \addplot[mark=none, domain=-6:0, thick] {-0.03*(x+6)^3};
+        % substract first function from the second one, since they are stacked, and plot successively the positive and negative parts
+        \addplot+[mark=none, fill=lblue,draw=red, domain=-6:0, pattern=north west lines, pattern color=orange, thick] {0.03*(x)^3} \closedcycle;
+    \end{axis}
+}
+}
+}
+
+\slide[Even and Odd Functions: Products of odd/even functions]{
+Works like multiplying real numbers\algn{\text{even} &\Leftrightarrow +1 \\ \text{odd} &\Leftrightarrow -1}
+\algn{ \text{odd} \cdot \text{odd} = \text{even} & & \text{even} \cdot \text{even} &= \text{even} &  \text{even} \cdot \text{odd} &= \text{odd}\\
+-1 \cdot -1 = +1 && +1 \cdot +1 &= +1 & +1 \cdot -1 &= -1
+}
+}
+
+\subsection{Computing Fourier Series of Even and Odd Functions}
+
+\slide{Find the Fourier Series representation of $f(x)=x$ for $x\in[-1,1]$ with $f(x+2)=f(x)$
+\vspace{-1em}
+
+\centerline{\tikzplot[\xcoord{-1}{-1} \xcoord{1}{1}]{6}{6}{.85}{.85}{x}{f(x)}{
+\foreach \i in {-3,-2,-1,0,1,2,3}{
+\draw[domain=-1:1, thick] plot ({\x-2*\i},{.75*\x});
+\draw[dashed, thick] ({2*(\i-1)+1},.75)--({2*(\i-1)+1},-0.75);}
+}}\vfill
+\student{
+$T=2$
+\algn{
+ a_n &=  \frac11 \int_{-1}^1 x \cos(n\pi x) dx  &\text{let }  & \arr{ll}{ u=x& du=dx \\ dv=\cos(n\pi x)dx & v=\frac{\sin(n\pi x)}{n\pi} }}
+\algn{
+\int_{-L}^L x \cos(n\pi x) dx &= \underbrace{\bigg(\underbrace{x}_{\text{odd func.}}\underbrace{\frac{\sin(n\pi x)}{n\pi}}_{\text{odd func.}}\bigg)}_{\text{even func.}}\evalat{-1}{1} -\int_{-1}^1 \underbrace{  \frac{\sin(n\pi x)}{n\pi} }_{\text{odd func.}}dx\\
+& = 0 \qquad \Rightarrow  \text{No $\cos$ terms in the Fourier Series}
+}\vfill
+\centerline{}
+}
+}
+
+\slide{Find the Fourier Series representation of $f(x)=x$ for $x\in[-1,1]$ with $f(x+2)=f(x)$
+\student{
+\algn{
+b_n &= \frac11 \int_{-1}^1 x \sin(n\pi x) dx \\ \text{let} \quad & \arr{ll}{ u=x& du=dx \\ dv=\sin(n\pi x)dx & v=-\frac{\cos(n\pi x)}{n\pi} }\\
+\int_{-1}^1 x \sin(n\pi x) dx &=- \bigg(x \frac{\cos(n\pi x)}{n\pi}\bigg)\evalat{-1}{1} +\int_{-1}^1  \frac{\cos(n\pi x)}{n\pi} dx\\
+&=\frac{-1}{n\pi}(\cos(n\pi)+cos(n\pi))+\cancel{\frac{\sin(n\pi x)}{n^2\pi^2}\evalat{-1}{1}}\intertext{use the identity $\cos(n\pi)=(-1)^n$}
+&=-2\frac{(-1)^n}{n\pi}
+}\vfill
+\[f(x) = \sum_{n=1}^\infty -2\frac{(-1)^n}{n\pi} \sin(n\pi x) \]
+}
+}
+
+
+
+\slide[Finite Fourier Series]{
+\small\vspace{-1em}
+\[f(x) \approx \frac{a_0}{2} + \sum_{n=1}^k a_n \cos \left( \omega_n x\right)   + \sum_{n=1}^k  b_n \sin\left(  \omega_n  x\right) \qquad \omega_n=n\frac{2 \pi}{T}\]
+\vfill
+$a_n=0 \qquad b_n=-2\frac{(-1)^n}{n\pi}$
+
+\vfill
+
+\centerline{\tikzplot{6}{6}{1.05}{1.05}{x}{f(x)}{
+\foreach \i in {-3,-2,-1,0,1,2,3}{
+\draw[domain=-1:1, ultra thick] plot ({\x-2*\i},{\x});
+\draw[dashed, thick] ({2*(\i-1)+1},1)--({2*(\i-1)+1},-1);}
+
+\draw (1.7,.9) node[align=left,text=black]{$k=1$};
+%\draw (1.7,.55) node[align=left,text=red]{$k=2$};
+
+\draw[domain=-6:6, black, samples=200, smooth, thick] plot ({\x},{(2/3.14145)*sin(3.14145*deg(\x))});
+%\draw[domain=-6:6,red, samples=200, smooth, thick] plot ({\x},{(2/3.14145)*sin(3.14145*deg(\x)) - (1/3.14145)*sin(2*3.14145*deg(\x) });
+}
+}
+
+\centerline{\tikzplot{6}{6}{1.05}{1.05}{x}{f(x)}{
+\foreach \i in {-3,-2,-1,0,1,2,3}{
+\draw[domain=-1:1, ultra thick] plot ({\x-2*\i},{\x});
+\draw[dashed, thick] ({2*(\i-1)+1},1)--({2*(\i-1)+1},-1);}
+
+\draw (1.7,.9) node[align=left,text=black]{$k=3$};
+\draw (1.7,.55) node[align=left,text=red]{$k=15$};
+
+\draw[domain=-6:6, red, samples=200, smooth, thick] plot ({\x},{(2/3.14145)*sin(3.14145*deg(\x)) - (1/3.14145)*sin(2*3.14145*deg(\x)) + (2/(3*3.14145))*sin(3*3.14145*deg(\x)) - (2/(4*3.14145))*sin(4*3.14145*deg(\x))  +  (2/(5*3.14145))*sin(5*3.14145*deg(\x))    - (2/(6*3.14145))*sin(6*3.14145*deg(\x))  +  (2/(7*3.14145))*sin(7*3.14145*deg(\x)) - (2/(8*3.14145))*sin(8*3.14145*deg(\x)) +  (2/(9*3.14145))*sin(9*3.14145*deg(\x)) -  (2/(10*3.14145))*sin(10*3.14145*deg(\x)) +  (2/(11*3.14145))*sin(11*3.14145*deg(\x))  -  (2/(12*3.14145))*sin(12*3.14145*deg(\x)) +  (2/(13*3.14145))*sin(13*3.14145*deg(\x)) -  (2/(14*3.14145))*sin(14*3.14145*deg(\x))     +  (2/(15*3.14145))*sin(15*3.14145*deg(\x))  });
+
+\draw[domain=-6:6, black, samples=200, smooth, thick] plot ({\x},{(2/3.14145)*sin(3.14145*deg(\x)) - (1/3.14145)*sin(2*3.14145*deg(\x)) + (2/(3*3.14145))*sin(3*3.14145*deg(\x)) });
+%\draw[domain=-6:6, red, samples=200, smooth, thick] plot ({\x},{(2/3.14145)*sin(3.14145*deg(\x)) - (1/3.14145)*sin(2*3.14145*deg(\x)) + (2/(3*3.14145))*sin(3*3.14145*deg(\x)) - (2/(4*3.14145))*sin(4*3.14145*deg(\x))  });
+
+
+}
+}
+}
+
+\slide{Compute the Fourier Series for $f(x)=|x|$ for $x\in[-2,2]$ with $f(x+4)=f(x)$
+\student{
+
+\centerline{\tikzplot[\xcoord{-1}{-2} \xcoord{1}{2}]{6}{6}{.05}{1.05}{x}{f(x)}{
+\foreach \i in {-3,-2,-1,0,1,2,3}{
+\draw[domain=0:1, thick] plot ({\x-2*\i},{\x});
+\draw[domain=-1:0, thick] plot ({\x-2*\i},{-\x});
+}
+}
+}
+\algn{a_n &= \frac12 \int_{-2}^2 \underbrace{\underbrace{ |x|}_{\text{even func.}} \underbrace{\cos\left(  n \frac{\pi}{2} x \right)}_{\text{even func.}}}_{\text{even func.}} dx\intertext{The integral of an even function on $[0, L]$ is half its integral from $[-L,L]$}
+a_n &=  \int_{0}^2  x  \cos\left(  n \frac{\pi}{2} x \right) dx  }
+
+}
+}
+
+\slide{Compute the Fourier Series for $f(x)=|x|$ for $x\in[-2,2]$ with $f(x+4)=f(x)$
+\student{
+
+
+\algn{a_n &=  \int_{0}^2  x  \cos\left(  n \frac{\pi}{2} x \right) dx \\
+ \text{let} &\arr{ll}{u=x&du=dx\\dv=  \cos\left(  n \frac{\pi}{2} x \right)  & v=2\frac{  \sin\left(  n \frac{\pi}{2} x \right) }{n\pi}} \\
+&= 2\cancelto{0}{ \left(  x \frac{  \sin\left(  n \frac{\pi}{2} x \right) }{n\pi} \right) \evalat{0}{2}} - 2 \int_0^2 \frac{  \sin\left(  n \frac{\pi}{2} x \right) }{n\pi} dx\\
+&= \frac{4}{n^2 \pi^2}\cos\left(  n \frac{\pi}{2} x \right)\evalat{0}{2} =  \frac{4}{n^2 \pi^2} \left[  \cos\left( n \pi \right) -1 \right]\\
+&= \frac{4}{n^2 \pi^2} \left[  (-1)^n - 1 \right] = \begin{cases} -\frac{8}{n^2 \pi^2} & n \text{ odd} \\ 0& n \text{ even}\end{cases}
+}
+
+
+}
+}
+
+
+\settoggle{covered}{false}
+
+
+\slide{Compute the Fourier Series for $f(x)=|x|$ for $x\in[-2,2]$ with $f(x+4)=f(x)$
+\student{
+\vfill
+$\frac{a_0}{2}$ is the average value of the function (DC component)
+
+\algn{a_0 &= \frac12 \int_{-2}^2 |x| dx =  \int_{0}^2  x   dx \\
+ &=\frac{x^2}{2} \evalat{0}{2}\\
+& = \frac42-0\\
+&=2
+}
+
+
+}
+}
+
+
+\slide{Compute the Fourier Series for $f(x)=|x|$ for $x\in[-2,2]$ with $f(x+4)=f(x)$
+\student{
+\vfill
+
+
+\algn{b_n &= \frac12 \int_{-2}^2 \underbrace{\underbrace{ |x|}_{\text{even func.}} \underbrace{\sin\left(  n \frac{\pi}{2} x \right)}_{\text{odd func.}}}_{\text{odd func.}} dx\intertext{Any integral that is symmetric about $x=0$ of an odd function is zero}\intertext{...opposite AUC on both sides...}\Rightarrow  b_n&=0
+}
+
+
+}
+}
+
+\slide[Finite Fourier Series]{
+
+\[f(x) \approx \frac{a_0}{2} + \sum_{n=1}^k a_n \cos \left( \omega_n x\right)   + \sum_{n=1}^k  b_n \sin\left(  \omega_n  x\right) \qquad \omega_n=n\frac{2 \pi}{T}\]
+\vfill
+$a_0= 2 \qquad a_n= \begin{cases} -\frac{8}{n^2 \pi^2} & n \text{ odd} \\ 0& n \text{ even}\end{cases}  \qquad b_n=0$
+\vfill
+\centerline{\tikzplot[\xcoord{-1}{-2} \xcoord{1}{2}]{6}{6}{.2}{1.05}{x}{f(x)}{
+\foreach \i in {-3,-2,-1,0,1,2,3}{
+\draw[domain=0:1, thick] plot ({\x-2*\i},{\x});
+\draw[domain=-1:0, thick] plot ({\x-2*\i},{-\x});
+}
+
+\draw (1.95,.9) node[align=left,text=black]{$k=1$};
+
+
+\draw[domain=-6:6, black, samples=200, smooth, thick] plot ({\x},{ 1/2  - 4/(3.141459^2)*cos((3.141459)*deg(\x))   });
+
+}
+}
+
+\vfill
+
+
+\centerline{\tikzplot[\xcoord{-1}{-2} \xcoord{1}{2}]{6}{6}{.2}{1.05}{x}{f(x)}{
+\foreach \i in {-3,-2,-1,0,1,2,3}{
+\draw[domain=0:1, thick] plot ({\x-2*\i},{\x});
+\draw[domain=-1:0, thick] plot ({\x-2*\i},{-\x});
+}
+
+\draw (1.9,.9) node[align=left,text=black]{$k=7$};
+
+
+\draw[domain=-6:6, black, samples=200, smooth, thick] plot ({\x},{ 1/2  - 4/(3.141459^2)*cos((3.141459)*deg(\x))    -  4/(9*3.141459^2)*cos(3*(3.141459)*deg(\x))  - 4/(25*3.141459^2)*cos(5*(3.141459)*deg(\x)) - 4/(49*3.141459^2)*cos(7*(3.141459)*deg(\x))     });
+
+}
+}
+}
+
+
+\slide[Even and Odd Functions: Fourier Series]{
+Even Function: $\qquad f(x) \approx \frac{a_0}{2}+\sum_{n=1}^\infty a_n \cos(\omega_n x) $\hfill
+\vfill
+\student{Proof: \[ b_n = \int_{-L}^L \underbrace{\text{even func.} \times \sin(\omega_n)}_{\text{odd func.}} = 0 \]}\vfill
+Odd Function: $\qquad f(x) \approx \sum_{n=1}^\infty b_n \sin(\omega_n x) $\hfill\vfill
+\student{Proof: \[ a_n = \int_{-L}^L \underbrace{\text{odd func.} \times \cos(\omega_n)}_{\text{odd func.}} = 0 \]}\vfill
+\student{Even function, only $\cos$ terms \hfill - \hfill Odd function, only $\sin$ terms}
+}
+
+\subsection{Computing Fourier Series}
+
+
+\slide{Compute the Fourier Series for $f(x)=\begin{cases} x &0\leq x<1 \\ 0 &-1<x<0\end{cases}$ for $x\in[-1,1]$ with $f(x+2)=f(x)$
+\vspace{-1.5em}
+\student{
+\algn{
+ a_n &=  \frac11 \int_{0}^1 x \cos(n\pi x) dx \\\\ \text{let} \quad & \arr{ll}{ u=x& du=dx \\ dv=\cos(n\pi x)dx & v=\frac{\sin(n\pi x)}{n\pi} }\\\\
+\int_{0}^L x \cos(n\pi x) dx &=\bigg(x \frac{\sin(n\pi x)}{n\pi}\bigg)\evalat{0}{1} -\int_{0}^1  \frac{\sin(n\pi x)}{n\pi} dx\\\\
+&=\frac{\cos(n\pi x)}{n^2\pi^2}\evalat{0}{1} = \frac{(-1)^n-1}{n^2\pi^2} = \begin{cases}  -\frac{2}{n^2\pi^2} & n \text{ is odd}\\ 0 &n \text{ is even}\end{cases}
+}\vfill
+This expression  breaks down for $n=0$...
+}
+
+}
+
+
+\slide{Compute the Fourier Series for $f(x)=\begin{cases} x &0\leq x<1 \\ 0 &-1<x<0\end{cases}$ for $x\in[-1,1]$ with $f(x+2)=f(x)$
+
+\student{\vfill
+\uline{$n=0$}:\vfill
+$\frac{a_0}{2}$ is the average value of the function (DC component)
+\vfill
+\algn{
+ a_0 &=  \frac11 \int_{0}^1 x dx \\\\
+&= \frac{x^2}{2}\evalat{0}{1} = \frac12 }\vfill
+
+}
+
+}
+
+\slide{Compute the Fourier Series for $f(x)=\begin{cases} x &0\leq x<1 \\ 0 &-1<x<0\end{cases}$ for $x\in[-1,1]$ with $f(x+2)=f(x)$
+\student{
+\algn{
+b_n &= \frac11 \int_{0}^1 \underbrace{ \underbrace{x}_{\text{odd func.}} \underbrace{\sin(n\pi x)}_{\text{odd func.}}}_{\text{even func.}} dx 
+\intertext{The integral of an even function on [ 0, L] is half its integral from [-L,L]}
+b_n &= \frac12 \times -2\frac{(-1)^n}{n\pi} = -\frac{(-1)^n}{n\pi}
+}\vfill
+\[f(x) = \frac14 + \sum _{n=1}^\infty  \frac{(-1)^n-1}{n^2\pi^2} \cos(n\pi x) + \sum_{n=1}^\infty -\frac{(-1)^n}{n\pi} \sin(n\pi x) \]
+}
+
+}
+
+\slide{
+
+\[f(x) \approx \frac{a_0}{2} + \sum_{n=1}^k a_n \cos \left( \omega_n x\right)   + \sum_{n=1}^k  b_n \sin\left(  \omega_n  x\right) \qquad \omega_n=n\frac{ 2\pi}{T}\]
+\vfill
+$a_0= \frac12 \qquad a_n= \frac{(-1)^n-1}{n^2\pi^2}  \qquad b_n=-\frac{(-1)^n}{n\pi}$
+
+\centerline{\tikzplot{6}{6}{.2}{1.05}{x}{f(x)}{
+\foreach \i in {-3,-2,-1,0,1,2,3}{
+\draw[domain=-0:1, ultra thick] plot ({\x-2*\i},{\x});
+
+\draw[domain=-1:0, ultra thick] plot ({\x-2*\i},{0});
+\draw[dashed, thick] ({2*(\i-1)+1},1)--({2*(\i-1)+1},0);}
+
+\draw (1.7,.9) node[align=left,text=black]{$k=1$};
+
+
+\draw[domain=-6:6, black, samples=200, smooth, thick] plot ({\x},{ 1/4 + (-1-1)/(3.141459^2)*cos(3.141459*deg(\x)) + (1/3.14145)*sin(3.14145*deg(\x))  });
+
+
+}
+}
+
+
+\centerline{\tikzplot{6}{6}{.2}{1.05}{x}{f(x)}{
+\foreach \i in {-3,-2,-1,0,1,2,3}{
+\draw[domain=-0:1, ultra thick] plot ({\x-2*\i},{\x});
+
+\draw[domain=-1:0, ultra thick] plot ({\x-2*\i},{0});
+\draw[dashed, thick] ({2*(\i-1)+1},1)--({2*(\i-1)+1},0);}
+
+\draw (1.7,.9) node[align=left,text=black]{$k=2$};
+
+
+
+
+\draw[domain=-6:6, black, samples=200, smooth, thick] plot ({\x},{ 1/4 + (-1-1)/(3.141459^2)*cos(3.141459*deg(\x)) + (1/3.14145)*sin(3.14145*deg(\x)) -  (1/(2*3.14145))*sin(2*3.14145*deg(\x)) });
+
+}
+}
+
+
+\centerline{\tikzplot{6}{6}{.2}{1.05}{x}{f(x)}{
+\foreach \i in {-3,-2,-1,0,1,2,3}{
+\draw[domain=-0:1, ultra thick] plot ({\x-2*\i},{\x});
+
+\draw[domain=-1:0, ultra thick] plot ({\x-2*\i},{0});
+\draw[dashed, thick] ({2*(\i-1)+1},1)--({2*(\i-1)+1},0);}
+
+\draw (1.7,.9) node[align=left,text=black]{$k=8$};
+
+
+\draw[domain=-6:6, black, samples=300, smooth, thick] plot ({\x},{ 1/4 + (-2)/(3.141459^2)*cos(3.141459*deg(\x)) + (1/3.14145)*sin(3.14145*deg(\x)) -  (1/(2*3.14145))*sin(2*3.14145*deg(\x)) +  (-2)/(9*3.141459^2)*cos(3*3.141459*deg(\x)) +  (1/(3*3.14145))*sin(3*3.14145*deg(\x)) - (1/(4*3.14145))*sin(4*3.14145*deg(\x))  + (1/(5*3.14145))*sin(5*3.14145*deg(\x)) + (-2)/(36*3.141459^2)*cos(6*3.141459*deg(\x))    - (1/(6*3.14145))*sin(6*3.14145*deg(\x))
++ (-2)/(49*3.141459^2)*cos(7*3.141459*deg(\x))+ (1/(7*3.14145))*sin(7*3.14145*deg(\x)) - (1/(8*3.14145))*sin(8*3.14145*deg(\x))  });
+
+}
+}
+
+
+}
+
+\slide[General Fourier Series]{
+Even Function: $\qquad f(x) \approx \frac{a_0}{2}+\sum_{n=1}^\infty a_n \cos(\omega_n x) $\hfill
+\vfill
+\student{Fourier Cosine Series}\vfill
+Odd Function: $\qquad f(x) \approx \sum_{n=1}^\infty b_n \sin(\omega_n x) $\hfill\vfill
+\student{Fourier Sine Series}\vfill
+
+Neither even or odd: $\qquad f(x) \approx \sum_{n=1}^\infty \infty a_n \cos(\omega_n x) + b_n \sin(\omega_n x) $\hfill\vfill
+\student{Fourier Series}
+}
+
+
+\slide[Observations:]{
+
+\itmz{\item Take more terms in the Fourier Series and it appears to converge to $f(x)$ , (even if $f(x)$ has discontinuities!)
+\item The coefficients $a_n$ \& $b_n$ that we calculate decrease to zero as $n\to\infty$
+\item The DC component $\frac{a_0}{2}$ is simply the mean value of $f(x)$
+\item Fourier Series appears over/undershoot the function $f(x)$ at points of discontinuity.
+\item The above are common features of Fourier series expansions with arbitrary functions.
+}
+}
+
+\subsection{Properties of Fourier series}
+
+
+
+\slide[Fourier Series Convergence]{
+\scriptsize $f(x)=x$ for $x\in[-1,1]$ with $f(x+2)=f(x)$ \hfill $f(x)=|x|$ for $x\in[-1,1]$ with $f(x+2)=f(x)$ \normalsize
+\twomini[.9]{.5}{.5}{
+\includegraphics[width=\columnwidth]{images/sawtooth_series.pdf}\vfill
+\raggedright Zoom in on discontinuity \vfill
+\includegraphics[width=\columnwidth]{images/sawtooth_zoom_in.pdf}
+}{\includegraphics[width=\columnwidth]{images/triangle_series.pdf}\vfill
+\raggedright Zoom in on discontinuity \vfill
+\includegraphics[width=\columnwidth]{images/triangle_zoom_in.pdf}}
+}
+
+
+\slide[Fourier Series Convergence]{
+\small
+\itmz{\item The Fourier Series of any continuous function converges (as $\text{\# of terms}\to\infty$) to the function value at every point. $\Rightarrow f(x)=\text{FS}[f]$\vfill
+\item The Fourier Series of a function with jump discontinuities exhibits \alert{Gibb's phenomena}\vfill
+\subitem{High frequency over/undershooting of the function \\
+\centerline{\includegraphics[width=4cm]{images/gibbs.png}}}\vspace{-1em}
+\item The Fourier Series converges to the midpoint between the two function values at any point of discontinuity $x_*$. $\Rightarrow f(x)\approx \text{FS}[f]$\[FS[f](x_*)=\frac{f(x_*^+) +f(x_*^-)}{2}\]\vfill
+\item The rate of convergence of smooth functions is  faster than for functions with discontinuities.}
+
+}
+
+
+\end{document}

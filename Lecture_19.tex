@@ -1,0 +1,246 @@
+\input{notes.tex}
+\usepackage{circuitikz}
+\ctikzset{bipoles/thickness=1.2}
+
+\iftoggle{dualscreen}{\setbeameroption{show notes on second screen=right}}{}
+\usetikzlibrary{arrows}
+
+\begin{document}
+\section{Lecture 19}
+\subsection{Introduction}
+\settoggle{covered}{true}
+\slide[Imagine hitting a gowf ball]{\vfill
+
+\tikz{\draw (0,0) node{\includegraphics[height=.2\linewidth]{images/golf_ball_1.png}}; \draw[black] (0,-.1) node[fill=white, fill opacity=0.75, text opacity=1, outer sep=0.01, inner sep=1]{\scriptsize$v(0)=0$}; }\hfill \tikz{\draw (0,0) node{\includegraphics[height=.2\linewidth]{images/golf_ball_2.png}}} \hfill \tikz{\draw (0,0) node{\includegraphics[height=.2\linewidth]{images/golf_ball_3.png}}; } \hfill \tikz{\draw (0,0) node{\includegraphics[height=.2\linewidth]{images/golf_ball_4.png}}; \draw[black] (.3,.1) node[fill=white, fill opacity=0.75, text opacity=1, outer sep=0.01, inner sep=1, rotate=30]{\scriptsize$v(0^+)\gg0$}; }
+
+\tiny source:  \url{https://www.youtube.com/watch?v=6TA1s1oNpbk&t=80s}
+\vfill
+\normalsize
+The ball is initially at rest, then a large amount of energy/momentum is rapidly transferred from the gowf club to the ball.\vfill
+Neglecting air drag and the deformation of the ball, Newton's 2$^{nd}$ law tells us that 
+\algn{m \dd{v}{t} &= F_{club}(t), & v(t) &= v(0) + \int_0^t \frac{F_{club}(t)}{m} dt  }
+
+}
+
+
+\slide[Imagine hitting a gowf ball]{
+Suppose that $v_0=0$ and that the club is in contact with the ball for $t\in[0,\tau]$ with $0<\tau\ll1$.
+\student{\algn{\intertext{ Then a simple model is  \hfill $F_{club}(t)=\begin{cases} \frac{C}{\tau} & 0<t<\tau  \\ 0 &\text{otherwise}\end{cases}$  \hfill with $C=\text{const.}$ }
+v(\tau)  &= \int_0^\tau \frac{C}{\tau} d\tau = C
+\intertext{To approximate a fast event, we take the limit as $\tau \to 0^+$}
+v(0^+) &= C
+}\vfill
+For fast events, we do not care about the dynamics of the forcing function just its integral.
+  
+}
+
+
+}
+
+\subsection{step pulse}
+\slide[ General Approximation: normalized step pulse ($\delta_\tau$) ]{
+\vspace{-1em}
+\newcommand{\hi}{2}
+\newcommand{\xtau}{1}
+\centerline{
+\tikzplot[\xcoord{-\xtau}{-\tau} \xcoord{\xtau}{\tau}  ]{4}{4}{.1}{2.5}{t}{\delta_\tau(t)}{
+\draw[ultra thick] (-\xtau,0)--(-5,0) ;
+\draw[] (-\xtau,\hi) node[vertex]{};
+\draw[ultra thick] (-\xtau, \hi)--(\xtau,\hi) ;
+\draw[thick, dashed] (-\xtau,\hi)--(-\xtau,0) ;
+\draw[] (-\xtau,0) node[opendot]{};
+\draw[thick, dashed] (\xtau,\hi)--(\xtau,0) ;
+\draw[] (\xtau,0) node[opendot]{};
+\draw[] (\xtau,\hi) node[vertex]{};
+\draw[ultra thick] (\xtau,0)--(5,0) ;
+\draw[<-] (0.05,\hi-0.1)--(0.3,\hi-0.3) node[right, xshift=-.1cm, yshift=-.1cm]{$\frac{1}{2\tau}$};
+}
+}
+\vfill\student{
+\twomini[.3]{.5}{.5}{\uline{Function:}\algn{\delta_\tau &=  \begin{cases} \frac{1}{2\tau} & |t|\leq \tau \\ 0 & |t|>\tau\end{cases} \\ &=\frac{u_{-\tau}(t)-u_\tau(t)}{2\tau}}}{\uline{Integral:} \algn{I(\tau) &=\int_{-\infty}^{\infty} \delta_\tau(t) dt = \int_{-\tau}^{\tau} \frac{dt}{2\tau}\\&=1}}
+}}
+
+\slide[Taking the limit $\tau\to0$]{
+\newcommand{\hi}{2}
+\newcommand{\xtau}{1}
+\centerline{
+\tikzplot[ ]{8}{4}{.1}{7}{t}{\delta_\tau(t)}{
+\student{
+\draw[]  (-7,2.75) node{\uline{Integral:}};
+\draw[]  (-5,2) node{$\lim_{\tau\to0}I(\tau)=1$};
+\draw[]  (-7,6.75) node{\uline{Function:}};
+\draw[]  (-5,6) node{$\lim_{\tau\to0}\delta_\tau(t)=\begin{cases} \lim_{\tau \to 0}\frac{1}{2\tau} & t=0 \\ 0 & t\neq0\end{cases} $};
+\draw[]  (-4,4.5) node{$=\begin{cases} D.N.E. & t=0 \\ 0 & t\neq0\end{cases}$};
+}
+\foreach \xtau in {1,.5,.25, 0.125, .08}{
+\draw[ultra thick] (-\xtau,0)--(-8,0) ;
+\draw[ultra thick] (-\xtau, 0.5/\xtau)--(\xtau,0.5/\xtau) ;
+\draw[thick, dashed] (-\xtau,0.5/\xtau)--(-\xtau,0) ;
+\draw[thick, dashed] (\xtau,0.5/\xtau)--(\xtau,0) ;
+\draw[ultra thick] (\xtau,0)--(6,0) ;
+\draw[<-] (\xtau+0.1,0.5/\xtau)--(\xtau+0.3,0.5/\xtau) node[right,]{$\tau=\xtau$};
+}
+}
+}
+}
+
+\subsection{Dirac Delta}
+\slide[Delta Dirac Function: $\delta(t)=\lim_{\tau \to 0} \delta_\tau (t) $]{
+\itmz{ \item \alert{Note:} $\delta(t)$ is not really well-defined in the conventional sense 
+\subitem{It is a "generalized" function with the two following properties: \vfill
+\enum{\item $\delta(t)=0$ for $t\neq0$ \vfill \student{$\delta_\tau(0) \to \infty$ as $\tau \to 0$, but functions cannot have a value of $\infty$} \vfill\item $\int_{-\infty}^{\infty} \delta(t) dt =1$ }
+}\vfill
+\item The delta function acts like an intense pulse, of unit strength. 
+\subitem{This is also called an \alert{impulse}: \student{ \subitem {An action that happens arbitrarily  fast but with finite magnitude.}\vfill}
+ \item ex: accelerating a golf ball with a golf club}
+
+}
+
+}
+
+\slide[Delta Dirac Function: $\delta(t)=\lim_{\tau \to 0} \delta_\tau (t) $]{\vspace{-1em}
+\textbf{Theorem:} For differentiable functions $f(t)$\[\int_{-\infty}^{\infty} \delta(t-c) f(t) dt = f(c)\]
+Integrating with $\delta(t-c)$ essentially "selects" the value of the integrand at $t=c.$
+\vfill
+\student{
+More generally,
+\[\int_a^b \delta(t-c)f(t) dt = \begin{cases} f(c)& a\leq c\leq b  \\ 0&\text{otherwise}\end{cases}\]}
+}
+
+\slide[Sketch of proof:]{
+
+\algn{\int_{-\infty}^{\infty}\delta(t-c)f(t) dt &= \int_{-\infty}^{\infty} \left( \lim_{\tau \to 0} \delta_{\tau}(t-c)\right) f(t) dt\\
+&=\lim_{\tau \to 0}  \int_{-\infty}^{\infty}  \delta_{\tau}(t-c) f(t) dt\\
+&=\lim_{\tau \to 0}  \frac{1}{2\tau}\int_{c-\tau}^{c+\tau}f(t)dt\\&=\lim_{\tau \to 0} \frac{F(c+\tau)-F(c+\tau)}{2\tau} =f(c)
+}
+}
+
+\slide[Laplace transform of $\delta(t)$]{
+Integrating with $\delta(t-c)$ essentially "selects" the value of the integrand at $t=c$\vfill
+Assuming $c\geq0$
+\student{
+\algn{\ucover{\lap{\delta(t-c)}=} & \lapint{\delta(t-c) }\\
+=&\int_{-\infty}^{\infty} e^{-st} \delta(t-c) dt =e^{-sc}}
+}
+Special case: $c=0$
+\student{\algn{\ucover{\lap{\delta(t)}=\lim_{c \to 0}  \lap{\delta(t-c)}} =  \lim_{c \to 0}  e^{-sc} = 1 }}
+
+}
+\subsection{Examples}
+\slide[Solve: \hfill $2y\pp+y\p+2y=\delta(t)$ \hfill with $\larray{y(0)=0\\y\p(0)=0}$]{\vspace{-2em}\student{
+\algn{ 2s^2Y(s)&+sY(s)+2Y(s)=1 &Y(s)=\frac{1}{2s^2+s+2}
+ \intertext{complete the square: $ax^2+bx+c = a(x+\frac{b}{2a})^2 + c-\frac{b^2}{4a}$}
+Y(s)&=\frac{1}{2(s+\frac14)^2+ \frac{15}{8}} \times \frac{\frac12}{\frac12}&= \frac12 \frac{1}{(s+\frac14)^2+\underbrace{  \frac{15}{16}}_{\omega^2} }\times \frac\omega\omega \\
+&= \frac12 \frac{\frac{\sqrt{15}}{4} }{\frac{\sqrt{15}}{4}} \frac{1}{(s+\frac14)^2+\frac{15}{16}}  &= \frac2{\sqrt{15}} \frac{\frac{\sqrt{15}}{4} }{(s+\frac14)^2+\frac{15}{16}}\\
+y(t) &=\frac{2}{\sqrt{15} } e^{-\frac{t}{4}} \sin \left(\frac{\sqrt{15}}{4} t \right)
+}
+This is the \alert{impulse response} of the system. That is, how the system responds to an impulse of  forcing.
+}
+}
+
+\slide[Solve: \hfill $2y\pp+y\p+2y=\delta(t-5)$ \hfill with $\larray{y(0)=0\\y\p(0)=0}$]{\vspace{-2em}\student{
+\algn{
+ Y(s)&= e^{-5s} \cdot\frac{1}{2s^2+s+2} \intertext{by the convolution theorem}
+y(t) &= \delta(t-5) \ast \underbrace{\frac{2}{\sqrt{15} } e^{-\frac{t}{4}} \sin \left(\frac{\sqrt{15}}{4} t \right)}_{f(t)}\\
+&=\int_0^t  f(t-\tau) \delta(\tau-5)d\tau\\
+&=\begin{cases} 0 & t < 5 \\
+f(t-5) &t\geq 5\end{cases}\\
+&=u_5(t)f(t-5)
+}  
+}
+}
+\settoggle{covered}{false}
+\slide[Solve: \hfill $2y\pp+y\p+2y=g(t)$ \hfill with $\larray{y(0)=0\\y\p(0)=0}$]{\vspace{-2em}\student{
+\algn{
+ Y(s)&= G(s) \cdot\frac{1}{2s^2+s+2} \intertext{by the convolution theorem}
+y(t) &=g(t) \ast \underbrace{\frac{2}{\sqrt{15} } e^{-\frac{t}{4}} \sin \left(\frac{\sqrt{15}}{4} t \right)}_{f(t)}\\
+&=\int_0^t  f(t-\tau)g(\tau)d\tau\\
+}
+
+
+Take-home message: we can get the solution for any forcing function $g(t)$ by convolving with $f(t)$ the \alert{impulse response function}.
+}
+}
+
+
+\subsection{Solution Structure}
+\slide[Inhomogeneous IVPs via Laplace transforms]{\vspace{-.75em}
+Consider the constant coefficient 2$^{nd}$ order DE: $\arr{rl}{ay\pp +by\p+cy&=g(t)\\y(0)&=y_0\\y\p(0)&=v_0}$
+Take LT\[ (as^2 + bs +c)Y(s)-(as+b)y_0-av_0 = G(s)\]
+Solve for $Y(s)$:
+\algn{Y(s)&=\student{\underbrace{\ucover{\frac{(as+b)y_0+av_0}{as^2 + bs +c} }}_{\carray{Y_h\\\scriptsize\text{effects of initial conditions}\\ \scriptsize\text{(Homogeneous Part)}}}} + \student{\underbrace{\ucover{\frac{G(s)}{as^2 + bs +c}}}_{\carray{Y_p\\\scriptsize\text{effects of forcing function}\\ \scriptsize\text{(Particular Part)}}}}
+}
+}
+
+
+
+\slide[Inhomogeneous IVPs via Laplace transforms]{\vspace{-.75em}
+ $\arr{rl}{ay\pp +by\p+cy&=g(t)\\y(0)&=y_0\\y\p(0)&=y\p_0}$\hfill$\rightarrow$\hfill
+$Y(s)=\underbrace{\frac{(as+b)y_0+ay\p_0}{as^2 + bs +c} }_{Y_h(s)} + \underbrace{\frac{G(s)}{as^2 + bs +c}}_{Y_p(s)}$\vfill
+\enum{\item Break up $Y_h(s)$ using partial frac. decomp. \& invert $Y_h(s) \rightarrow y_h(t)$.
+\item Define the \alert{Transfer Function}: \[F(s)=\frac{1}{as^2+bs+c}\]
+\item Invert $F(s) \rightarrow f(t)$. The function $f(t)$ is called the \alert{impulse response} function. 
+\item From the convolution theorem with $Y_p(s)=F(s)G(s)$\[y_p(t) =f \ast g\]
+\item Finally 
+\[y(t)= y_h(t) + y_p(t)\]
+}
+}
+
+\slide[]{
+\ex{ $y\pp+4y=t^3,\quad y(0)=y\p(0)=0$.}
+\vfill
+Find an appropriate impulse response function and express the ODE's solution as a convolution integral.
+
+\student{
+
+\algn{s^2Y(s)-s + 4Y(s) &= \lap{t^3}\\
+Y(s)&= \lap{t^3} \cdot \frac{1}{s^2+4}\\
+\text{Transfer Function: }F(s)&=\frac{1}{s^2+4} = \frac12 \lap{\sin(2t)}\\
+\text{Impulse Response: } f(t) &= \frac12 \sin(2t)\\\\
+y(t) &= \frac12 \sin(2t) \ast t^3\\& =\frac12 \int_0^t  \sin(2(t-\tau)) \tau^3 d\tau
+}
+
+}
+}
+
+
+\slide[]{
+\ex{ $y\pp+4y=t^4,\quad y(0)=1, y\p(0)=0$.}
+\vfill
+Express the ODE's solution in terms of a convolution integral.
+
+\student{
+
+\algn{
+s^2Y(s)-s + 4Y(s) &= \lap{t^4}\\
+Y(s) &= \paren{s+\lap{t^4}} \frac{1}{s^2+4}\\
+&=   \frac{s}{s^2+4} + \lap{t^4} \cdot \frac{1}{s^2+4}\\\\
+y(t) &=\lapinv{\frac{s}{s^2+4}} + \frac12 \sin(2t) \ast t^4\\
+& =  \cos(2t) +  \frac12 \int_0^t  \sin(2(t-\tau)) \tau^4 d\tau 
+}
+
+}
+}
+
+\subsection{Application}
+\slide[Application: Linear Time Invariant Systems]{
+
+\tikzstyle{int}=[draw, fill=blue!20, minimum size=2em]
+\tikzstyle{init} = [pin edge={to-,thin,black}]
+
+\begin{tikzpicture}[node distance=4.5cm,auto,>=latex']
+    \node [int, align=center, pin={[init]below:$F_1(s) = \frac{1}{a_1s^2+b_1s+c_1}$}] (a) {System 1\\\scriptsize e.g., RLC Circuit};
+    \node (b) [left of=a,node distance=3.75cm, coordinate] {a};
+    \node [int,  align=center, pin={[init]below:$F_2(s) = \frac{1}{a_2s^2+b_2s+c_2}$}] (c) [right of=a] {System 2\\\scriptsize e.g., LC Circuit};
+    \node [coordinate] (end) [right of=c, node distance=3.75cm]{};
+    \path[->] (b) edge node {\small Input: $ x(t)$} (a);
+    \path[->] (a) edge node {\small Output: $y_1(t)$} (c);
+    \draw[->] (c) edge node {\small Output: $y_2(t)$} (end) ;
+\end{tikzpicture} \vfill
+\algn{y_1(t) &=x(t) \ast f_1(t) \\
+y_2(t) &= y_1(t) \ast f_2(t) \\&= x(t) \ast f_1(t) \ast f_2(t)  \\
+&= x(t) \ast (f_1(t) \ast f_2(t))\\\\
+f_1(t) \ast f_2(t)&=\text{Impulse response for total system} }
+
+}
+\end{document}

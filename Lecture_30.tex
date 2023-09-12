@@ -1,0 +1,220 @@
+\input{notes.tex}
+
+\iftoggle{dualscreen}{\setbeameroption{show notes on second screen=right}}{}
+
+\usepackage{gensymb}
+\begin{document}
+
+\slide[The Heat Equation and the Laplacian]{
+Recall the 1D heat equation \[u_t=\alpha u_{xx} = \alpha \pdn{}{x}{2} u(x,t)\]\vfill
+In higher dimentions ($x$, $y$, $\dots$) this becomes \student{ \algn{u_t &= \alpha\left( u_{xx} + u_{yy} + \dots \right) \\ &=\alpha \Delta u }
+$\Delta$ is the Laplacian operator \[ \Delta =  \pdn{}{x}{2}  + \pdn{}{y}{2} + \dots  \quad  = \vec{\nabla} \cdot \vec{\nabla} \qquad \text{with } \vec{\nabla} = \mat{c}{ \pd{}{x} \\\\  \pd{}{y} \\\\ \vdots}   \]}
+}
+
+\slide[Steady State Heat Equation]{
+If a steady state heat distribution is attained, we have $u_t\to0$.\vfill In 1D this gave us \[ 0 = u_{xx} \qquad \student{\Rightarrow u_\infty(x)=C_1x+C_2} \]
+\vfill
+\student{Given some boundary conditions, we can find $u_\infty$.}\vfill
+\ex{Suppose our domain is $x\in[0,L]$ with $u(0,t)=a$ and $u(L,t)=b$}\vfill
+\student{\[u_\infty(x) = a + \frac{b-a}{L}x\]}
+}
+
+\slide[Laplace's Equation]{
+In higher dimensions, we need to solve Laplace's Equation \[ \Delta u = 0\]
+\vfill
+Restrciting ourselves to 2 dimensions, we get\[ u_{xx} + u_{yy} = 0\]
+\vfill
+No longer as simple as finding linear functions\vfill
+\ex{$u(x,y)=x^2-y^2$}
+\[u_{xx} =2, \qquad u_{yy}=-2 \qquad \Rightarrow u_{xx} + u_{yy} =0 \]
+\vfill
+Solutions to Laplace's Equation are called \alert{harmonic functions}
+}
+\slide[Boundary Conditions - Dirichlet Problem]{
+Consider a region in the $x,y$-plane. \vfill We specify certain values of some unknown function $u(x,t)$ along the boundaries of the region. \vfill We then try to find a solution  to the Laplace equation \[ u_{xx} + u_{yy} = 0\] defined on this region such that  agrees with the values we specified on the boundary.
+}
+
+\slide[Boundary Conditions - Dirichlet Problem]{
+\ex{Consider a rectangular region of width $w$ and height $h$.}
+
+\vfill
+Boundary values are zero at three of the four edges, and obey some arbitrary function $f(x)$ along the fourth edge.\vfill
+\twomini[.4]{.5}{.5}{\algn{\Delta u &=0 \\
+u(0,y)&=0 &\text{for } 0<y<h\\
+u(x,h)&=0 &\text{for } 0<x<w\\
+u(w,y)&=0 &\text{for } 0<y<h\\
+u(x,0)&=f(x) &\text{for } 0<x<w }}{\vspace{.5cm} \centerline{\includegraphics[width=.85\columnwidth]{images/dirichsetup.pdf}}}
+
+}
+
+\slide[Solving Dirichlet Problems]{
+\[ u_{xx}+u_{yy} = 0 \]
+Separation of Variables: \[u(x,y) = X(x)Y(y)\]
+\student{\algn{X\pp Y+XY\pp &= 0 \\
+\frac{X\pp(x)}{X(x)} = -\frac{Y\pp(y)}{Y(y)} &= -\lambda = \text{const.}}\vfill
+\twomini[.15]{.5}{.5}{\[X\pp+\lambda X =0 \]}{\[Y\pp-\lambda Y =0 \]}
+
+}
+}
+
+\slide[Solving Dirichlet Problems]{
+\twomini[.35]{.5}{.45}{\[X\pp+\lambda X =0 \]}{ \centerline{\includegraphics[width=.85\columnwidth]{images/dirichsetup.pdf}} }
+\vfill
+What are the boundary conditions? What are the allowed solution and values of $\lambda$?
+\vfill
+\student{
+BCs: $X(0)=X(w)=0$
+
+\[X_n(x)= \sin \left( \frac{n\pi}{w} x \right)  \qquad \lambda_n = \left(\frac{n\pi}{w}\right)^2\]
+}
+}
+
+\slide[Solving Dirichlet Problems]{
+\twomini[.35]{.5}{.45}{\[Y\pp-\lambda Y =0 \] \vfill\[ \lambda = \left(\frac{n\pi}{w}\right)^2\] \vfill }{ \centerline{\includegraphics[width=.85\columnwidth]{images/dirichsetup.pdf}} }
+\vfill
+What are the boundary conditions? What types of solutions do we obtain?
+\vfill
+\student{
+BCs: $Y(h)=0$, less clear what is going on for $y=0$.\\
+Try $Y_n=e^{ry}$
+\algn{r^2e^{ry} - \left(\frac{n\pi}{w}\right)^2 e^{ry}&=0 \\
+r^2 = \left(\frac{n\pi}{w}\right)^2&=0& \Rightarrow r&=\pm\frac{n\pi}{w} }\[Y_n(y) = Ae^{\frac{n\pi}{w} y} + B e^{-\frac{n\pi}{w} y}\]
+}
+}
+
+\slide[]{\vspace{-1em}\[Y_n(y) = Ae^{\frac{n\pi}{w} y} + B e^{-\frac{n\pi}{w} y} \qquad \text{with } Y(h)=0 \]\vspace{-2em}
+\student{\algn{Y(h)=0&= Ae^{\frac{n\pi}{w} h} + B e^{-\frac{n\pi}{w} h} \qquad\quad \Rightarrow A= - Be^{-2 \frac{n\pi}{w} h }\\\\
+Y_n(y) &= B \left[- e^{-2\frac{n\pi}{w}h} e^{\frac{n\pi}{w} y} + e^{-\frac{n\pi}{w}y} \right] \\
+&=B\left[ - e^{-\frac{n\pi}{w}h} e^{\frac{n\pi}{w} (y-h)}  +  e^{-\frac{n\pi}{w}h} e^{-\frac{n\pi}{w} (y-h)} \right]\\\
+&=\underbrace{B   e^{-\frac{n\pi}{w}h} }_{\text{arbitrary}} \underbrace{\left[   e^{-\frac{n\pi}{w} (y-h)} - e^{\frac{n\pi}{w} (y-h)}  \right]}_{\propto \sinh}\\
+&=a_n \sinh \left( \frac{n\pi}{w} (h-y)\right)
+}\vfill\[u_{n}(x,y) = a_n \sin \left( \frac{n\pi}{w}x \right) \sinh \left( \frac{n\pi}{w} (h-y)\right)\]\vfill
+Eigensolution of the Laplacian that satifies the zero boundary conditions on the 3 sides.
+}
+}
+
+\slide[The non-zero boundary condition]{\vspace{-2em}\[u_{n}(x,y) = a_n \sin \left( \frac{n\pi}{w} x \right) \sinh \left( \frac{n\pi}{w} (h-y)\right), \quad u(x,y)=\sum_{n=1}^{\infty} u_n(x,y)\]\vfill
+$u(x,0)=f(x) $ - Express the boundary condition as Fourier Series\vfill
+\student{
+Given the appearance of our $u_n$, we clearly need a Sine series
+\algn{f(x) &=\sum_{n=1}^{\infty} b_n \sin \left( \frac{n\pi}{w} x \right) \qquad \text{with } b_n=\frac{2}{w} \int_0^w f(x) \sin \left( \frac{n\pi}{w} x \right) dx  \\
+u(x,0)&=f(x) = \sum_{n=1}^{\infty} a_n \sin \left( \frac{n\pi}{w} x \right) \sinh \left( \frac{n\pi}{w} h \right) \intertext{need equality between the two series}
+\Rightarrow a_n &= \frac{b_n}{ \sinh \left( \frac{n\pi}{w} h \right) } 
+}
+}
+}
+
+\slide[The Hyperbolic Functions]{
+\twomini[.92]{.5}{.5}{\algn{\sinh x &=\frac{e^x-e^{-x}}{2}\\ \cosh x &=\frac{e^x+e^{-x}}{2}\\ \tanh &=\frac{\cosh x}{\sinh x} =\frac{e^x+e^{-x}}{e^x-e^{-x}}  \\\\\\\
+\dd{}{x}\sinh x &=\cosh x\\
+\dd{}{x}\cosh x &=\sinh x\\
+\dd{}{x}\tanh x &=1-\tanh^2 x = \frac{1}{\cosh^2 x}
+}}{\includegraphics[width=\columnwidth]{images/Sinh_cosh_tanh.pdf}}
+
+
+\hfill \tiny source: Wikipedia
+
+}
+
+\slide[Boundary conditions on two sides]{
+\ex{Consider a rectangular region of width $1$ and height $1$.}
+\vspace{-1em}
+\algn{\Delta u &=0 \\
+u(0,y)&=0 &\text{for } 0<y<h\\
+u(x,h)&=0 &\text{for } 0<x<w\\
+u(w,y)&=\sin(3\pi x) &\text{for } 0<y<h\\
+u(x,0)&=x &\text{for } 0<x<w }
+\vfill
+ \centerline{\includegraphics[width=.5\columnwidth]{images/dirichsetup2.pdf}}
+\vfill
+
+}
+
+\slide[Breaking it down by directions]{
+\twomini[.55]{.45}{.45}{ South Problem 
+\vfill
+\centerline{  \includegraphics[height=3cm]{images/dirichsetup2_south.pdf}}}{ East Problem
+\vfill
+ \centerline{\includegraphics[height=3cm]{images/dirichsetup2_east.pdf}}}
+
+\vfill
+\student{\[u(x,y)=u_N+u_S+u_E+u_W\]}
+\vfill
+The west and north problems have zero solutions, no need to solve them.
+
+}
+
+
+\slide[The South Problem]{
+Special case of the previous problem we did with $f(x)=x$
+\student{
+\[u_s(x,y)=\sum_{n=1}^{\infty}  a_n \sin \left( n\pi x \right) \sinh \left( n\pi (1-y)\right)\]
+\vfill
+\algn{ a_n &= \frac{b_n}{\sinh(n\pi)} & b_n&=2 \int_0^1 x \sin(n \pi x)dx\\
+&&&=-2\frac{(-1)^n}{n\pi}
+}
+}
+\vfill
+\tiny\url{https://www.wolframalpha.com/input?i=integral+of+x*sin\%28n*pi*x\%29+from+0+to+1+assuming+n+is+an+integer}
+}
+
+\slide[The East Problem]{
+\twomini[.4]{.5}{.45}{\algn{\Delta u_E &=0 \\
+u_E(0,y)&=0 &\text{for } 0<y<h\\
+u_E(x,h)&=0 &\text{for } 0<x<w\\
+u_E(w,y)&=\sin(3\pi y) &\text{for } 0<y<h\\
+u_E(x,0)&=0 &\text{for } 0<x<w }}{\vspace{.5cm} \centerline{\includegraphics[width=.85\columnwidth]{images/dirichsetup2_east.pdf}}}
+\vfill
+\student{
+\[X\pp+\lambda X =0 \qquad Y\pp-\lambda Y =0 \]
+Now we have two zero BCs for $Y(y)$
+\[Y(0)=Y(1)=0 \qquad \Rightarrow Y_n(y)=\sin (n\pi y)\]
+with \[\lambda_n=-(n\pi)^2\]
+}
+}
+\slide[The East Problem]{
+\twomini[.4]{.5}{.45}{\[X\pp+\lambda X =0  \qquad \text{with } \lambda=-(n\pi)^2  \]}{\vspace{.5cm} \centerline{\includegraphics[width=.85\columnwidth]{images/dirichsetup2_east.pdf}}}
+\student{
+\algn{X\pp -(n\pi)^2 X &= 0\\
+X(x) &= Ae^{n\pi x} +Be^{-n\pi x}\\
+\text{BC @ x=0:} \qquad 0 &= A+B&B&=-A\\
+X(x)& = A(e^{n\pi x} - e^{-n\pi x})\\
+&=a_n \sinh (n \pi x) 
+}
+\[u_{n}(x,y) = a_n \sin \left( n\pi y \right) \sinh \left( n\pi x\right)\]
+}
+}
+
+\slide[The East Problem]{
+\twomini[.4]{.5}{.45}{\[u_{n}(x,y) = a_n \sin \left( n\pi y \right) \sinh \left( n\pi x\right)\]  \[u_E =\sum_{n=1}^\infty u_n(x,y) \]}{\vspace{.5cm} \centerline{\includegraphics[width=.85\columnwidth]{images/dirichsetup2_east.pdf}}}
+\student{
+BC @ x=1
+\algn{u(1,y) &= \sin(3\pi y) = \sum_n a_n \sin(n \pi y) \sinh(n\pi)\\
+a_n &= \begin{cases} \frac{1}{\sinh(3\pi)} & n=3 \\ 0 &\text{otherwise}  \end{cases}}\[u_E = u_3(x,y) = \frac{\sinh(3\pi x)}{\sinh(3\pi)}\sin(3\pi y)\]
+}
+}
+
+\slide{\vfill
+ \centerline{\includegraphics[width=.5\columnwidth]{images/dirichsetup2.pdf}}
+\algn{u(x,t) &= u_S + u_E +\cancelto{0}{u_N} +\cancelto{0}{u_W}\\\\
+&=\sum_{n=1}^{\infty}  -2\frac{(-1)^n}{n\pi} \sin \left( n\pi x \right) \sinh \left( n\pi (1-y)\right) \\& \phantom{=}+\frac{\sinh(3\pi x)}{\sinh(3\pi)}\sin(3\pi y)}
+\vfill
+
+}
+
+\slide[Separation of Variables on Rectangular Domains]{
+\itmz{\item General Approach: $u(x,y)=u_N+u_S+u_E+u_W$\vfill
+\item Each $u_I$ solves a Dirichlet problem with \uline{one} non-zero BC
+\subitem{If a problem has all zero BCs, then $u_I$ is zero}
+\algn{ u_N &= \sum_n a_n \sin \left( \frac{n\pi}{w}x \right) \sinh \left( \frac{n\pi}{w} y\right)\\
+u_S &= \sum_n b_n \sin \left( \frac{n\pi}{w}x \right) \sinh \left( \frac{n\pi}{w} (h-y)\right)\\
+u_E &= \sum_n c_n \sin \left( \frac{n\pi}{h}y \right) \sinh \left( \frac{n\pi}{h} x\right)\\
+u_W &= \sum_n d_n \sin \left( \frac{n\pi}{h} y \right) \sinh \left( \frac{n\pi}{h} (w-x)\right)
+}\vfill
+\item Find the arbitrary coefficients by comparing each series solution to a Fourier series of the non-zero BC.
+}\vfill
+
+
+}
+
+\end{document}

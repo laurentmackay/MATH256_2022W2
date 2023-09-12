@@ -1,0 +1,29 @@
+\input{notes.tex}
+
+
+\iftoggle{dualscreen}{\setbeameroption{show notes on second screen=right}}{}
+
+
+\begin{document}
+
+\slide{
+\vspace{-.5em}
+\centerline{$\lap{y\p(t)}=sY(s)-y_0$ \hspace{2em} $\lap{y\pp(t)}=s^2Y(s)-sy_0-v_0$}\vspace{.5em}
+\hrule 
+\algn{\lap{C}&=\frac{C}{s}&\text{Constant}\\
+\lap{t^n}&=\frac{n!}{s^{n+1}}&\text{Power Func.}\\
+\lap{\sin \omega t}&=\frac{\omega}{\omega^2+s^2}\\
+\lap{\cos \omega t}&=\frac{s}{\omega^2+s^2}\\
+\lap{f(\alpha t)}&=\frac{1}{\alpha} F(s/\alpha)&\text{Argument Scaling}\\
+\lap{e^{at}f(t)}&=F(s-a)&\text{First Shift Theorem}\\
+\lap{u_c(t)}&=e^{-sc}\frac1s &\text{Heaviside Transfer}\\
+\lap{f(t-c)u_c(t)}&=e^{-sc}F(s)&\text{Second Shift Theorem}\\
+\lap{t^{n}f(t)}&=(-1)^n\ddn{}{s}{n}F(s)&\text{Resonance}\\
+\lap{f \ast g}&=F(s)G(s)&\text{Convolution Theorem}\\
+\lap{\delta(t-c)}&=e^{-sc}&\text{Delta Transfer}\\
+}
+
+}
+
+
+\end{document}

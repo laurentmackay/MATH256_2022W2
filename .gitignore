@@ -1,0 +1,13 @@
+*.aux
+*.log
+*.nav
+*.toc
+*.snm
+*.out
+*.notes
+*.synctex*
+*_presentation.pdf
+*_skeleton.pdf
+*_full.pdf
+*.nb
+*.vrb

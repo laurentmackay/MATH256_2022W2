@@ -1,0 +1,306 @@
+\input{notes.tex}
+
+\iftoggle{dualscreen}{\setbeameroption{show notes on second screen=right}}{}
+
+\usepackage{gensymb}
+\begin{document}
+\section{Lecture 31}\subsection{Dirichlet problems continued}
+\slide[Dirichlet Problem - with a derivative]{
+\ex{Consider a rectangular region of width $w$ and height $h$.}
+
+\vfill
+Boundary values are zero at three of the four edges, and the derivative of $u$ obeys some arbitrary function $f(x)$ the fourth edge.\vfill
+\twomini[.4]{.5}{.5}{\algn{\Delta u &=0 \\
+u(0,y)&=0 &\text{for } 0<y<h\\
+u(x,h)&=0 &\text{for } 0<x<w\\
+u(w,y)&=0 &\text{for } 0<y<h\\
+u_y(x,0)&=f(x) &\text{for } 0<x<w }}{\vspace{.5cm} \centerline{\includegraphics[width=.85\columnwidth]{images/dirichsetup_south_derivative.pdf}}}
+
+}
+
+
+
+\slide{\vspace{-2em}
+\[ u_{xx}+u_{yy} = 0 \]
+Separation of Variables: \[u(x,y) = X(x)Y(y)\]\vspace{-2em}
+\student{\algn{X\pp Y+XY\pp &= 0 \\
+\frac{X\pp(x)}{X(x)} = -\frac{Y\pp(y)}{Y(y)} &= -\lambda = \text{const.}}\vfill
+\twomini[.15]{.5}{.5}{\[X\pp+\lambda X =0 \]}{\[Y\pp-\lambda Y =0 \]
+
+
+
+}
+BCs: $X(0)=X(w)=0$
+
+\[X_n(x)= \sin \left( \frac{n\pi}{w} x \right)  \qquad \lambda_n = \left(\frac{n\pi}{w}\right)^2\]
+}
+}
+
+
+\slide{
+\twomini[.35]{.5}{.45}{\[Y\pp-\lambda Y =0 \] \vfill\[ \lambda = \left(\frac{n\pi}{w}\right)^2\] \vfill }{ \centerline{\includegraphics[width=.85\columnwidth]{images/dirichsetup_south_derivative.pdf}} }
+\vfill
+So far, this is exactly what we had solving the south problem
+\vfill
+\student{
+\[u_{n}(x,y) = a_n \sin \left( \frac{n\pi}{w}x \right) \sinh \left( \frac{n\pi}{w} (h-y)\right) \qquad u(x,y)=\sum_n u_n\]
+\[f(x) = \sum_n b_n \cos\left( \frac{n\pi}{w} x \right) = u_y(x,0) \]
+\[u_y(x,0) = \sum_n a_n  \frac{n\pi}{w}\cosh \left( \frac{n\pi}{w} h\right) \sin \left( \frac{n\pi}{w}x \right)  \qquad \boxed{ a_n = \frac{b_n}{\cosh\left( \frac{n\pi}{w} \right) } \frac{w}{n\pi}} \]
+}
+}
+
+\slide{
+\ex{Consider the following problem}
+
+
+\twomini[.4]{.5}{.5}{\algn{\Delta u &=0 \\
+u(0,y)&=2 &\text{for } 0<y<1\\
+u(x,h)&=0 &\text{for } 0<x<2\\
+u(2,y)&=3 \sin(\pi y) &\text{for } 0<y<1\\
+u_y(x,0)&=x(1-x) &\text{for } 0<x<2 }}{\vspace{.5cm} \centerline{\includegraphics[width=.85\columnwidth]{images/dirichsetup_ex2.pdf}}}\vfill
+\student{
+Strategy: Break the problem down into West, East, and South Problems, then use superposition.
+\[u(x,y) =u_W +u_E+u_S\]
+}
+}
+
+\slide{
+\student{West problem
+\[u_W(x,y) = \sum_n d_n \sin \left( n\pi y \right) \sinh \left( n\pi (2-x)\right)\]
+\[u_W(0,y) = 2 = \sum_n d_n \sin \left( n \pi y \right) \sinh \left(  2 n\pi\right)\]
+\[2=\sum_n b_n \sin \left( n\pi y \right)  \qquad b_n=\frac{2}{1} \int_0^1 2 \sin(n \pi y)dy = 4\frac{1-(-1)^n}{n\pi}    \]
+\[d_n = \frac{b_n}{\sinh(2n\pi)}  = 4\frac{1-(-1)^n}{\sinh(2n\pi)n\pi}  \]
+}
+}
+
+\slide{
+\student{East problem
+\[u_E(x,y) = \sum_n c_n \sin \left( n\pi y \right) \sinh \left(n\pi x\right) \]
+\[u_E(2,y) = 3sin(\pi y) = \sum_n c_n \sin \left( n \pi y \right) \sinh \left(  2 n\pi\right)\]
+\[3sin(\pi y)=\sum_n b_n \sin \left( n\pi y \right)  \qquad b_n=\begin{cases} 3 & n=1\\0&\text{otherwise} \end{cases}  \]
+\[c_n = \frac{b_n}{\sinh(2n\pi)}  = \begin{cases} \frac{3}{\sinh(2\pi)} & n=1\\0&\text{otherwise} \end{cases} \]
+}
+}
+
+\slide{
+\student{South problem
+\[u_S(x,y) =  \sum_n a_n \sin \left( \frac{n\pi}{2} x \right) \sinh \left( \frac{n\pi}{2} (1-y)\right) \]
+\[\pd{}{y} u_S(x,0) = x(1-x)= \sum_n a_n \sin \left(\frac{n\pi}{2} x \right) \frac{n\pi}{2} \cosh \left( \frac{n\pi}{2} \right) \]
+\[x(1-x)=\sum_n b_n \sin \left( \frac{n\pi}{2} x \right)  \qquad \boxed{ a_n =- \frac{2}{n\pi}\frac{b_n}{ \cosh\left(\frac{n\pi}{2}\right)} }\]
+\[ b_n= \frac{2}{2} \int_0^2 x(1-x) \sin \left(\frac{n\pi}{2} x \right)  dx = \frac{4 (-1)^n \left(\pi ^2 n^2-4\right)+16}{\pi ^3 n^3} \]
+
+\vfill
+Finally, 
+\[u(x,y) =u_W +u_E+u_S\]
+}
+}
+\subsection{Neumann Problems}
+\slide[Derivatives in higher dimensions]{
+For $u=u(x,y)$, we can compute two derivatives along the coordinate axes\student{ \algn{u_x &= \pd{}{x}u(x,y) \\u_y &= \pd{}{y}u(x,y)}}
+\vfill
+The generalization of this is a directional derivative (or gradient) $\vec{\nabla}u$\vfill
+\student{\[\vec{\nabla}u =\underbrace{ \mat{c}{u_x \\ u_y}}_{\text{vector}}\]}\vfill
+}
+
+\slide[Neumann Boundary Conditions]{
+Consider $\vec{x}\in\mathbb{R}^d$ restricted to a closed domain, where the boundary of the domain has a outer unit normal vector $\hat{n}$.
+\vfill
+\centerline{\includegraphics[width=6cm]{images/generic_domain.pdf}}
+\vfill
+The Neumann boundary condition is given by \[\pd{u}{\hat{n}} = f(\vec{x})  \qquad\text{ for $\vec{x}$ along the boundary}  \]$\pd{u}{\hat{n}} = \vec{\nabla}u\cdot\hat{n}$
+}
+
+\slide[Neumann Boundary Condition Example - Electrostatics]{
+Consider Maxwell's 1st equation \[\vec{\nabla}\cdot \vec{E}(x,y) = \frac{\rho}{\varepsilon_0} = \frac{\text{charge density}}{\text{permittivity of free space}}\]applied to a charged 2D box with with charge density $\rho_0$ that sits in an external electric field
+$\vec{E}_{ext}=\vec{E}_{ext}(x,y)$.
+
+\vfill
+
+\twomini[.45]{.65}{.35}{
+The electric field is the negative gradient of the electric potential $u(x,y)$\student{ \[\vec{E} =- \vec{\nabla}u \]
+\[\Rightarrow \vec{\nabla} \cdot \vec{E} = - \nabla^2 u = - \Delta u \]
+\[\Rightarrow  - \Delta u =\frac{\rho}{\varepsilon_0}\]
+}
+}{\includegraphics[width=\columnwidth]{images/electrostatic_neumann_setup.pdf}}
+
+}
+
+\slide[Neumann Boundary Condition Example - Electrostatics]{
+
+\twomini[.65]{.65}{.35}{
+
+\[\Delta u = 0 \qquad  \text{for $(x,y)$ inside the box}\]
+Boundary Conditions:
+\small
+\[-\pd{u}{\hat{n}} - \vec{E}_{ext}(x,t) \cdot \hat{n} = \frac{\rho_0}{\varepsilon_0}\]
+\student{North side:
+\algn{-\left(u_x\hat{i} + u_y \hat{j}\right) \cdot \hat{j} &= \frac{\rho_0}{\varepsilon_0}+\vec{E}_{ext}(x,h)\cdot\hat{j}\\
+u_y(x,h) &=f(x)}
+}
+\algn{}}{\includegraphics[width=\columnwidth]{images/electrostatic_neumann_setup.pdf}}
+
+\small
+\student{West Side:
+\algn{-\left(u_x\hat{i} + u_y \hat{j}\right) \cdot -\hat{i} &= \frac{\rho_0}{\varepsilon_0}+\vec{E}_{ext}(0,y)\cdot-\hat{i}\\
+u_x(0,y) &=g(x)}
+}
+
+
+}
+
+
+\subsection{Neumann problems}
+\slide[Neumann Problem]{
+\ex{Consider a rectangular region of width $w$ and height $h$.}
+
+\vfill
+Normal derivatives are zero at three of the four edges, and the derivative of $u$ obeys some arbitrary function $f(x)$ the fourth edge.\vfill
+\twomini[.4]{.5}{.5}{\algn{\Delta u &=0 \\
+u_x(0,y)&=0 &\text{for } 0<y<h\\
+u_y(x,h)&=0 &\text{for } 0<x<w\\
+u_x(w,y)&=0 &\text{for } 0<y<h\\
+u_y(x,0)&=f(x) &\text{for } 0<x<w }}{\vspace{.5cm} \centerline{\includegraphics[width=.85\columnwidth]{images/Neumann_setup.pdf}}}
+
+}
+
+
+
+\slide{Solution procedure is almost identical to the Dirichlet problem but with $\sin \to \cos $ and $\sinh \to \cosh$\vspace{.25em}
+\hrule
+\vfill
+\twomini[.15]{.5}{.5}{\[X\pp+\lambda X =0 \]}{\[Y\pp-\lambda Y =0 \]
+}\vspace{-1em}
+BCs: $\pd{}{x}X(0)=\pd{}{x}X(w)=0$
+\[X_n(x)= \cos \left( \frac{n\pi}{w} x \right)  \qquad \lambda_n = \left(\frac{n\pi}{w}\right)^2\]\vfill\[\Rightarrow Y_n\pp+\left(\frac{n\pi}{w}\right)^2Y_n=0\qquad \Rightarrow Y_n=Ae^{\frac{n\pi}{w}y}+Be^{-\frac{n\pi}{w}y}\]
+BC: $\pd{}{y}Y_n(h)=0$
+\[\Rightarrow B=Ae^{2\frac{n\pi}{w}} \qquad \Rightarrow Y_n(y)=a_n \cosh\left( \frac{n\pi}{w} (y-h) \right)  \]
+Finally,
+\[\boxed{u_n(x,y)=a_n \cosh\left( \frac{n\pi}{w} (y-h) \right) \cos\left(\frac{n\pi}{w} x\right)} \quad u(x,y) = \sum_n u_n(x,y)\]
+
+}
+
+\slide[]{
+Major difference with Dirichlet problem: $n=0$ gives a non-zero solution
+\student{
+\[X_0(x)=\cos(0)=1\]
+
+\[Y_0\pp=0 \Rightarrow Y_0 = m y + a_0\]
+$\pd{}{y}Y_0(h)=0=m \qquad \Rightarrow m=0$
+\[Y_0 = a_0 \]
+
+\[u(x,y)= a_0+\sum_n a_n \cosh\left( \frac{n\pi}{w} (y-h) \right) \cos\left(\frac{n\pi}{w} x\right) \]
+\vfill
+Impossible to actually determine $a_0$.\subitem{ e.g., electrical potentials can be shifted arbitrarily}
+\vfill
+Pure Neumann problems do not have unique solutions.
+}
+}
+
+\slide[The non-zero boundary condition]{\vspace{-2em}\[u_{n}(x,y) = a_n \cos \left( \frac{n\pi}{w} x \right) \cosh\left( \frac{n\pi}{w} (y-h)\right), \quad u(x,y)=a_0+\sum_{n=1}^{\infty} u_n(x,y)\]\vfill
+$u_y(x,0)=f(x) $ - Express the boundary condition as a Fourier Series\vfill
+\student{
+
+\algn{u_y(x,0)&=f(x) = a_0+ \sum_{n=1}^{\infty}  a_n \frac{n\pi}{w} \sinh \left( \frac{n\pi}{w} h\right) \cos \left( \frac{n\pi}{w} x \right) \intertext{Given the appearance of our $u_y(x,h)$, we clearly need a Cosine series}
+f(x) &=\frac{b_0}{2}+\sum_{n=1}^{\infty} b_n \cos \left( \frac{n\pi}{w} x \right) \qquad \text{with } b_n=\frac{2}{w} \int_0^w f(x) \cos \left( \frac{n\pi}{w} x \right) dx  \\
+ \intertext{need equality between the two series}}
+\[\Rightarrow b_0 = 0 = \int_0^w f(x) dx \qquad \qquad  a_n = \frac{b_n}{ \sinh \left( \frac{n\pi}{w} h \right)  } \frac{w}{n\pi}\]
+
+}
+}
+
+
+\slide[]{
+We can repeat the same process for all the sub-problems.
+\vfill
+\algn{ u_N &= a_0 + \sum_n a_n \cos \left( \frac{n\pi}{w}x \right) \cosh \left( \frac{n\pi}{w} y\right)\\
+u_S &= b_0 + \sum_n b_n \cos \left( \frac{n\pi}{w}x \right) \cosh \left( \frac{n\pi}{w} (h-y)\right)\\
+u_E &= c_0 + \sum_n c_n \cos \left( \frac{n\pi}{h}y \right) \cosh \left( \frac{n\pi}{h} x\right)\\
+u_W &= d_0 + \sum_n d_n \cos \left( \frac{n\pi}{h} y \right) \cosh \left( \frac{n\pi}{h} (w-x)\right)
+}
+\vfill
+To find the unknow coefficients, match the series solution derivative with a Cosine series of the boundary condition.
+\vfill
+The boundary condition (normal derivative) must integrate to zero over the boundary.
+}
+
+
+%\slide[Non-Neumann Boundary Conditions]{
+%
+%\twomini[.4]{.5}{.5}{\algn{\Delta u &=0 \\
+%u_x(0,y)&=0 &\text{for } 0<y<h\\
+%u_y(x,1)&=0 &\text{for } 0<x<w\\
+%u_x(2,y)&=0 &\text{for } 0<y<h\\
+%u_x(x,0)&=0 &\text{for } 0<x<w }}{\vspace{.5cm} \centerline{\includegraphics[width=.85\columnwidth]{images/dirichsetup_ex3.pdf}}}
+%\student{
+%South boundary condition is in
+%}
+%
+%
+%}
+
+
+
+
+\slide[Mixed Neumann/Dirichlet Problem]{
+
+\twomini[.4]{.5}{.5}{\algn{\Delta u &=0 \\
+u_x(0,y)&=0 &\text{for } 0<y<h\\
+u(x,h)&=f(x) &\text{for } 0<x<w\\
+u_x(w,y)&=0 &\text{for } 0<y<h\\
+u(x,0)&=0 &\text{for } 0<x<w }}{\vspace{.5cm} \centerline{\includegraphics[width=.85\columnwidth]{images/mixed_setup.pdf}}}
+
+
+}
+
+
+
+\slide{\vspace{-2em}
+\[ u_{xx}+u_{yy} = 0 \]
+Separation of Variables: \[u(x,y) = X(x)Y(y)\]\vspace{-2em}
+\student{
+\algn{X\pp Y+XY\pp &= 0 \\
+\frac{X\pp(x)}{X(x)} = -\frac{Y\pp(y)}{Y(y)} &= -\lambda = \text{const.}}\vfill
+\twomini[.15]{.5}{.5}{\[X\pp+\lambda X =0 \]}{\[Y\pp-\lambda Y =0 \]
+
+
+
+}
+BCs: $X_x(0)=X_x(w)=0$
+
+\[X_n(x)= \cos \left( \frac{n\pi}{w} x \right)  \qquad \lambda_n = \left(\frac{n\pi}{w}\right)^2\]
+with the special case $n=0$
+\[X_0(x) = 1 \]
+}
+}
+
+\slide{
+\twomini[.35]{.5}{.45}{\[Y\pp-\lambda Y =0 \] \vfill\[ \lambda = \left(\frac{n\pi}{w}\right)^2\] \vfill }{ \centerline{\includegraphics[width=.85\columnwidth]{images/mixed_setup.pdf}} }
+\vfill
+\vfill
+\student{
+\uline{$n\neq0$}
+\algn{Y_n(y) &= Ae^{\frac{n\pi}{w} y} + B e^{-\frac{n\pi}{w} y}\\
+\text{BC @ x=0: } 0&=A+B &\Rightarrow B=-A\\
+Y_n(y) &= A \left(e^{\frac{n\pi}{w} y} - e^{-\frac{n\pi}{w} y} \right)\\
+&=a_n \sinh\left( \frac{n\pi}{w} y \right)\\
+u_n(x,y) &=a_n \sinh\left( \frac{n\pi}{w} y \right) \cos \left( \frac{n\pi}{w} x \right)  
+\intertext{\uline{n=0}}
+Y_0\pp&=0 \Rightarrow Y_0=a_0y+b\qquad Y_0(0)=0 \Rightarrow b=0
+}
+
+}
+}
+
+\slide[The non-zero boundary condition]{\vspace{-2em}\[u_{n}(x,y) = a_n \cos \left( \frac{n\pi}{w} x \right) \sinh \left( \frac{n\pi}{w} y\right), \quad u(x,y)=a_0 y +\sum_{n=1}^{\infty} u_n(x,y)\]\vfill
+$u(x,h)=f(x) $ - Express the boundary condition as a Fourier Series\vfill
+\student{
+
+\algn{u(x,h)&=f(x) = a_0 h + \sum_{n=1}^{\infty}  a_n \sinh \left( \frac{n\pi}{w} h\right) \cos \left( \frac{n\pi}{w} x \right) \intertext{Given the appearance of our $u(x,h)$, we clearly need a Cosine series}
+f(x) &=\frac{b_0}{2} + \sum_{n=1}^{\infty} b_n \cos \left( \frac{n\pi}{w} x \right) \qquad \text{with } b_n=\frac{2}{w} \int_0^w f(x) \cos \left( \frac{n\pi}{w} x \right) dx  \\
+ \intertext{need equality between the two series}
+\Rightarrow a_0&=\frac{b_0}{2h} \qquad \text{and} \qquad  a_n =\frac{b_n}{ \sinh \left( \frac{n\pi}{w} h \right)  } 
+}
+}
+}
+
+\end{document}

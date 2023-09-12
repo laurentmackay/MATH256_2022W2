@@ -1,0 +1,75 @@
+\input{notes.tex}
+
+\iftoggle{dualscreen}{\setbeameroption{show notes on second screen=right}}{}
+
+
+\begin{document}
+
+\section{Lecture 24.5}
+\subsection{Introduction}
+
+\slide{\vspace{-2.5em}
+\algn{\larray{u_t= \alpha u_{xx}\\\text{for } x\in[0,L]} \; \text{with }& \larray{u(0,t)=u(L,t)=0 \\ \qquad \qquad \qquad  \text{\uline{or}} \\ u_x(0,t)=u_x(L,t)=0} &\text{and}\quad  &u(x,0)=u_0(x)}
+\vfill
+\[\boxed{u(x,t)=\frac{a_0}{2} + \sum_{n=1}^\infty e^{-\alpha \frac{n^2\pi^2}{L^2} t} \left( a_n \cos\left(\frac{n\pi}{L} x\right) +  b_n \sin\left(\frac{n\pi}{L} x\right) \right)  }\]\vfill
+\twomini[.15]{.5}{.5}{
+ \uline{$u(0,t)=u(L,t)=0$}: $\quad$\vfill
+Dirichlet Boundary Conditions
+\vfill
+}{
+\uline{$u_x(0,t)=u_x(L,t)=0$}: \vfill 
+Neumann Boundary Conditions
+\vfill
+}\vfill
+\student{What can we do if we have mixed Neumann and Dirichlet Boundary Conditions?
+\vfill
+\ex{$u(0,t)=u_x(L,t)=0$ or $u_x(0,t)=u(L,t)=0$ }}
+}
+
+\subsection{Mixed Boundary Conditions}
+\slide[A slightly different Fourier Basis: $n=$ half integers]{
+
+\vfill
+\twomini[.5]{.5}{.5}{
+\centering
+\student{$u(0,t)=u_x(L,t)=0$}
+\vfill
+\scalebox{1.17}{\tikzplot[\xcoord{3.14159}{L}]{.1}{3.5}{1}{1}{x}{\sin(n\pi x/L)}{
+\draw[domain=0:3.14159, red, samples=200, smooth, thick] plot ({\x,0.5*sin(0.5*deg(\x))}) node[xshift=-2.75em, yshift=.4em, fill=white, inner sep=0.3]{ \tiny $n=\frac12$};
+\draw[domain=0:3.14159, red, samples=200, smooth, thick, dashed] plot ({\x,0.5*sin(deg(1.5*\x))}) node[xshift=-1.2em, yshift=-.5em, fill=white, inner sep=0.3]{ \tiny $n=\frac{3}{2}$};
+\draw[domain=0:3.14159, red, samples=200, smooth, thick, dotted] plot ({\x,0.5*sin(deg(2.5*\x))})node[xshift=-5.7em, yshift=-2em, fill=white, inner sep=0.3]{ \tiny $n=\frac{5}{2}$};
+}} 
+}{\centering
+\student{$u_x(0,t)=u(L,t)=0$}
+\vfill
+\scalebox{1.17}{\tikzplot[\xcoord{3.14159}{\;\;L}]{.1}{3.5}{1}{1}{x}{\cos(n\pi x/L)}{
+\draw[domain=0:3.14159, blue, samples=200, smooth, thick] plot ({\x,0.5*cos(0.5*deg(\x))}) node[xshift=-6em, yshift=1.75em, fill=white, inner sep=0.3]{ \tiny $n=\frac12$};
+\draw[domain=0:3.14159, blue, samples=200, smooth, thick, dashed] plot ({\x,0.5*cos(deg(1.5*\x))}) node[xshift=-1.15em, yshift=-1.75em, fill=white, inner sep=0.3]{ \tiny $n=\frac32$};
+\draw[domain=0:3.14159, blue, samples=200, smooth, thick, dotted] plot ({\x,0.5*cos(deg(2.5*\x))}) node[xshift=-7em, yshift=-1em, fill=white, inner sep=0.3]{ \tiny $n=\frac52$};
+}}
+}
+\vfill
+Using Sep. of Variables, we can construct solutions of the form\small\vfill
+\[u(x,t)=\frac{a_0}{2} + \sum_{n=1}^\infty e^{-\alpha \frac{(n-\frac12)^2\pi^2}{L^2} t} \left( a_n \cos\left(\frac{(n-\frac12)\pi}{L} x\right) +  b_n \sin\left(\frac{(n-\frac12)\pi}{L} x\right) \right)  \]
+
+}
+
+\slide[ Mixed Homogeneous BCs]{\vspace{-2.5em}
+\algn{\larray{u_t= \alpha u_{xx}\\\text{for } x\in[0,L]} \; \text{with }& \larray{u(0,t)=u_x(L,t)=0 \\ \qquad \qquad \qquad  \text{\uline{or}} \\ u_x(0,t)=u(L,t)=0} &\text{and}\quad  &u(x,0)=u_0(x)}
+\vfill\small
+\[\boxed{u(x,t)=\frac{a_0}{2} + \sum_{n=1}^\infty e^{-\alpha \frac{(n-\frac12)^2\pi^2}{L^2} t} \left( a_n \cos\left(\frac{(n-\frac12)\pi}{L} x\right) +  b_n \sin\left(\frac{(n-\frac12)\pi}{L} x\right) \right)   }\]\vfill
+\normalsize
+\twomini[.45]{.5}{.5}{
+ \uline{$u(0,t)=u_x(L,t)=0$}: $\quad$\vfill
+Fourier sine series
+\small 
+\algn{a_n &= 0\\b_n&=\frac{2}{L}\int_0^L u_0(x) \sin\paren{\frac{(n-\frac12)\pi}{L}x} dx }
+}{
+\uline{$u_x(0,t)=u(L,t)=0$}: \vfill 
+Fourier cosine series
+\small
+\algn{a_n &= \frac{2}{L}\int_0^L u_0(x) \cos\paren{\frac{(n-\frac12)\pi}{L}x} dx\\b_n&=0 }
+}
+}
+
+ \end{document}

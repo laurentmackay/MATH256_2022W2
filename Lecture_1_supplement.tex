@@ -1,0 +1,65 @@
+\input{notes.tex}
+
+
+\iftoggle{dualscreen}{\setbeameroption{show notes on second screen=right}}{}
+
+\begin{document}
+\section{Lecture 1}
+\subsection{1$^{st}$ order linear separable DE}
+\settoggle{covered}{true}
+\slide[(Previously) A first order linear ODE]{\vspace{-.5em}
+Suppose\[\dd{y}{t} = t^2 y(t) \]
+Find $y(t)$
+\student{
+Divide by $y$, then mulitply dt
+\algn{
+\frac{dy}{\cancel{dt}} \frac{1}y{} \cancel{dt}  &=t^2 dt\intertext{integrate}
+\int \frac{dy}{y} &=\int t^2 dt\\
+\ln(y) &= \frac{t^3}{3} + C\intertext{exponentiate both sides}
+y(t)  &= e^{\frac{t^3}{3} + C}=Ce^{\frac{t^3}{3}}
+}}
+}
+\settoggle{covered}{false}
+\slide{
+Formally\[\int\frac{dy}{y} = \ln(|y|) + C.\]
+Why did I ignore the absolute value? Can I always do that?
+\vfill
+Lets consider
+\[\dd{y}{t} = f(t)y\]
+\student{
+\algn{
+\frac{dy}{\cancel{dt}} \frac{1}y{} \cancel{dt}  &=f(t) dt\intertext{integrate}
+\int \frac{dy}{y} &=\int f(t) dt\\
+\ln(|y|) &=F(t) + C_1
+}\vfill
+$C_1$ is an arbitrary constant (of integration)
+}
+}
+
+\slide{\vspace{-1.25em}
+\[\ln(|y(t)|) =F(t) + C_1\]
+Two cases:
+\vfill
+\twomini[.6]{.5}{.5}{$y<0$
+\student{
+\algn{|y|&=-y\\\\
+\ln(-y) &= F(t)+C_1\\
+-y&=e^{C_1}e^{F(t)}\\\\
+y&=-e^{C_1}e^{F(t)}\\
+&=Ce^{F(t)}}
+}
+}{
+$y>0$
+\student{
+\algn{|y|&=y\\\\
+\ln(y) &= F(t)+C_1\\
+y&=e^{C_1}e^{F(t)}\\\\
+&=Ce^{F(t)}}
+}
+}\vfill
+\student{Since $e^{F(t)}>0$, $y(t)$ cannot change sign \hfill -\hfill Always ok to ignore $|y|$ }
+}
+
+
+
+\end{document}

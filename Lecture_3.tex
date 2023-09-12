@@ -1,0 +1,151 @@
+\input{notes.tex}
+
+\iftoggle{dualscreen}{\setbeameroption{show notes on second screen=right}}{}
+
+\usepackage{circuitikz}
+
+\begin{document}
+\section{Lecture 3}
+
+\slide[Recall]{
+
+ Linear 1$^{st}$ order ODEs: $y\p +p(t) y = h(t)$\vspace{.5em}
+\itmz{
+\item \alert{$h(t)$ is called the } \student{inhomogeneity}
+\item \alert{$h(t)=0$}: \student{Homogeneous ODE}\vspace{.5em}
+\item \alert{$h(t)\neq0$}:\student{Inhomogeneous ODE}
+}\vfill
+Previously, we solved a \student{$\quad$inhomogeneous$\quad$} linear ODE \[y\p-3t^2y=3t^2\]where we found the solution \[y(t)=-1+Ce^{t^3}\]
+
+\student{What is the solution to the associated homogeneous problem?}
+}
+
+
+\slide{
+Solve $y\p-3t^2y=0$\vfill
+\student{
+Could use integrating factors or convert to a separable equation.
+\algn{\dd{y}{t} &= 3t^2y\\
+\int \frac{dy}{y} &= \int  3t^2 dt\\
+\ln(y)&=t^3+C\\
+y(t)&=Ce^{t^3}}
+\vfill
+Homogeneous ODEs have solutions defined up to an arbitrary multiplicative constant.
+}
+
+}
+
+\slide[Recap]{
+\algn{\uline{\text{inhomogeneous problem:}} & \qquad y\p-3t^2y=3t^2\\
+y(t)&=-1+Ce^{t^3}\\\\
+\uline{\text{homogeneous problem:}} & \qquad y\p-3t^2y=0\\
+y(t)&=-Ce^{t^3}\\
+} 
+\vfill
+\student{The solution to the homogeneous problem is part of the solution of the inhomogeneous problem!}
+}
+
+\slide[General Solution Structure]{
+\alert{General Solutions:}\student{Solution with arbitrary constants.}
+\vfill
+The general solution of all inhomogeneous DEs obeys the following structure
+\[y_g=y_p+y_h\]
+
+\itmz{
+\item $y_p$: \student{Particular part
+\subitem{No arbitrary constants \item Depends on the inhomogeneity}
+}\vfill
+\item $y_h$: \student{Homogeneous part
+\subitem{Solves the associated homogeneous problem
+\item Has multiplicative arbitrary constants \item Independent of the inhomogeneity}
+}
+}
+}
+
+\slide[More Terminology]{
+\uline{Initial Condition}:
+An \alert{initial condition} (IC) is a constraint on a solution that allows for
+arbitrary constants to be fixed.
+
+\vspace{1em}
+$\qquad$\ex{$y(0)=4$}
+\vspace{1em}
+
+\uline{Initial Value Problem}:
+An\alert{ initial value problem} (IVP) is an ODE with an IC.
+
+\vspace{1em}
+$\qquad$\ex{$y\p-3t^2y=3t^2$ with $y(0)=4$}
+\vfill\student{
+\algn{y(t)&=-1+Ce^{t^3}\\
+\uline{t=0}: y(0)&=-1+C =4 &C&=5\\\\
+y(t) &= -1 + 5e^{t^3}}
+}
+}
+
+\slide[Solve the following IVP]{
+\vspace{-.5em}
+An RC circuit comprised of a 2$\Omega$ resistor and a capacitor of unknown capacitance $C$ (in farads) is connected to a voltage source. The capacitor has a charge difference $Q$ across its plates, which varies with the applied voltage.\vfill
+
+
+\begin{minipage}{.65\columnwidth}
+  \centerline{  \begin{circuitikz} \draw
+        (0,0)   to[battery1, l=$V(t)$] (0,2)
+        to[R, l=$2 \Omega$] (2.5,2)
+        to[C, l=$C$] (2.5,0) -- (0,0) ;
+    \end{circuitikz}}
+\end{minipage}\begin{minipage}{.35\columnwidth}
+Kirchoff's Law:
+\[V(t) =  \frac{Q}{C} + 2 \dd{Q}{t}\]
+\end{minipage}\vfill
+The voltage source is held constant until the capacitor reaches a charge of 5 coulombs, and then at $t=0$ it is turned off.
+\vfill
+Find the charge on the capacitor, $Q(t)$, as a function of time.
+
+}
+\slide{
+\student{
+IVP: \[ 2 \dd{Q}{t}+  \frac{Q}{C}  = 0; \qquad Q(0)=5\]\vfill
+\algn{ \dd{Q}{t} &= -\frac{Q}{2C} &
+\int \frac{dQ}{Q} &= \int-\frac{1}{2C}dt\\
+\ln(Q) &= -\frac{1}{2C}t+D&
+Q(t)&=De^{-\frac{t}{2C}}\\\\\intertext{Initial Condition:}
+Q(0)&=D=5 &
+\Aboxed{Q(t)&=5e^{-\frac{t}{2C}}}
+}\vfill
+}}
+\slide{
+\begin{minipage}{.65\columnwidth}
+  \centerline{  \begin{circuitikz} \draw
+        (0,0)   to[battery1, l=$V(t)$] (0,2)
+        to[R, l=$2 \Omega$] (2.5,2)
+        to[C, l=$C$] (2.5,0) -- (0,0) ;
+    \end{circuitikz}}
+\end{minipage}\begin{minipage}{.35\columnwidth}
+Kirchoff's Law:
+\[V(t) =  \frac{Q}{C} + 2 \dd{Q}{t}\]
+\end{minipage}\vfill
+The voltage source is held constant until the capacitor reaches a charge of 5 coulombs, and then at $t=0$ it is turned off.
+\vfill
+At $t=1$ second, you measure the charge on the capacitor to be 2.5 coulombs. Find the value of $C$.
+\vfill
+}
+\slide{
+\student{\[Q(t)=5e^{-\frac{t}{2C}}; \qquad Q(1)=2.5 \]
+\algn{Q(1)=5e^{-\frac{1}{2C}}&=2.5\\
+ e^{-\frac{1}{2C}} &= \frac12\\
+-\frac{1}{2C}&=\ln\paren{\frac12}=-\ln\paren{2}\\\\
+C&=\frac{1}{2\ln\paren{2}} \approx 0.7213 \text{ farads}
+}
+}
+}
+\slide[Summary]{\vspace{-1.25em}
+\[y\p +p(t) y = h(t)\]
+General solution structure
+\[\text{general solution}  = \text{particular part} + \text{homogeneous part}\]\vspace{-1.5em}
+\itmz{\item Particular part has no arbitrary constants \subitem{Determined by the specific inhomogeneity $h(t)$} \vfill \item Homogeneous part has multiplicative arbitrary constants \subitem{Solves the associated homogeneous problem ($h(t)=0$)}}
+\vfill
+Arbitrary constants can be determined by matching initial conditions.
+\[y\p +p(t) y = h(t);\qquad y(0)=y_0\]
+}
+\end{document}

@@ -1,0 +1,188 @@
+\input{notes.tex}
+
+\iftoggle{dualscreen}{\setbeameroption{show notes on second screen=right}}{}
+
+\usepackage{gensymb}
+\begin{document}
+\section{Lecture 25}
+\subsection{Introduction}
+\slide[ Homogeneous Heat Equation]{\vspace{-2.5em}
+\algn{\larray{u_t= \alpha u_{xx}\\\text{for } x\in[0,L]} \; \text{with }& \larray{u(0,t)=u(L,t)=0 \\ \qquad \qquad \qquad  \text{\uline{or}} \\ u_x(0,t)=u_x(L,t)=0} &\text{and}\quad  &u(x,0)=u_0(x)}
+\vfill
+\[\boxed{u(x,t)=\frac{a_0}{2} + \sum_{n=1}^\infty e^{-\alpha \frac{n^2\pi^2}{L^2} t} \left( a_n \cos\left(\frac{n\pi}{L} x\right) +  b_n \sin\left(\frac{n\pi}{L} x\right) \right)  }\]\vfill
+\twomini[.45]{.5}{.5}{
+ \uline{$u(0,t)=u(L,t)=0$}: $\quad$\vfill
+Fourier sine series
+\small 
+\algn{a_n &= 0\\b_n&=\frac{2}{L}\int_0^L u_0(x) \sin\paren{\frac{n\pi}{L}x} dx }
+}{
+\uline{$u_x(0,t)=u_x(L,t)=0$}: \vfill 
+Fourier cosine series
+\small
+\algn{a_n &= \frac{2}{L}\int_0^L u_0(x) \cos\paren{\frac{n\pi}{L}x} dx\\b_n&=0 }
+}
+}
+
+\slide[Inhomogeneous Heat Equation]{
+2 types of inhomogeneities:\vfill
+\enum{\item Inhomogeneous BCs (e.g., $u(0,t)\neq0$ or $u_x(0,t)\neq0$... )
+\item Source/Sink Inhomogeneity (Inhomogeneous PDE) \[ u_t=\alpha u_{xx} + \sigma(x) \]
+$\sigma(x)$ accounts for local  heat production/removal.
+}
+\vfill
+Overall approach to solving both is the same, but each example can have its own quirks
+
+}
+
+
+\subsection{Heat Equation: Dealing with Inhomogeneities}
+\slide{
+\ex{\twomini[.1]{.7}{.295}{$u_t=\alpha u_{xx}$, \hspace{2em} $\arr{l}{u(0,t)=u(1,t)=1 \hspace{1em}\\u(x,0)=1+x(1-x) \text{ on } [0,1]}$}{\tikzplot[\xcoord{2}{\scriptscriptstyle 1}]{.1}{2.1}{.1}{1}{x\phantom{t}}{\scriptscriptstyle u(x,0)}{\draw[domain=0:1] plot (2*\x,{.5+1.25*\x*(1-\x)});} }\hfill}
+\vfill
+\student{
+Trick:  define $w(x,t)=u(x,t)-1$
+\algn{w_t &= u_t & w_{xx}&=u_{xx} \intertext{let's write down a PDE for $w(x,t)$} 
+w_t &= \alpha w_{xx} & w(0,t)&=w(L,t)=0\\
+&&w(x,0)&=x(1-x) \intertext{we've solved this one before}
+w(x,t)=-\sum_{n=1}^\infty& \frac{4}{\pi^3}\frac{(-1)^{n}-1}{n^3} \sin(n \pi x)e^{-\alpha n^2\pi^2 t}
+}\vfill \[u(x,t)=1+w(x,t)\]
+}
+}%end slide
+
+
+\slide[Inhomogeneous Heat Equation: General Approach]{
+\[u(x,t) = \underbrace{w(x,t)}_{\carray{ \small \text{Transient} \\ \small \text{Solution} \\ - \\ \tiny \text{Homgeneous Part}}} + \underbrace{u_{\infty}(x)}_{\carray{ \small \text{Steady State} \\ \small \text{Solution} \\ - \\\text{  \tiny  Inhomgeneous Part}}}   \]
+
+Four steps:
+\enum{\item Find $u_{\infty}(x)\qquad $ (if it exists)
+\item Write down a homogeneous IBVP for $w(x,t)=u(x,t)-u_{\infty}(x)$
+\item Solve for $w(x,t)$
+\item Final solution:  $u(x,t)=w(x,t)+u_{\infty}(x)$}
+}
+
+\slide{
+\ex{\twomini[.1]{.7}{.295}{$u_t=\alpha u_{xx}$, \hspace{2em} $\arr{l}{u_x(0,t)=u_x(1,t)=1 \hspace{1em}\\u(x,0)=x(1-x^2) \text{ on } [0,1]}$}{\tikzplot[\xcoord{2}{\scriptscriptstyle 1}]{.1}{2.1}{.1}{1}{x\phantom{t}}{\scriptscriptstyle u(x,0)}{\draw[domain=0:1] plot (2*\x,{2.5*\x*(1-(\x*\x))});} }\hfill}
+\vfill
+\student{
+1. Find $u_{\infty}$
+\vfill
+\algn{u_t=\alpha u_{xx} &= 0 & u_{\infty}(x)&=\cancelto{1 \text{ from the BCs}}{C_0}x+C_1}
+\vfill
+The heat flux ($-\alpha u_x$) is the same at both ends is the same. There is no net change in the total amount of heat in the rod.
+\algn{\int_0^1 u(x,0) dx &= \int_0^1 u_{\infty}(x)dx\\
+\int_0^1 x(1-x^2) dx &= \int_0^1 x+C_1 dx  = \frac12 +C_1\\
+\frac12-\frac14& = \frac12 + C_1 \quad \Rightarrow C_1 = -\frac14 }
+\[u_{\infty} = x-\frac14\]
+}
+}%end slide
+
+\slide{
+\ex{\twomini[.1]{.7}{.295}{$u_t=\alpha u_{xx}$, \hspace{2em} $\arr{l}{u_x(0,t)=u_x(1,t)=1 \hspace{1em}\\u(x,0)=x(1-x^2) \text{ on } [0,1]}$}{\tikzplot[\xcoord{2}{\scriptscriptstyle 1}]{.1}{2.1}{.1}{1}{x\phantom{t}}{\scriptscriptstyle u(x,0)}{\draw[domain=0:1] plot (2*\x,{2.5*\x*(1-(\x*\x))});} }\hfill}
+\vspace{1cm}
+
+\student{
+2.  Write down a homogeneous IBVP for $w(x,t)=u(x,t)-u_{\infty}(x)$
+\algn{w_t&=\alpha w_{xx}  & w_x(0,t)&=w_x(L,t)=0 \\
+&&w(x,0)&=u(x,0)-u_\infty(x)\\
+&&&=\frac14-x^3 }
+3. Solve for $w(x,t)$
+\vfill
+Since we have zero flux boundary conditions for $w$, we know it should be represented as a sum of $\cos$ terms
+
+\[ w(x,t) = \frac{a_0}{2} + \sum e^{-\alpha n^2 \pi^2 t }a_n \cos\left( n\pi x \right) \]
+
+}
+}%end slide
+
+
+
+
+
+\slide{
+\ex{\twomini[.1]{.7}{.295}{$w_t=\alpha w_{xx}$, \hspace{2em} $\arr{l}{w_x(0,t)=w_x(1,t)=0 \hspace{1em}\\w(x,0)=\frac14 -x^3 \text{ on } [0,1]}$}{\tikzplot[\xcoord{2}{\scriptscriptstyle 1}]{.1}{2.1}{.6}{.6}{x\phantom{t}}{\scriptscriptstyle w(x,0)}{\draw[domain=0:1] plot (2*\x,{.25 - \x*\x*\x});} }\hfill}
+\vfill
+
+\student{
+
+\algn{a_n&=2 \int_0^1 \left( \frac14-x^3 \right)\cos(n\pi x)dx\\
+&\overset{\text{wolfram}}{=} -\frac{3(-1)^n\paren{\pi^2n^2-2}+6}{\pi^4 n^4} }
+
+\vfill
+\twomini[.4]{.45}{.45}{
+\algn{
+a_0 &= \frac{2}{1} \int_{0}^{1}  \frac14-x^3 dx\\
+&= 2 \left[ \frac{x}{4}-\frac{x^4}{4} \right]\evalat{0}{1}\\
+&=0
+}
+
+}{\algn{u(x,t) &= \underbrace{x-\frac14}_{u_\infty}+\underbrace{0}_{\nicefrac{a_0}{2}}\\+  \sum_{n=1}^\infty & e^{-\alpha n^2 \pi^2 t }a_n \cos\left( n\pi x \right) }}
+}
+\vfill
+\tiny
+\url{https://www.wolframalpha.com/input?key=&i=integral+of+\%281\%2F4-x\%5E3\%29cos\%28n*pi*x\%29+from+0+to+1+assuming+n+is+an+integer}
+
+}%end slide
+
+
+\slide[]{\vspace{-.5em}
+Suppose your cheap landlord has used an insulated wire of length $L$  as a basic fuse. It is made of a metal that readily converts electrical current into heat when your electrical system is near its limit. Under these conditions, its internal heat production is well-described by a source function \[\sigma(x) = 80 \frac{ \degree \text{C}}{s} \sin\left( \pi \frac{x}{L} \right), \] and its internal temperature follows the inhomogeneous heat equation \[u_t= 0.01 u_{xx} + \sigma(x). \] Find the solution $u(x,t)$ assuming that the end of the rods are connected to ice baths (i.e., its is very cold in your apartment). 
+\student{\algn{u_t &= 0.01 u_{xx}+\sigma(x) &\text{as $t\to\infty$,}& \text{ $u(x,t) \to u_\infty(x)$ }\\\\
+0&=0.01 u_{\infty}\pp(x)+\sigma(x)& \Rightarrow u_{\infty}\pp(x)&=-100 \sigma(x) }}
+}
+\slide{
+\student{
+\algn{
+\ddn{}{x}{2}u_{\infty}(x)&=-100 \times 80 \sin\left( \pi \frac{x}{L} \right)\\
+\dd{}{x}u_{\infty}(x)&=-8,000 \int \sin\left( \pi \frac{x}{L} \right) dx \\
+\dd{}{x}u_{\infty}(x)&= 8,000 \frac{L}{\pi } \cos\left( \pi \frac{x}{L} \right) + C_1\\
+u_{\infty}(x)&=\int  8,000 \frac{L}{\pi }  \cos\left( \pi \frac{x}{L} \right) + C_1 dx \\
+u_{\infty}(x)&=  8,000 \frac{L^2}{\pi^2 }  \sin\left( \pi \frac{x}{L} \right) + C_1x+C_2 \intertext{Find $C_1$ and $C_2$ by matching the boundary conditions $u(0)=u(L)=0$}
+u_\infty(0)&=0=C_2&\Rightarrow C_2&=0\\
+u_\infty(L)&=0=C_1L&\Rightarrow C_1&=0
+}
+\[u_{\infty}(x) = 8,000 \frac{L^2}{\pi^2 }  \sin\left( \pi \frac{x}{L} \right)   \]
+}
+}
+
+
+\slide{
+\student{
+Define a new PDE for $w(x,t)=u(x,t)-u_{\infty}$
+\vfill
+Assume that the wire is initially at thermal equilbrium with the environment, i.e., \[u(x,0)=0\]
+\algn{w_t&=0.01w_{xx} & w(0,t)&=w(L,t)=0\\
+&&w(x,0)&= \underbrace{-8,000 \frac{L^2}{\pi^2 }  \sin\left( \pi \frac{x}{L} \right)}_{\text{Fourier Sine Series }}\intertext{only $n=1$ term is non-zero}}\vspace{-5em}
+\algn{
+w(x,t)&=-8,000  \frac{L^2}{\pi^2 }  e^{-0.01\frac{\pi^2}{L^2} t}  \sin\left( \pi \frac{x}{L} \right)\\
+u(x,t)&= 8,000  \frac{L^2}{\pi^2 }  \left(1-e^{-0.01\frac{\pi^2}{L^2} t}\right)  \sin\left( \pi \frac{x}{L} \right)}
+}
+}
+
+\slide[Formulas for finding $u_\infty(x)$: Inhomogeneous BCs]{\vspace{-1.5em}
+\[u_t=\alpha u_{xx} \qquad u(x,t)=u_0(x) \quad \text{with }x \in [0,L] \]
+At steady state $u_t=0 \implies u=u_\infty(x)$
+\student{\[u\pp_\infty(x)=0 \implies u_\infty(x) = C_1+C_2x\]}
+\vspace{-.75em}
+\itmz{
+\item $u(0,t)=a,\quad u(L,t)=b$\vspace{-.25em}\student{\[u_\infty(x) = a + \frac{b-a}{L}x\]}\vspace{-.75em}
+\item $u_x(0,t)=u_x(L,t)=a$\vspace{-.5em}\student{\[u_\infty(x) = \left( \frac{\int_0^L u_0(x)dx}{L}-\frac{aL}{2} \right) + ax \]}
+
+}\vfill
+
+}
+
+\slide[Formulas for finding $u_\infty(x)$: Inhomogeneous PDE]{\vspace{-1.5em}
+\[u_t=\alpha u_{xx}+\sigma(x) \qquad u(x,t)=u_0(x) \quad \text{with }x \in [0,L] \]
+\student{\[\alpha  u\pp_\infty(x)=-\sigma(x) \implies u_\infty(x) = \underbrace{-\frac{1}{\alpha} \iint \sigma(x) dx^2}_{S(x)} + C_1 x + C_2\]}
+\vfill
+\itmz{
+\item $u(0,t)=a,\quad u(L,t)=b$\vspace{-.25em}\student{
+\algn{C_2&=a-S(0)&C_1&=\frac{b-S(L)-C_2}{L}
+}
+}
+
+}\vfill
+
+}
+
+\end{document}

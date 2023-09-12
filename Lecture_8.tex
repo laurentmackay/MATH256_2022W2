@@ -1,0 +1,136 @@
+\input{notes.tex}
+
+
+\iftoggle{dualscreen}{\setbeameroption{show notes on second screen=right}}{}
+
+
+\begin{document}
+
+\section{Lecture 8}
+\subsection{Introduction}
+\slide[Review: Method of Undetermined Coefficients]{
+$ay\pp+by\p+cy=h(t)\neq0 \qquad  \Rightarrow \quad  y = y_p(t) + c_1y_1(t)+c_2y_2(t) $\vfill
+How to find $y_p$:
+\enum{
+\item Differentiate $h(t)$ to get functional forms \student{\[\{f_1(t), f_2(t), f_3(t),\dots \}\]}
+\item If there are a finite number of functions, guess \[y_p = \student{Af_1(t) +Bf_2(t) + Cf_3(t)+\dots}\]
+\item Plug $y_p$ into ODE
+\item Solve for undetermined coefficients ($A, B, C\dots$)
+}
+}
+
+\slide[Solving for undetermined coefficients ($A, B, C\dots$) ]{
+$ay\pp+by\p+cy=h(t)\neq0 \qquad  \Rightarrow \quad  y = y_p + c_1y_1(t)+c_2y_2(t) $
+ \[y_p = Af_1(t) +Bf_2(t) + Cf_3(t)+\dots\]
+We obtain a linear system of equations, $n$ equations $n$ unknowns 
+\[\mathbf{M} \mat{c}{A\\B\\C\\\vdots} = \mathbf{v}.\]\vfill
+\student{If any of the functions $f_i$ are linearly dependent with $y_1(t)$ or $y_2(t)$, we have an underdetermined system of equations...we won't find a unique solution. 
+\vfill
+This situation is called mathematical resonance.
+}
+}
+\subsection{Mathematical Resonance}
+\slide[Dealing with mathematical resonance]{\vspace{-.5em}
+$ay\pp+by\p+cy=h(t)\neq0 \qquad  \Rightarrow \quad  y = y_p + c_1y_1(t)+c_2y_2(t) $\vfill
+Suppose the family of functional for $h(t)$ is \[\{f_1(t), f_2(t), f_3(t) \}\]  where $f_3(t)$  and $y_1(t)$ are linearly dependent. \vfill 
+\student{Recall: when we had repeated roots for the homogeneous case, we obtained a new linearly dependent function by multiplying by $t$.}\vfill
+Then we should guess
+\[y_p = \student{ Af_1(t) + Bf_2(t) +Ctf_3(t)}\]
+\student{If $tf_3(t)$ is linearly dependent with $y_2(t)$, then use  $t^2f_3(t)$ instead.}
+}
+
+\slide[A simple example of mathematical resonance]{\vspace{-2em}
+\algn{y\pp + y &= h(t)=\sin \omega t \\ y_h &= c_1\cos( t) + c_2\sin (t)}
+\student{Family of functional forms for $h(t)$\[\{\cos(\omega t), \sin(\omega t)\}\]
+Naive guess:\[y_p =  A\cos(\omega t)+B\sin(\omega t) \]\vfill
+Notice that if $\omega=1$, then $y_p=y_h$ \hfill (not good!)\vfill
+\twomini[.2]{.5}{.5}{\algn{&\uline{\omega  \neq 1}\\
+y_p &= A\cos(\omega t)+B\sin(\omega t) }}{\algn{&\uline{\omega  = 1}\\
+y_p &= At\cos(\omega t)+Bt\sin(\omega t) }}
+}
+}
+
+\slide[Practice]{\twocols{\enum{[(1)]
+\item $y\p+6y=\cos t +t^2$  \vspace{-1em} \student{\algn{y_h &=c_1e^{-6t} \\ \text{family} &=\left\{\cos t,\sin t, t^2, t, 1\right\} \\ y_p =& A\cos t +B \sin t \\& +C t^2+Dt+E}} \vspace{-2.5em}
+\item $y\pp=t^2$ \student{\hfill $y_h=c_1+c_2t$\algn{\text{family} &=\left\{t^2,\uline{t},\uline{1}\right\} \\ y_p &= At^2+Bt^4+Ct^4}}\vspace{-2em}
+\item $y\pp + 3y\p+2y=5e^{-t}$ \vspace{-1em} \student{\algn{y_h &=c_1e^{-t}+c_2e^{-2t}\\ \text{family} &=\left\{\uline{e^{-t}}\right\} \\ y_p &= Ate^{-t}}} \vspace{-2.5em}
+}}{\enum{ 
+\item[(4)] $y\pp+2y\p+y=12e^{-t}$\vspace{-1em} \student{\algn{y_h &=c_1e^{-t}+c_2 t e^{-t} \\ \text{family} &=\left\{\uline{e^{-t}}\right\} \\ y_p &= At^2e^{-t}}} \vspace{.5em}
+\item[(5)] $y\pp+6y\p=\cos t +t^2$ \vspace{-1em} \student{\algn{y_h &=c_1e^{-6t} + c_2 \\ \text{family} &=\left\{\cos t,\sin t, t^2, t, \uline{1}\right\} \\ y_p =& A\cos t +B \sin t \\& +C t^2+Dt+Et^3}} \vspace{-2.5em}
+}}
+}%end slide
+
+\slide{Find the general solution of $y\pp+5y\p+4y=e^{-4t}$
+\student{\algn{r_{1,2}&=\frac{-5\pm\sqrt{25-16}}{2} = \frac{-5\pm3}{2} = -1, -4\\
+y_h &= c_1 e^{-t} +\underbrace{c_2e^{-4t}}_{\propto h(t)}\\
+\text{Try: }\quad y_p&=Ate^{-4t}\\
+y_p\p &= A \left( e^{-4t} - 4te^{-4t}\right)\\
+y_p\pp &= -Ae^{-4t} -4A \left(e^{-4t}  - 4te^{-4t}\right)\\
+&= -8Ae^{-4t} + 16 Ate^{-4t}
+}
+}
+}
+\slide{
+\student{\algn{\intertext{plug into DE:}
+-8Ae^{-4t} +16 Ate^{-4t} &+ 5Ae^{-4t} -20Ate^{-4t} + 4Ate^{-4t} =e^{-4t}\\
+(-8+5)Ae^{-4t} +& (20-20)te^{-4t} =e^{-4t}\\
+-3Ae^{-4t} &=e^{-4t}\\\\
+A&=-\frac13\\\\
+y &=c_1e^{-4t}+c_2e^{-t} -\frac13te^{-4t}
+}}}
+
+
+\slide{Find the general solution of $y\pp+4y\p+4y=e^{-2t}$
+\student{\algn{r_{1,2}&=\frac{-4\pm\sqrt{16-16}}{2} = -2\\
+y_h &=\underbrace{c_1e^{-2t}}_{\propto h(t)} + c_2te^{-2t}\\
+\text{Try: }\quad y_p&=At^2e^{-2t}\\
+y_p\p &= A \left( 2te^{-2t} - 2t^2e^{-2t}\right)\\
+y_p\pp &= 2A \left( e^{-2t} - 2te^{-2t}\right) -2A  \left( 2te^{-2t} - 2t^2e^{-2t}\right)\\
+&=4 At^2 e^{-2 t} -8 At e^{-2 t} +2 A e^{-2 t}
+}
+}}
+\slide{\student{\algn{ \intertext{plug into DE:}
+4 At^2 e^{-2 t} -8 At e^{-2 t}& +2 A e^{-2 t} +  8A  te^{-2t} -  8At^2e^{-2t} + 4At^2e^{-2t} =e^{-2t}\\
+(-8+8)At^2e^{-2t} +& (-8+8)te^{-2t}+2Ae^{-2t} =e^{-2t}\\
+2Ae^{-2t} &=e^{-2t}\\\\
+2A&=1 \qquad \Rightarrow A=\frac12\\\\
+y &= c_1 e^{-2t} +c_2te^{-2t} + \frac12 t^2e^{2t}
+}
+}
+}
+\subsection{Summary}
+\slide[\begin{minipage}{.5\textwidth}Method of Undetermined\\ Coefficients:\end{minipage}\hfill\begin{minipage}{.34\textwidth}$\rarray{ay\pp+by\p+cy=h(t)\\y(t)=y_p(t)+y_h(t)}$\end{minipage}]{
+
+\small
+\vfill
+\begin{table}\setlength\extrarowheight{5pt}
+\begin{tabular}{|c|c|}
+\hline 
+Form of function $h(t)$ & Geuss for $y_{p}\left(t\right)$\tabularnewline
+\hline 
+\hline 
+$\sum_{j=0}^{N}B_{j}t^{j}$ & $\sum_{j=0}^{N}A_{j}t^{j}$\tabularnewline
+\hline 
+$e^{\lambda t}$ & $Ae^{\lambda t}$\tabularnewline
+\hline 
+$\sin \omega t$ or $\cos  \omega t$ & $A\sin \omega t+B\cos \omega t$\tabularnewline
+\hline 
+$e^{\lambda t}\sin \omega t$ or $e^{\lambda t}\cos \omega t$ & $e^{\lambda t}A\sin \omega t+e^{ \lambda t}B\cos \omega t$\tabularnewline
+\hline 
+Additive combinations of above & Additive combinations of above\tabularnewline
+\hline 
+Multiplicative combinations of above & Multiplicative combinations of above\tabularnewline
+\hline 
+Part of the homogeneous solution {\tiny Note}\footnotemark& $Ath(t) \text{ or } At^2h(t)$ \text{ or } \dots \tabularnewline
+\hline 
+Anything else & You are out of luck\tabularnewline
+\hline 
+\end{tabular}
+\end{table}\vfill
+
+\footnotetext[1]{Note: This corresponds to resonance. }
+\footnotetext[2]{Note: $b_j$ , $c_j$ , $b$, $c$, $A$, and $B$ are all constants in the above table}
+
+
+}
+\end{document}

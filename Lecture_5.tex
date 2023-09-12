@@ -1,0 +1,191 @@
+\input{notes.tex}
+
+
+\iftoggle{dualscreen}{\setbeameroption{show notes on second screen=right}}{}
+
+\begin{document}
+\section{Lecture 5}
+\subsection{Introduction}
+\slide[Lecture 4 Summary]{\vspace{-.75em}
+Linear 2$^{nd}$ order homogeneous ODEs with constant coefficients \[ ay\pp +by\p+cy=0\]
+ Ansatz method:
+\enum{\item Guess $y(t)=e^{rt}$ \item Plug guess into the ODE \item Find (up to) 2 values of $r$  }\[y=c_1e^{r_1t}+c_2e^{r_2t}\]
+\vfill
+\student{Some questions: \vfill\enum{\item Why do we add up the two solutions? Are there more solutions?\vfill \item Does this guessing method always work?}}
+
+}%end slide
+\subsection{Linearity + Superposition}
+\slide[Differential Operators]{
+$\op{y(t)}\coloneqq\dd{}{t}y(t)$ is a differential operator applied to the function $y(t)$.
+\vfill
+\student{\centerline{Takes a function $y(t)$ and returns it derivative}}
+\vfill
+$\op{y(t)}\coloneqq ay\pp +by\p+cy$ is also a differential operator...\vfill
+\hrule\vfill
+Operator form of a generic inhomogeneous ODE:
+\student{\[\op{y(t)} = h(t)\]}
+
+}
+
+\slide[Linear Operators]{
+An operator is called \alert{linear} if it has the following propertes for \uline{any} two function $f(t)$ and $g(t)$ and \uline{any} constant $c$.\vfill
+\student{
+\enum{\item $\op{f(t)+g(t)} = \op{f(t)} + \op{g(t)}$ \item $\op{cf(t)} = c\op{f(t)}$ }
+\vfill
+Note: Linear ODEs have linear differential operators
+}
+}
+
+\slide[Superposition Principle]{
+Suppose the functions $y_1(t)$ and $y_2(t)$ both independently solve a \uline{linear} homogeneous ODE\[ \op{y}=0\] then \[y_h =c_1y_1 + c_2y_2\] is also a solution to the same ODE.\vfill
+\student{
+Proof:
+\algn{\op{c_1y_1+c_2y_2} &\overset{\text{Linearity 1}}{=}  \op{c_1y_1}+\op{c_2y_2}\\
+&\overset{\text{Linearity 2}}{=} c_1\op{y_1} + c_2 \op{y_2}\\
+&\quad\;\; =c_1\cdot 0 + c_2 \cdot 0  \\&\quad\;\; = 0
+}}
+}
+
+\slide[Linear dependence of functions]{
+\itmz{
+\item Two functions $f(t)$ and $g(t)$ are \textbf{linearly dependent} on the interval $t \in I=[\alpha,\beta]$ if there exist a non-zero constant $k$
+such that \[f(t)= kg(t)  \quad \forall t\in I\] 
+\vfill
+\twomini[.4]{.5}{.5}{
+Linearly Dependent\\
+\tikzplot{.1}{4.3}{.1}{1.25}{t}{}{
+\draw[red ,domain=0:2.5, samples=120,  thick] plot ({\x}, {0.16*\x*\x}) node[right]{$f(t)=4t^2$};
+\draw[blue ,domain=0:2.5, samples=120,  thick] plot ({\x}, {0.04*\x*\x}) node[right, ]{$g(t)=t^2$};
+}
+}{
+Not Linearly Dependent\\
+\tikzplot{.1}{4}{.65}{.65}{t}{}{
+\draw[red ,domain=0:2.5, samples=120,  thick] plot ({\x}, {0.06*exp(\x)}) node[right, xshift=-.6em, yshift=-.7em]{$f(t)=e^t$};
+\draw[blue ,domain=0:2.5, samples=120,  thick] plot ({\x}, {0.4*sin(4*deg(\x))}) node[right, yshift=-.6em, xshift=-2em]{$g(t)=\sin(t)$};
+}
+
+}
+\vfill
+\item If functions are not linearly dependent on $I$, then we say they are \textbf{linearly independent} on $I$.
+\vfill
+
+}
+}
+
+\slide[Completeness of solutions]{
+Suppose that $y_1(t)$ and $y_2(t)$ both solve a 2$^{nd}$ order linear homogeneous ODE\[\op{y}=0\]
+If $y_1$ and $y_2$ are linearly independent functions, then the general solution to the homogeneous problem is\[y_g(t)=c_1y_1(t)+c_2y_2(t)\]
+
+\student{
+
+\alert{General Solution:} Solution with arbitrary constants that solves ALL possible scenarios where solutions exist.
+\vfill
+Proof = long and tedious (linear algebra + method of integrating factors)\vfill
+
+Take home message:\vfill
+\centerline{2$^{nd}$ order linear homogeneous $\Rightarrow$ $\exists$ 2 linearly independent solutions}\vfill
+}
+
+}
+
+\subsection{The characteristic polynomial and its roots}
+\slide[Solutions to $ay\pp+by\p+cy=0$]{
+Lets try an \uline{ansatz} of $y(t)=e^{rt}$ ... where $r$ is unknown \student{(ansatz method)}\vspace{-.35em}
+\student{\algn{a\ddn{}{t}{2} e^{rt} +b \dd{}{t} e^{rt} + ce^{rt}&=0\\
+ ar^2e^{rt} + bre^{rt} + ce^{rt}&=0 &
+e^{rt}\left( ar^2+br+c\right)&=0}}
+Since $e^{rt} \neq 0$, the ODE can only have a solution $y(t)=e^{rt}$ if \student{\[ ar^2+br+c=0\]} called the \textbf{characteristic equation}.
+\vfill
+Possible values of $r$: \student{\[r=r_{1,2}=\frac{-b\pm\sqrt{b^2-4ac} }{2a}\]}
+}
+
+%\slide[General applicability of the ansatz method]{
+%Linear 2$^{nd}$ order homogeneous ODEs with constant coefficients \[ ay\pp +by\p+cy=0\]\vfill
+%Guess $y(t)=e^{rt}$\vfill
+%\student{
+%\algn{y\p&=re^{rt} & y\pp&=r^2e^{rt} \\
+%\text{Plug into ODE: }& ar^2 \cancel{e^{rt}} + b r  \cancel{e^{rt}}+ c \cancel{e^{rt}} =0\\\\
+%\underbrace{ar^2+br+c}_{\text{characteristic poly.}}&=0 &r=&\text{ zeros of a 2$^{nd}$ degree poly.}\\
+%r_{1,2} &= \frac{-b\pm\sqrt{b^2-4ac}}{2a}  }
+%}
+%}
+
+%\slide{\vspace{-1.5em}
+% \[ ay\pp +by\p+cy=0 \quad + \quad y=e^{rt} \quad \Rightarrow  \quad r_{1,2} = \frac{-b\pm\sqrt{b^2-4ac}}{2a} \]\vfill
+%Three major cases:
+%\student{
+%\enum{\item Real and distinct values $r_{1,2}$ \[y=c_1e^{r_1 t} + c_2 e^{r_2 t}\] \vfill\item Repeated real value of $r$ \[y_h=c_1e^{rt} + c_2 t e^{rt}\] \vfill \item Complex conjugate values of $r=\alpha \pm i\beta$ \[y_h = c_1e^{(\alpha + i\beta t)}+ c_2e^{(\alpha - i\beta t)} \quad \Leftrightarrow \quad y_h =e^{\alpha t} \paren{d_1\cos(\beta t)  + d_2 \sin(\beta t) }  \] }}
+%}
+\slide[Roots of the characteristic equation (polynomial)]{
+\[r=r_{1,2}=\frac{-b\pm\sqrt{b^2-4ac} }{2a}\]
+Three main cases:\student{
+\enum{\item Two distinct real roots: $\underbrace{b^2-4ac}_{\text{discriminant}}>0$ \vfill
+\item Repeated real roots: discriminant $= 0$ \vfill \item Complex conjugate roots: discriminant $<0$}}
+}
+
+\slide[Case 1:  distinct real roots]{
+\[y_h(t)=c_1e^{r_1 t} + c_2 e^{r_2 t}; \qquad r_{1,2}=\frac{-b\pm\sqrt{b^2-4ac} }{2a}\] 
+ Two major subcases:
+\student{\enum{
+\item $ac\geq0$ :\vfill
+ Both roots have the same sign.\vfill
+$y_1$ and $y_2$ both grow or decay exponentially.
+\vfill
+\item $ac<0$:
+\vfill
+The two roots have opposite sign.
+\vfill
+One solution grows exponentially, the other decays exponentially.
+
+}}
+
+
+}
+
+
+
+
+\slide[Qualitative Behaviour: distinct real roots]{\vspace{-1em}
+Sum of real exponential functions, three subcases:\vfill
+\student{
+\enum{
+\item All positive roots, $0<\textcolor{blue}{r_1}<\textcolor{red}{r_2}$.\\
+\tikzplot{.1}{4}{.1}{1.25}{t}{}{
+\draw[red ,domain=0:4, samples=120,  thick] plot ({\x}, {0.01*exp(2*\x)});
+\draw[blue ,domain=0:4, samples=120,  thick] plot ({\x}, {0.01*exp(\x)});
+}
+\vfill
+\item  Mixed roots, $\textcolor{blue}{r_1}<0<\textcolor{red}{r_2}$.\\
+\tikzplot{.1}{4}{.1}{1.25}{t}{}{
+\draw[blue ,domain=0:4, samples=120,  thick] plot ({\x}, {1*exp(-2*\x)});
+\draw[red ,domain=0:4, samples=120,  thick] plot ({\x}, {0.05*exp(\x)});
+}
+\vfill
+\item All negative roots,  $\textcolor{blue}{r_1}<\textcolor{red}{r_2}<0$.
+\\
+\tikzplot{.1}{4}{.1}{1.25}{t}{}{
+\draw[red ,domain=0:4, samples=120,  thick] plot ({\x}, {exp(-1*\x)});
+\draw[blue ,domain=0:4, samples=120,  thick] plot ({\x}, {exp(-2*\x)});
+}
+}
+}
+}
+\subsection{Summary}
+
+\slide[Summary]{
+\itmz{
+\item Superposition of Homogeneous solutions
+\[y_h = c_1 y_1 + c_2 y_2\]\vfill
+\item Linear independence of homoegeneous solutions
+\[y_g=c_1y_1 +c_2y_2  \quad \Rightarrow \quad y_1 \neq k y_2; \quad k=\text{constant}\]
+$y_g=$ general solution, solves ALL scenarios where a solution exists.\vfill
+\item $ay\pp +by\p+cy=0$\vfill
+\centerline{Try \uline{ansatz} $y=e^{rt}$ \hspace{3em} $\rightarrow$\hspace{3em}$e^{rt}\cdot \underbrace{(ar^2+br+c)}_{\text{characterisitc polynomial}} = 0$}
+\vfill
+\[r_{1,2} = \frac{-b\pm\sqrt{b^2-4ac} }{2a}\]
+}
+
+}
+
+
+\end{document}

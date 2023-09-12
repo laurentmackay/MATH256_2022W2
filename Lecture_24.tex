@@ -1,0 +1,142 @@
+
+\input{notes.tex}
+
+\iftoggle{dualscreen}{\setbeameroption{show notes on second screen=right}}{}
+
+
+\begin{document}
+\section{Lecture 24}
+\subsection{Introduction}
+
+\slide[ Homogeneous Heat Equation]{\vspace{-2.5em}
+\algn{\larray{u_t= \alpha u_{xx}\\\text{for } x\in[0,L]} \; \text{with }& \larray{u(0,t)=u(L,t)=0 \\ \qquad \qquad \qquad  \text{\uline{or}} \\ u_x(0,t)=u_x(L,t)=0} &\text{and}\quad  &u(x,0)=u_0(x)}
+\vfill
+\[\boxed{u(x,t)=\frac{a_0}{2} + \sum_{n=1}^\infty e^{-\alpha \frac{n^2\pi^2}{L^2} t} \left( a_n \cos\left(\frac{n\pi}{L} x\right) +  b_n \sin\left(\frac{n\pi}{L} x\right) \right)  }\]\vfill
+\twomini[.45]{.5}{.5}{
+ \uline{$u(0,t)=u(L,t)=0$}: $\quad$\vfill
+Fourier sine series
+\small 
+\algn{a_n &= 0\\b_n&=\frac{2}{L}\int_0^L u_0(x) \sin\paren{\frac{n\pi}{L}x} dx }
+}{
+\uline{$u_x(0,t)=u_x(L,t)=0$}: \vfill 
+Fourier cosine series
+\small
+\algn{a_n &= \frac{2}{L}\int_0^L u_0(x) \cos\paren{\frac{n\pi}{L}x} dx\\b_n&=0 }
+}
+}
+\subsection{Behaviour of Solutions}
+\slide[]{
+The heat equation smooths out initial conditions.
+\vfill
+\ex{$u_0(x)=u_{\frac{L}{4}}(x)-u_{\frac{3L}{4}}(x) = H\paren{x-\frac{L}{4}} - H\paren{x-\frac{3L}{4}}$}\vfill
+\twomini[.7]{.5}{.5}{
+ \uline{$u(0,t)=u(L,t)=0$}: \vfill
+\centerline{\includegraphics[width=0.9\columnwidth]{images/clamped_BCs_heaviside.pdf}}
+}{
+ \uline{$u_x(0,t)=u_x(L,t)=0$}: \vfill
+\centerline{\includegraphics[width=0.9\columnwidth]{images/zero_flux_BCs_heaviside.pdf}}}
+}
+
+\slide[Short-term Behaviour]{\vspace{-2em}
+\[ u(x,t) =\frac{a_0}{2} + \sum_{n=1}^\infty\underbrace{ e^{-\alpha \frac{n^2\pi^2}{L^2} t}}_{\larray{\\\text{Exp. Decay}}} \cdot \; \underbrace{ \left( a_n \cos\left(\frac{n\pi}{L} x\right) +  b_n \sin\left(\frac{n\pi}{L} x\right) \right)}_{\text{$n^{th}$ Fourier Mode}}  \]
+\vfill
+\twomini[.7]{.45}{.55}{
+\centerline{\includegraphics[width=\columnwidth]{images/clamped_BCs_heaviside.pdf}}
+}{
+\student{
+\itmz{\item Sharp edges in the initial condition require high frequncy modes ($n\gg1$).
+\item The exp. decay rate grows with $n^2$.
+\item High frequency modes decay the fastest. 
+\item Sharp features get smoothed out very quickly.
+
+}
+}
+}
+}
+
+\subsection{Asymptotic Approximation}
+\slide[Long-term Behaviour]{
+As $t\to\infty$,
+\algn{
+\lim_{t\to\infty} u(x,t) &=\frac{a_0}{2} + \sum_{n=1}^\infty e^{-\alpha \frac{n^2\pi^2}{L^2} t} \left( a_n \cos\left(\frac{n\pi}{L} x\right) +  b_n \sin\left(\frac{n\pi}{L} x\right) \right) \\
+&=\frac{a_0}{2}} 
+
+For finite $t\gg0$, we can just keep the first non-zero term in the infinite sum. All other terms decay much much faster.
+\vfill
+\twomini[.25]{.5}{.5}{
+ \uline{$u(0,t)=u(L,t)=0$}: $\quad$\vfill
+
+\small 
+\[u(x,t) \approx e^{-\alpha \frac{\pi^2}{L^2}t}b_1\sin\paren{\frac{\pi}{L}x} \]
+}{
+\uline{$u_x(0,t)=u_x(L,t)=0$}: \vfill 
+\small
+\[u(x,t) \approx \frac{a_0}{2} + e^{-\alpha \frac{\pi^2}{L^2}t}a_1\cos\paren{\frac{\pi}{L}x} \]
+}
+}
+
+
+\slide{
+\uline{$u(0,t)=u(L,t)=0$}: $u(x,t) \approx e^{-\alpha\frac{\pi^2}{L^2}t}b_1\sin\paren{\frac{\pi}{L}x}$\vfill 
+\centerline{\includegraphics[width=12cm]{images/clamped_BCs_long_term.pdf}}\vfill
+\uline{$u_x(0,t)=u_x(L,t)=0$}: $u(x,t) \approx \frac{a_0}{2} + e^{-\alpha\frac{\pi^2}{L^2}t}a_1\cos\paren{\frac{\pi}{L}x} $ \vfill 
+\centerline{\includegraphics[width=7cm]{images/zero_flux_BCs_long_term.pdf}}
+
+}
+
+
+\slide{
+\ex{\twomini[.1]{.7}{.295}{$u_t=\alpha u_{xx}$, \hspace{2em} $\arr{l}{u(0,t)=u(1,t)=0 \hspace{1em}\\u(x,0)=x(1-x) \text{ on } [0,1]}$}{\tikzplot[\xcoord{2}{\scriptscriptstyle 1}]{.1}{2.1}{.1}{1}{x\phantom{t}}{\scriptscriptstyle u(x,0)}{\draw[domain=0:1] plot (2*\x,{3*\x*(1-(\x))});}}\hfill}
+\vfill
+\student{
+BCs $\Rightarrow$ only $\sin$ terms survive.\vspace{-.75em}
+\algn{u(x,t)&=\sum_{n=1}^\infty b_n \sin(n \pi x)e^{-\alpha n^2\pi^2 t}\\
+u(x,0) &=\sum_{n=1}^\infty b_n \sin(n \pi x) =x(1-x)\\
+b_n&=\frac{2}{1} \int_0^1 u(x,0)\sin(n\pi x)dx=2 \int_0^1 x(1-x)\sin(n\pi x)dx\\
+&\overset{\text{wolfram}}{=} 2\paren{\frac{-2((-1)^n-1)}{n^3\pi^3}}\qquad  \Rightarrow \qquad \boxed{ b_n =-\frac{4}{\pi^3}\frac{(-1)^{n}-1}{n^3}}}
+}\vfill
+\tiny
+\url{https://www.wolframalpha.com/input?i=integral+of+x\%281-x\%29sin\%28n*pi*x\%29+from+0+to+1+assuming+n+is+an+integer}
+}%end slide
+
+\slide{Given \[u(x,t)=-\sum_{n=1}^\infty \frac{4}{\pi^3}\frac{(-1)^{n}-1}{n^3}  \sin(n \pi x)e^{-\alpha n^2\pi^2 t}\]  suppose that after 100 time units the hottest point in the domain is at half of its initial temperature, find an approximation for $\alpha$.
+\student{
+\algn{\text{Initial Condition: }u_0(x)&=x(1-x) \\\Rightarrow x_{\rm max} &= \frac12 &u_0(x_{\rm max})&=\frac14\\
+\text{Long-term: } u(x,t) &\approx  \frac{8}{\pi^3}  \sin( \pi x) e^{-\alpha \pi^2 t} \intertext{approximation also has its max at $x=1/2$}
+ \frac{8}{\pi^3}  e^{-\alpha \pi^2 100 }& \approx \frac18 & \alpha &\approx -\frac{1}{100 \pi^2} \log\left(   \frac{\pi^3}{64}\right)\\
+&&\alpha&\approx 7.34\times10^{-4}
+}
+}
+}
+
+\slide{
+\ex{\twomini[.1]{.7}{.295}{$u_t=0.1 u_{xx}$, \hspace{2em} $\arr{l}{u_x(0,t)=u_x(1,t)=0 \hspace{1em}\\u(x,0)=x(1-x) \text{ on } [0,1]}$}{\tikzplot[\xcoord{2}{\scriptscriptstyle 1}]{.1}{2.1}{.1}{1}{x\phantom{t}}{\scriptscriptstyle u(x,0)}{\draw[domain=0:1] plot (2*\x,{3*\x*(1-(\x))});}}\hfill}
+\vfill
+\student{
+BCs $\Rightarrow$ only $\cos$ terms survive.\vspace{-.75em}
+\algn{u(x,t)&=\sum_{n=1}^\infty a_n \sin(n \pi x)e^{-0.1 n^2\pi^2 t}\\
+u(x,0) &=\sum_{n=1}^\infty a_n \sin(n \pi x) =x(1-x)\\
+a_n&=\frac{2}{1} \int_0^1 u(x,0)\cos(n\pi x)dx=2 \int_0^1 x(1-x)\sin(n\pi x)dx\\
+&\overset{\text{wolfram}}{=} -2\frac{(-1)^n+1}{\pi^2 n^2}\\
+a_0&=\frac{2}{1}\int_0^1 x(1-x)dx = \frac{2}{6}}
+}\vfill
+\tiny
+\url{https://www.wolframalpha.com/input?i=integral+of+x\%281-x\%29cos\%28n*pi*x\%29+from+0+to+1+assuming+n+is+an+integer}\vfill
+\url{https://www.wolframalpha.com/input?i=integral+of+x\%281-x\%29+from+0+to+1}
+}%end slide
+
+\slide{Given \[u(x,t)= \frac16 - 2 \sum_{n=1}^\infty  \frac{(-1)^n+1}{\pi^2 n^2} \cos(n \pi x)e^{-0.1 n^2\pi^2 t}\] approximately how long does it take for the endpoints of the domain to be within 1\% of their steady state value?\\
+\student{
+$n=1$ has a coefficient of zero, use $n=2$ instead for approximation.
+\algn{\text{Long-term: } u(x,t) &\approx  \frac16 -2\frac{2}{4\pi^2}  \ \cos( 2 \pi x) e^{-0.4 \pi^2 t}\\
+ \text{Steady state: } u_{\infty}(x) &= \frac{1}{6}\\
+u_\infty(x) -u(L,t) &\approx  \frac{1}{\pi^2}   \cos(2 \pi x) e^{-0.4 \pi^2 t}\\
+\text{$x=0$ or $x=1$: }& \frac{1}{\pi^2}   e^{-0.4 \pi^2 t} \approx  1\%\times\frac16\\
+t&\approx-\frac{1}{0.4\pi^2}\log\paren{\frac{0.01\pi^2}{6}}\\
+&\approx 1.04 \text{ time units}
+}
+}
+}
+
+
+\end{document}

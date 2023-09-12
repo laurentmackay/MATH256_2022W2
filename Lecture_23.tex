@@ -1,0 +1,377 @@
+\input{notes.tex}
+
+\iftoggle{dualscreen}{\setbeameroption{show notes on second screen=right}}{}
+
+
+\begin{document}
+
+\section{Lecture 23}
+\subsection{Introduction}
+\settoggle{covered}{true}
+\slide[Partial Differential Equations (PDEs)]{
+A PDE is a DE for a function $u\left(x_1, x_2,\dots \right)$ that depends on 2 or more independent variables and contains partial derivatives taken with respect to at least 2 variables.\vfill
+\student{
+\ex{1D Heat Equation}\[\pd{}{t}u(x,t) = \alpha \pdn{}{x}{2}u(x,t)\]or
+\[u_t = \alpha u_{xx}\]
+
+\vfill
+Partial derivatives are used so we get the same results in non-euclidean coordinates (e.g., speherical, polar, etc) \vfill
+
+\vfill
+Trick: convert PDE into an (infinite) system of ODEs and solve those ODEs instead.
+
+}
+}
+
+\slide[1D Heat Equation - An Initial Boundary Value Problem]{
+Let $u(x,t)$ be the temperature at the position $x\in\student{\underbrace{\ucover{[0,L]}}_{\text{domain}}}$ and the time t\vfill
+The heat equation tells us the evolution of the distribution of heat throughout the domain (e.g., a 1D rod) from some initial condition $u_0(x)$.
+\algn{ &\qquad\quad \student{\text{(Homogeneous)}}\\& \qquad \text{\uline{Boundary Conditions}}\quad && \text{\uline{Initial Condition}}\\
+\larray{u_t= \alpha u_{xx}\\\text{for } x\in[0,L]} \; \text{with }& \larray{\student{\overbrace{\ucover{u(0,t)=u(L,t)=0}}^{\text{\large rod connected to ice baths}}} \\ \qquad \qquad \qquad  \text{\uline{or}} \\ \student{\underbrace{\ucover{u_x(0,t)=u_x(L,t)=0}}_{\quad \qquad \text{\Large insulated rod}\qquad }}} &\text{and}\quad  &u(x,0)=u_0(x)}
+\vfill
+\student{$\alpha=$ thermal diffusivity}
+}
+\subsection{Separation of Variables}
+
+
+\slide[Separation of Variables]{\vspace{-1.5em}
+\[\pd{}{t}u(x,t) = \alpha \pdn{}{x}{2}u(x,t) \]
+ \vfill
+Guess: $u(x,t) = X(x)T(t)$\algn{
+X(x)T\p(t)&=\alpha X\pp(x)T(t)\\\\
+\frac{T\p(t)}{\alpha T(t)} &= \frac{X\pp(x)}{X(x)}}\vfill
+\student{
+This can only be true  if each fraction is a constant\vfill
+\[ \frac{T\p(t)}{ \alpha T(t)} =  \frac{X\pp(x)}{X(x)} = -\lambda \qquad \Leftrightarrow \qquad \rarray{  X\pp(x) + \lambda X(x)=0\\ \text{and} \qquad \qquad \text{~} \\T'(t) =-  \alpha \lambda T(t)  }\]
+}
+}
+
+
+\slide[$X\pp + \lambda X = 0\quad $ \small with BCs:  \hfill $X(0)=X(L)=0$ \hfill or \hfill $X\p(0)=X\p(L)=0$]{\vspace{-1em}
+
+Non-zero solutions exist only for $\lambda=\lambda_n = \left(\frac{n\pi}{L}\right)^2$ with $n\in\mathbb{N^+}$ or $n=0$.\vfill
+$\uline{\lambda = 0}$
+\[ X_0\pp = 0 \]\vspace{-1em}
+\student{\[X_0(x) = A_0 + \cancelto{\text{does not match BCs}}{B_0x}\]\vfill}
+$\uline{\lambda > 0}$
+\[X_n\pp  + \lambda_n X_n  = 0 \qquad \text{try}\qquad X_n (x) =c_n e^{rx}\]\vfill
+\twomini[.55]{.5}{.4}{
+\student{
+\algn{ r^2 + \lambda_n &=0 \qquad \Rightarrow r=\pm i\sqrt{\lambda_n}\\ \\ X_n(x) &= A_n \cos \left(\frac{n \pi}{L}x\right) + B_n \sin\left( \frac{ n\pi}{L} x\right)  }
+\vfill \centering Choose $\sin$ or $\cos$ based on the BCs of the problem.\vfill
+}
+
+}{
+
+\tikzplot[\xcoord{3.14159}{L}]{.1}{3.5}{.75}{.75}{x}{\sin(n\pi x/L)}{
+\draw[domain=0:3.14159, red, samples=200, smooth, thick] plot ({\x,0.5*sin(deg(\x))}) node[xshift=-3.75em, yshift=1.6em, fill=white, inner sep=0.3]{ \tiny $n=1$};
+\draw[domain=0:3.14159, red, samples=200, smooth, thick, dashed] plot ({\x,0.5*sin(deg(2*\x))}) node[xshift=-4.5em, yshift=.5em, fill=white, inner sep=0.3]{ \tiny $n=2$};
+\draw[domain=0:3.14159, red, samples=200, smooth, thick, dotted] plot ({\x,0.5*sin(deg(3*\x))})node[xshift=-6em, yshift=-.7em, fill=white, inner sep=0.3]{ \tiny $n=3$};
+}
+
+\tikzplot[\xcoord{3.14159}{\;\;L}]{.1}{3.5}{.75}{.75}{x}{\cos(n\pi x/L)}{
+\draw[domain=0:3.14159, blue, samples=200, smooth, thick] plot ({\x,0.5*cos(deg(\x))}) node[xshift=-6em, yshift=2.65em, fill=white, inner sep=0.3]{ \tiny $n=1$};
+\draw[domain=0:3.14159, blue, samples=200, smooth, thick, dashed] plot ({\x,0.5*cos(deg(2*\x))}) node[xshift=-6.15em, yshift=-.95em, fill=white, inner sep=0.3]{ \tiny $n=2$};
+\draw[domain=0:3.14159, blue, samples=200, smooth, thick, dotted] plot ({\x,0.5*cos(deg(3*\x))}) node[xshift=-7.2em, yshift=.5em, fill=white, inner sep=0.3]{ \tiny $n=3$};
+}
+
+}\vfill 
+
+
+}
+
+
+\slide[ Time-Dependence + Superposition]{\vspace{-2.5em}
+\[u_n(x,t)=T_n(t)X_n(x) \quad \text{ with } \quad T_n\p = - \alpha \lambda_n T  \quad \Leftrightarrow  \quad T_n(t)=c_ne^{-\alpha \lambda_n t}\]
+\student{\[u_n(x,t)=c_ne^{-\alpha \omega_n^2 t} \left(A_n \cos \left( \omega_n x\right) +  B_n \sin\left(  \omega_n  x\right) \right)\]}\vfill
+We have infinitely many solutions to the linear PDE, any linear combinations of those solutions is also a solution
+\student{\[u(x,t) = \sum_{n=1}^\infty u_n(x,t) \]}
+\vfill
+Initial condtion: $u(x,0)=u_0(x)$
+\student{Pick $c_n=1 \quad$(without loss of generality)
+\[u_0(x) = A_0 + \sum_{n=1}^\infty \left( A_n \cos \left( \omega_i x\right)   +  B_n \sin\left(  \omega_n  x\right) \right) \qquad \omega_n=\frac{ n\pi}{L} \]
+
+Find $A_n$ and $B_n$  by taking a Fourier Series expansion of $u_0(x)$
+
+}
+}
+
+
+\subsection{Periodic Extensions}
+\slide[ICs + BCs $\Rightarrow$ Periodic extension]{\vspace{-2em}
+\[u_0(x) = A_0 + \sum_{i=n}^\infty \left( A_n \cos \left( \omega_inx\right)   +  B_n \sin\left(  \omega_n  x\right) \right) \qquad \omega_n=\frac{ n\pi}{L} \]
+$u_0(x)$ is defined for $x\in[0,L]$ only.\vfill
+\student{Our spatial solution is the Fourier Series of a 2L periodic function!}
+\vfill BCs:  \hfill $X(0)=X(L)=0$ \hfill or \hfill $X\p(0)=X\p(L)=0$
+\twomini[.6]{.6}{.4}{
+\student{\vfill\itmz{ \item $\sin$ terms satisfy $X(0)=X(L)=0$ \enum{\item Extend $u_0(x)$ as an \uline{odd} function \item Take its FS:  \uline{Fourier Sine Series}}\vfill
+\item $\cos$ terms satisfy $X\p(0)=X\p(L)=0$ \enum{\item Extend $u_0(x)$ as an \uline{even} function \item Take its FS:  \uline{Fourier Cosine Series}} }\vfill
+ }}{\centering 
+\tikzplot[\xcoord{1.2}{L} \xcoord{-1.2}{-L}]{1.75}{1.75}{1.2}{1.2}{x}{}{
+\draw[domain=0:1.2,  samples=2, smooth, thick] plot ({\x,\x)}) node[xshift=-.35em, yshift=-2em, fill=white, inner sep=0.3]{ \tiny $u_0(x)=x$};
+\student{\draw[domain=-1.2:0,  samples=2, smooth, thick] plot ({\x,\x)}) node[xshift=1.2em, yshift=-2em, fill=white, inner sep=0.3]{ \tiny odd periodic extension};}
+}
+\tikzplot[\xcoord{1.2}{L} \xcoord{-1.2}{-L}]{1.75}{1.75}{.1}{1.2}{x}{}{
+\draw[domain=0:1.2,  samples=2, smooth, thick] plot ({\x,\x)}) node[xshift=-.35em, yshift=-2em, fill=white, inner sep=0.3]{ \tiny $u_0(x)=x$};
+\student{\draw[domain=-1.2:0,  samples=2, smooth, thick] plot ({\x,-\x)}) node[xshift=-.2em, yshift=2em, fill=white, inner sep=0.3]{ \tiny even periodic extension};}
+}
+}
+}
+
+\subsection{Solution to the heat equation with homogeneous BCs}
+\slide[ Solution to \hfill $u_t=\alpha u_{xx}$ \hfill $\larray{ \text{with } 0<x<L  \\ \text{and }u(x,0)=u_0(x)}$ \hfill]{\vspace{-1em}
+\[u(x,t)=\frac{a_0}{2} + \sum_{n=1}^\infty e^{-\alpha \frac{n^2\pi^2}{L^2} t} \left( a_n \cos\left(\frac{n\pi}{L} x\right) +  b_n \sin\left(\frac{n\pi}{L} x\right) \right)  \]\vfill
+If $u(0,t)=u(L,t)=0$: $\quad$ Fourier sine series \hfill ~
+\algn{a_n &= 0\\b_n&=\frac{2}{L}\int_0^L u_0(x) \sin\paren{\frac{n\pi}{L}x} dx }\vfill
+If $u_x(0,t)=u_x(L,t)=0$: $\quad$ Fourier cosine series \hfill ~
+\algn{a_n &= \frac{2}{L}\int_0^L u_0(x) \cos\paren{\frac{n\pi}{L}x} dx\\b_n&=0 }
+
+}
+
+\slide[ ]{\vspace{-.5em}
+\ex{$u_t=\alpha u_{xx}\quad $  for $ 0<x<L \qquad $ with  $u(x,0)=x$ }
+
+\vspace{.6em}
+Two possible homogeneous BCs:
+
+\vspace{.6em}
+\twomini[.7]{.5}{.5}{ $u(0,t)=u(L,t)=0$
+\student{
+\algn{u(x,t) &=\\& \sum_{n=1}^\infty e^{-\alpha \frac{n^2\pi^2}{L^2} t}  b_n \sin\left(\frac{n\pi}{L} x\right)  \\\\
+b_n &= \frac{2}{L} \int_0^L x \sin\paren{\frac{n\pi x}{L}} dx \\
+& = -L \frac{2  (-1)^n}{\pi  n}}
+}
+
+}{$u_x(0,t)=u_x(L,t)=0$
+\vspace{-.5em}
+\student{
+\algn{u(x,t) &=\frac{a_0}{2}\\& \phantom{=} +\sum_{n=1}^\infty e^{-\alpha \frac{n^2\pi^2}{L^2} t}  a_n \cos\left(\frac{n\pi}{L} x\right)  \\\\
+a_n &= \frac{2}{L} \int_0^L x \cos\paren{\frac{n\pi x}{L}} dx \\
+& =\frac{2 L \left((-1)^n-1\right)}{\pi ^2 n^2}\\\\
+a_0&=\frac{2}{L} \int_0^L x  dx = L }
+}
+
+}
+
+}
+\settoggle{covered}{false}
+\slide[ ]{\vspace{-.5em}
+\ex{$u_t=\alpha u_{xx}\quad $  for $ 0<x<L \qquad $ with  $\larray{u(x,0)=\sin(5x/L)\\ u(0,t)=u(L,t)=0}$ }
+
+\student{
+From the BCs,
+\[u(x,t)= \sum_{n=1}^\infty e^{-\alpha \frac{n^2\pi^2}{L^2} t}  b_n \sin\left(\frac{n\pi}{L} x\right) \]
+
+\algn{b_n&=\frac{2}{L}\int_0^L\sin(5x/L) \sin(\frac{n\pi}{L}x) dx\\
+&=\begin{cases} 1 & \text{if } n=5\\
+0&\text{otherwise}\end{cases} \\\\
+u(x,t) &= e^{-\alpha \frac{25\pi^2}{L^2} t}   \sin\left(\frac{5\pi}{L} x\right)}
+}
+
+}
+
+%
+%\slide{
+%We  previously saw some 2L-periodic extensions of $f(x)=x$ for $x\in[0,L]$
+%\vfill
+%
+%\twomini[.72]{.48}{.48}{
+%
+%Even extension - \small reflect about $y$-axis
+%\vfill
+%
+%\centerline{\tikzplot[\xcoord{-1}{-L} \xcoord{1}{L}]{2.65}{2.65}{1.05}{1.05}{x}{f(x)=f(-x)}{
+%
+%
+%
+%\foreach \i in {-2,-1,0,1,2}{
+%
+%\draw[domain=0:1,  thick, lblue] plot ({\x-2*\i},{\x});
+%\draw[domain=-1:0, thick, lblue] plot ({\x-2*\i},{-\x});
+%
+%
+%}
+%\draw[ ultra thick] (0,0)--(1,1);
+%}
+%}
+%
+%\vfill
+%\centerline{\tikzplot{2.65}{2.656}{1.05}{1.05}{x}{f(x)\approx  \frac{L}{2} + \frac{2L}{\pi^2} \overset{3}{\underset{n=1 }{\sum} } \frac{(-1)^n-1}{n^2}\cos\left( \frac{n\pi}{L}x\right)}{
+%
+%
+%
+%\foreach \i in {-2,-1,0,1,2}{
+%
+%\draw[domain=0:1] plot ({\x-2*\i},{\x});
+%\draw[domain=-1:0] plot ({\x-2*\i},{-\x});
+%
+%
+%}
+%
+%\draw[domain=-3:3, red, samples=200, smooth, thick] plot ({\x},{ 1/2  - 4/(3.141459^2)*cos((3.141459)*deg(\x))    -  4/(9*3.141459^2)*cos(3*(3.141459)*deg(\x))     });
+%
+%
+%}
+%}
+%}{
+% Odd extension - \small reflect about both axes
+%\vfill
+%\centerline{\tikzplot[\xcoord{-1}{-L} \xcoord{1}{L}]{2.65}{2.65}{1.05}{1.05}{x}{f(x)=-f(-x)}{
+%
+%
+%
+%\foreach \i in {-2,-1,0,1,2}{
+%
+%\draw[domain=-1:1, thick, YellowOrange] plot ({\x-2*\i},{\x});
+%\draw[dashed, thick, YellowOrange] ({2*(\i-1)+1},1)--({2*(\i-1)+1},-1);
+%
+%}
+%\draw[ ultra thick] (0,0)--(1,1);
+%}
+%}
+%
+%\vfill
+%
+%\centerline{\tikzplot{2.65}{2.656}{1.05}{1.05}{x}{f(x)\approx  -L  \overset{15}{\underset{n=1 }{\sum} } \frac{(-1)^n}{n\pi}\sin\left( \frac{n\pi}{L}x\right)}{
+%\foreach \i in {-2,-1,0,1,2}{
+%
+%\draw[domain=-1:1] plot ({\x-2*\i},{\x});
+%\draw[dashed,] ({2*(\i-1)+1},1)--({2*(\i-1)+1},-1);
+%
+%}
+%
+%\draw[domain=-3:3, red, samples=200, smooth, thick] plot ({\x},{(2/3.14145)*sin(3.14145*deg(\x)) - (1/3.14145)*sin(2*3.14145*deg(\x)) + (2/(3*3.14145))*sin(3*3.14145*deg(\x)) - (2/(4*3.14145))*sin(4*3.14145*deg(\x))  +  (2/(5*3.14145))*sin(5*3.14145*deg(\x))    - (2/(6*3.14145))*sin(6*3.14145*deg(\x))  +  (2/(7*3.14145))*sin(7*3.14145*deg(\x)) - (2/(8*3.14145))*sin(8*3.14145*deg(\x)) +  (2/(9*3.14145))*sin(9*3.14145*deg(\x)) -  (2/(10*3.14145))*sin(10*3.14145*deg(\x)) +  (2/(11*3.14145))*sin(11*3.14145*deg(\x))  -  (2/(12*3.14145))*sin(12*3.14145*deg(\x)) +  (2/(13*3.14145))*sin(13*3.14145*deg(\x)) -  (2/(14*3.14145))*sin(14*3.14145*deg(\x))     +  (2/(15*3.14145))*sin(15*3.14145*deg(\x))  });
+%
+%%\draw[domain=-6:6, red, samples=200, smooth, thick] plot ({\x},{(2/3.14145)*sin(3.14145*deg(\x)) - (1/3.14145)*sin(2*3.14145*deg(\x)) + (2/(3*3.14145))*sin(3*3.14145*deg(\x)) - (2/(4*3.14145))*sin(4*3.14145*deg(\x))  });
+%
+%
+%}
+%}
+%}
+%
+%\vfill
+%
+%Any periodic function can be represented by a Fourier series.\vfill
+%\centerline{High frequency terms help with discontinuities (e.g., at boundaries)}
+%
+%}
+%
+%
+%\slide[]{\vspace{-.5em}
+%Solve$ \qquad u_t=0.1 u_{xx} \qquad \larray{ \text{for } 0<x<L  \\ \text{and }u(x,0)=x} \qquad$ subject to BC1 and BC2 \hfill
+%\vfill
+%BC1: $X(0)=X(L)=0$ $\quad$\student{ Fourier sine series \hfill \tikzplot{1.65}{1.65}{.2}{.2}{x}{}{
+%
+%
+%
+%\foreach \i in {-2,-1,0,1,2}{
+%
+%\draw[domain=-1:1, thick] plot ({(\x-2*\i)/2},{\x/5});
+%\draw[dashed, thick] ({(2*(\i-1)+1)/2},.2)--({(2*(\i-1)+1)/2},-.2);
+%
+%}
+%
+%}
+%
+%
+%\algn{u_0(x) &= x \approx -L\sum_{n=1}^\infty  \frac{(-1)^n }{n\pi}\sin\left( \frac{n\pi}{L}x\right) \\
+%u(x,t) &= -L\sum_{n=1}^\infty  e^{-0.1\frac{n^2\pi^2}{L^2} t} \frac{(-1)^n }{n\pi}\sin\left( \frac{n\pi}{L}x\right)  \qquad t>0  }}\vfill
+%BC2: $X\p(0)=X\p(L)=0$ $\quad$ \student{ Fourier cosine series \hfill  \hfill \tikzplot{1.45}{1.45}{0}{.3}{x}{}{
+%
+%
+%\foreach \i in {-2,-1,0,1,2}{
+%
+%\draw[domain=0:1,  thick] plot ({(\x-2*\i)/2},{\x/3.2});
+%\draw[domain=-1:0, thick] plot ({(\x-2*\i)/2},{-\x/3.2});
+%
+%
+%}
+%
+%}
+%
+%\algn{u_0(x) &= x = \frac{L}{2} + 2L\sum_{n=1}^\infty  \frac{(-1)^n -1}{n^2\pi^2}\cos\left( \frac{n\pi}{L}x\right) \\
+%u(x,t) &=  \frac{L}{2} + 2L\sum_{n=1}^\infty    e^{-0.1\frac{n^2\pi^2}{L^2} t} \frac{(-1)^n -1}{n^2\pi^2}\cos\left( \frac{n\pi}{L}x\right)   \qquad t\geq0  }}\vfill
+%
+%}
+%
+%\slide[ Zero-flux Boundaries \hfill  $X\p(0)=X\p(L)=0$]{\vspace{-1.25em}
+%
+%\[u(x,t)=\frac{L}{2} + 2L\sum_{n=1}^\infty e^{-\alpha \omega_n^2 t}  \frac{(-1)^n-1}{n^2\pi^2}\cos\left(\omega_n x\right)  \]
+%\vfill
+%High-frequency terms decay the fastest \vfill $\quad \Rightarrow \quad$ Boundary conditions are imposed immediately.\vfill
+%\includegraphics[width=\columnwidth]{images/zero_flux_BCs.pdf}\vfill
+%Long-term Behaviour: $\qquad u(x,t)\approx \frac{L}{2} -\frac{ 4L}{\pi^2}e^{-\alpha \frac{\pi^2}{L^2} t}  \cos\left(\frac{\pi}{L} x\right)  $
+%}
+%
+%\slide[ Clamped Boundaries \hfill  $X(0)=X(L)=0$]{\vspace{-1.25em}
+%\[u(x,t)=-L\sum_{n=1}^\infty e^{-\alpha \omega_n^2 t}  \frac{(-1)^n}{n\pi}\sin\left( \omega_n x\right)  \]
+%\vfill
+%High-frequency terms decay the fastest \vfill $\quad \Rightarrow \quad$ Boundary conditions are imposed immediately.\vfill
+%\includegraphics[width=\columnwidth]{images/clamped_BCs.pdf}\vfill
+%\vfill
+%Long-term Behaviour: $\qquad u(x,t)\approx \frac{ L}{\pi}e^{-\alpha \frac{\pi^2}{L^2} t}  \sin\left(\frac{\pi}{L} x\right)  $
+%}
+%
+%
+%\slide{
+%\ex{\twomini[.1]{.7}{.295}{$u_t=\alpha u_{xx}$, \hspace{2em} $\arr{l}{u(0,t)=u(1,t)=0 \hspace{1em}\\u(x,0)=x(1-x) \text{ on } [0,1]}$}{\tikzplot[\xcoord{2}{\scriptscriptstyle 1}]{.1}{2.1}{.1}{1}{x\phantom{t}}{\scriptscriptstyle u(x,0)}{\draw[domain=0:1] plot (2*\x,{3*\x*(1-(\x))});}}\hfill}
+%\vfill
+%\student{
+%BCs $\Rightarrow$ only $\sin$ terms survive.\vspace{-.75em}
+%\algn{u(x,t)&=\sum_{n=1}^\infty b_n \sin(n \pi x)e^{-\alpha n^2\pi^2 t}\\
+%u(x,0) &=\sum_{n=1}^\infty b_n \sin(n \pi x) =x(1-x)\\
+%b_n&=\frac{1}{1} \int_{-1}^1 \overbrace{ f_{pe}^{odd}(x)\sin(n\pi x)}^{\text{odd$\times$odd=even}}dx \\
+%&=\frac{2}{1} \int_0^1 f(x)\sin(n\pi x)dx=2 \int_0^1 x(1-x)\sin(n\pi x)dx\\
+%&\overset{\text{wolfram}}{=} 2\paren{\frac{-2((-1)^n-1)}{n^3\pi^3}}\qquad  \Rightarrow \qquad \boxed{ b_n =-\frac{4}{\pi^3}\frac{(-1)^{n}-1}{n^3}}}
+%}\vfill
+%\tiny
+%\url{https://www.wolframalpha.com/input?i=integral+of+x\%281-x\%29sin\%28n*pi*x\%29+from+0+to+1+assuming+n+is+an+integer}
+%}%end slide
+%
+%\slide{Given \[u(x,t)=\sum_{n=1}^\infty -\frac{4}{\pi^3}\frac{(-1)^{n}-1}{n^3}  \sin(n \pi x)e^{-\alpha n^2\pi^2 t}\]  how long does it take for the hottest point in the domain to reach half of its intial value?
+%\student{
+%\algn{\text{Initial Condition: }u_0(x)&=x(1-x) \\\Rightarrow x_{\rm max} &= \frac12 &u_0(x_{\rm max})&=\frac14\\
+%\text{Long-term: } u(x,t) &\approx  \frac{8}{\pi^3}  \sin( \pi x) e^{-\alpha \pi^2 t} \intertext{approximation also has its max at $x=1/2$}
+% \frac{8}{\pi^3}  e^{-\alpha \pi^2 t_{\rm half}}& = \frac18 & t_{\rm half} &= -\frac{1}{\alpha \pi^2} \log\left(   \frac{\pi^3}{64}\right)
+%}
+%}
+%
+%}
+%
+%\slide{
+%\ex{\twomini[.1]{.7}{.295}{$u_t=\alpha u_{xx}$, \hspace{2em} $\arr{l}{u_x(0,t)=u_x(1,t)=0 \hspace{1em}\\u(x,0)=x(1-x^2) \text{ on } [0,1]}$}{\tikzplot[\xcoord{2}{\scriptscriptstyle 1}]{.1}{2.1}{.1}{1}{x\phantom{t}}{\scriptscriptstyle u(x,0)}{\draw[domain=0:1] plot (2*\x,{2.5*\x*(1-(\x*\x))});} }\hfill}
+%\vfill
+%\student{
+%BCs $\Rightarrow$ only $\cos$ terms survive.\vspace{-.75em}
+%\algn{u(x,t)&=\frac{a_0}{2} + \sum_{n=1}^\infty a_n \cos(n \pi x)e^{-\alpha n^2\pi^2 t}\\
+%u(x,0) &=\frac{a_0}{2}+\sum_{n=1}^\infty a_n \cos(n \pi x) =x(1-x^2)\\\\
+%a_n&=\frac{1}{1} \int_{-1}^1 \overbrace{ f_{pe}^{even}(x)\cos(n\pi x)}^{\text{even$\times$even=even}}dx \\
+%&=\frac{2}{1} \int_0^1 f(x)\cos(n\pi x)dx=2 \int_0^1 x(1-x^2)\cos(n\pi x)dx  }
+%}\vfill
+%
+%}%end slide
+%
+%
+%\slide{
+%\ex{\twomini[.1]{.7}{.295}{$u_t=\alpha u_{xx}$, \hspace{2em} $\arr{l}{u_x(0,t)=u_x(1,t)=0 \hspace{1em}\\u(x,0)=x(1-x^2) \text{ on } [0,1]}$}{\tikzplot[\xcoord{2}{\scriptscriptstyle 1}]{.1}{2.1}{.1}{1}{x\phantom{t}}{\scriptscriptstyle u(x,0)}{\draw[domain=0:1] plot (2*\x,{2.5*\x*(1-(\x*\x))});} }\hfill}
+%\vfill
+%\student{
+%
+%\algn{a_n&=2 \int_0^1 x(1-x^2)\cos(n\pi x)dx\\
+%&\overset{\text{wolfram}}{=} 2\paren{  \frac{6((-1)^n-1) - \pi^2 (2(-1)^n +1)n^2}{n^4 \pi^4}  } \qquad  }
+%
+%\vfill
+%\algn{
+%a_0 &= \frac{2}{1} \int_{0}^{1} x(1-x^2)dx\\
+%&= 2 \left[ \frac{x}{2}-\frac{x^4}{4} \right]\evalat{0}{1}\\
+%&=2  \left[ \left( \frac{1}{2}-\frac{1}{4}\right) - 0 \right]=\frac12
+%}
+%
+%\vfill
+%}
+%
+%\tiny
+%\url{https://www.wolframalpha.com/input?i=integral+of+x\%281-x\%5E2\%29cos\%28n*pi*x\%29+from+0+to+1+assuming+n+is+an+integer}
+%}%end slide
+
+ \end{document}

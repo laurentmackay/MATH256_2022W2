@@ -1,0 +1,124 @@
+\input{notes.tex}
+
+
+\iftoggle{dualscreen}{\setbeameroption{show notes on second screen=right}}{}
+
+
+\begin{document}
+\section{Lecture 17}
+\subsection{Laplace Transforms Practice}
+
+\slide[Laplace Inversion Tactics]{\small
+\enum{
+\item Function has denominator that can factor.
+\subitem{factor and use partial fraction decomposition}
+\[\frac{1}{(s+a)s}=\frac{1}{as}-\frac{1}{a(s+a)} \quad \underrightarrow{\mathcal{L}^{-1}}\quad  \frac{1}{a}-\frac{1}{a}e^{-at}\]
+\item Denominator has something with $(s-a)^n$ but numerator has $s$ appearing in it, not $s-a$. \vfill
+\subitem{Split numerator by adding/subtracting so that all appearances of $s$ are in the form $s-a$ \item use First Shift Theorem to invert}\[\frac{s}{(s-a)^n}=\frac{s-a}{(s-a)^n}+\frac{a}{(s-a)^n} \quad \underrightarrow{\mathcal{L}^{-1}}\quad \frac{e^{at}t^{n-2}}{(n-2)!}+\frac{a}{(n-1)!}e^{at}t^{n-1}\]\vfill
+\item Numerator has incorrect constant $A$ for inversion. \subitem{Mulitply by $\frac{\omega}{\omega}$ and swap $\omega$ with $A$ :\[\frac{\omega}{\omega}\frac{A}{\omega^2+s^2}=\frac{A}{\omega}\frac{\omega}{\omega^2+s^2}\quad \underrightarrow{\mathcal{L}^{-1}}\quad   \frac{A}{\omega}\sin(\omega t) \] }
+}
+}
+
+\slide{\ex{$y\pp+2y\p+5y=0$, \quad $y(0)=y_0$, $y\p(0)=v_0$}
+\student{
+\algn{s^2Y(s)-&sy_0-v_0+2sY(s)-2y_0+5Y(s)=0\\
+Y(s)&=\frac{sy_0+v_0+2y_0}{s^2+2s+5}=\frac{sy_0+v_0+2y_0}{\underbrace{s^2+2s+1}_{(s+1)^2}\underbrace{-1+5}_{2^2}}\\
+&=\frac{sy_0+v_0+2y_0}{(s+1)^2+2^2 } =\frac{sy_0}{(s+1)^2+2^2 } + \frac{v_0+2y_0}{(s+1)^2+2^2 }\\
+&=y_0 \lap{e^{-t}\underbrace{\lapinv{\frac{s}{s+2^2}}}_{\cos(2t)}}+(v_0+y_0 )\lap{e^{-t} \underbrace{\lapinv{\frac{1}{s^2+2^2}}}_{\frac12 \sin(2t)}}\\\\
+y(t)&=y_0e^{-t}\cos(2t)+\frac{v_0+y_0}{2}e^{-t}\sin(2t)} 
+}
+}%end slide
+
+\slide{\ex{$y\pp+12y\p+36y=0$, \quad $y(0)=y_0$, $y\p(0)=v_0$}
+
+\student{
+\algn{s^2Y(s)-&sy_0-v_0+12sY(s)-12y_0+36Y(s)=0\\
+Y(s)&=\frac{sy_0+v_0+12y_0}{s^2+12s+36}=\frac{sy_0+v_0+12y_0}{(s+6)^2}\\
+&=\frac{y_0\cancel{(s+6)}}{(s+6)^{\cancel{2}}}+\frac{v_0+12y_0-6y_0}{(s+6)^2}\\
+&=y_0\underbrace{\frac{1}{s+6}}_{\lap{e^{-6t}}}+(v_0+6y_0) \frac{1}{(s+6)^2}\\
+&=y_0\lap{e^{-6t}}  +(v_0+6y_0) \lap{e^{-6t} \lapinv{\frac{1}{s^2}}}\\\\
+y(t)&=y_0e^{-6t}+(v_0+6y_0)e^{-6t}t} 
+}
+
+}%end slide
+
+\slide{\ex{$y\p+6y=u_1(t)\student{=\begin{cases}
+0 & t<1\\
+1 & t\geq1
+\end{cases}}$}
+\student{\twomini[.55]{.6}{.3}{\algn{ sY-&y_0+6Y=\frac{e^{-s}}{s}\\
+Y&=\frac{\frac{e^{-s}}{s}+y_0}{s+6}=\frac{e^{-s}}{s(s+6)}+\frac{y_0}{s+6}\\
+Y(s)&=\frac{1}{6}\frac{e^{-s}}{s}-\frac{1}{6}\frac{e^{-s}}{s+6}+\frac{y_0}{s+6}\\
+& \downarrow \mathcal{L}^{-1}\\
+y(t)&=\frac16 u(t-1)-\frac16 e^{-6(t-1)} u(t-1)+y_0e^{-6t}
+}\vfill}{$\frac{1}{s(s+6)}=\frac{A}{s}+\frac{B}{s+6}$\\~\\$\Rightarrow 1=A(s+6)+Bs $\\~\\$\Rightarrow \arr{l}{1=6A\\0=A+B}$ \\~\\$\Rightarrow \arr{l}{A=\frac16\\B=-\frac16}$ \vfill}}
+\tikzplot[
+\student{\xcoord{3}{1} \ycoord{1.25}{\frac16}}
+]{.1}{10}{.1}{1.5}{t}{y(t)}{
+\student{
+\draw[domain=0:2, thick, samples=100] plot ({\x*1.5}, {.8*exp(-\x)});
+\draw[domain=2:10, thick, samples=100] plot ({\x*1.5}, {.8*exp(-\x)+(1-exp(-(\x-2)))*1.25});
+\draw[domain=0:10, thick, dashed, samples=100] plot ({\x*1.5}, {1.25});
+}}
+}
+
+\slide{\ex{$y\pp+2y\p+5y=u_5(t)-u_{15}(t)$, \quad $y(0)=y_0$, $y\p(0)=v_0$}
+\student{
+\algn{s^2Y(s)-&sy_0-v_0+2sY(s)-2y_0+5Y(s)=\frac{e^{-5s}}{s} - \frac{e^{-15s}}{s}\\
+Y(s)&= \frac{  \paren{\frac{e^{-s}}{s} - \frac{e^{-2s}}{s}} + sy_0+v_0+2y_0}{s^2+2s+5}\\
+&=  \paren{ e^{-5s} - e^{-15s}}  \underbrace{\frac{ 1}{s(s^2+2s+5)}}_{F(s)}+   \underbrace{\frac{ 1}{s^2+2s+5}}_{\text{homogeneous part}}\\\\
+y(t)&=u_5(t)\left[ \lapinv{F(s)} \right]_{t=t-5}\\
+&\phantom{=} - u_{15}(t)\left[ \lapinv{F(s)} \right]_{t=t-15}\\
+&\phantom{=} + y_0e^{-t}\cos(2t)+\frac{v_0+y_0}{2}e^{-t}\sin(2t)
+}
+}
+}%end slide
+
+\slide{$\lapinv{\frac{1}{s(s^2+2s+5)}}=\;???$ 
+
+\student{
+\algn{F(s)=\frac{1}{s(s^2+2s+5)} & = \frac{A}{s} +\frac{Bs+C}{s^2+2s+5}\\
+1&=As^2+2As+5A + Bs^2+Cs\\
+\text{constant terms: } 1&= 5A \qquad \Rightarrow A=\frac15 \\
+\text{$s$ terms: } 0 &= 2A+C   \qquad \Rightarrow C=-2A=-\frac25\\
+\text{$s^2$ terms: } 0 &=	A+B  \qquad \Rightarrow B=-A=-\frac15\\
+F(s) &= \frac{1}{5s} - \frac15 \frac{s+2}{(s+1)^2+2^2}\\
+&=  \frac{1}{5s} -  \frac15 \paren{\frac{s+1}{(s+1)^2+2^2}  - \frac{1}{(s+1)^2+2^2}}  \\
+f(t) &= \frac15 \paren{1-e^{-t}\paren{cos(2t) -\frac12 \sin(2t)}}}
+}
+}
+
+\slide{
+\algn{y(t)&=u_5(t)\frac15 \paren{1-e^{-(t-5)}\paren{cos(2(t-5)) -\frac12 \sin(2(t-5))}}\\
+&\phantom{=} - u_{15}(t)u_5(t)\frac15 \paren{1-e^{-(t-15)}\paren{cos(2(t-15)) -\frac12 \sin(2(t-15))}}\\\
+&\phantom{=} + y_0e^{-t}\cos(2t)+\frac{v_0+y_0}{2}e^{-t}\sin(2t)}
+
+\centerline{\includegraphics[width=9cm]{images/Heaviside_jiggle.pdf}}
+}
+
+\slide{\ex{$y\pp+y\p=1$, $y(0)=y_0$, $y\p(0)=v_0$}
+\student{\vspace{-.5em}
+\algn{s^2Y(s)-&sy_0-v_0+sY(s)-y_0=\frac1s\\
+(s^2+s)Y&=sy_0+y_0+v_0+\frac1s\\
+Y(s)&=\frac{\cancel{s}y_0}{\cancel{s}(s+1)}+\frac{y_0+v_0}{s(s+1)}+\frac{1}{s^2(s+1)}}\vspace{-1.5em}
+\algn{\frac{1}{s(s+1)}&=\frac{A}{s}+\frac{B}{s+1}&\arr{r}{1=A(s+1)+Bs\\A=1, B=-1}\\
+&=\frac1s-\frac{1}{s+1}\\
+\frac{1}{s^2(s+1)}&=\frac{A}{s^2}+\frac{B}{s}+\frac{C}{s+1}&\arr{r}{1=A(s+1)+Bs(s+1)+Cs^2\\\uline{s=0:}\;A=1,\quad  \uline{s=-1:}\;C=1}\\
+&=\frac{1}{s^2}-\frac{1}{s}+\frac{1}{s+1}&\uline{s=1:}\; 2+2B+\cancel{1}=\cancel{1}}\vspace{-1.5em}
+\algn{Y(s)&=\cancel{\frac{y_0}{s+1}}+\frac{y_0+v_0}{s}-\frac{\cancel{y_0}+v_0}{s+1}+\frac{1}{s^2}-\frac{1}{s}+\frac{1}{s+1}&B=-1}
+}
+}%end slide
+
+\slide{continuing $\dots Y(s)=\frac{y_0+v_0-1}{s}+\frac{1-v_0}{s+1}+\frac{1}{s^2}$
+\student{\algn{y(t)&=y_0+v_0+1+(1-v_0)e^{-t}+t\\
+&=\underbrace{c_1+c_2e^{-t}}_{y_h}+\underbrace{t}_{y_p}\intertext{\uline{M.U.C.}}
+y\pp+y\p&=1\intertext{homogeneous problem}
+&r^2+r=0\Rightarrow r(r+1)=0 &\Rightarrow y_h=c_1+c_2e^{-t} \intertext{RHS in nullspace of operator}
+y_p=Bt \dots}
+put it all together and then solve for $c_1$ and $c_2\dots$
+}
+
+}%end slide
+
+
+\end{document}

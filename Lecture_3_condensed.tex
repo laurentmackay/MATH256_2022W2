@@ -1,0 +1,155 @@
+\input{notes.tex}
+
+\iftoggle{dualscreen}{\setbeameroption{show notes on second screen=right}}{}
+
+\begin{document}
+\section{Lecture 3}
+\subsection{Review}
+
+
+
+\slide[Review]{
+\itmz{
+\item Linear DEs: $y\p +p(t) y = g(t); \qquad y(t_0)=y_0$
+\itmz{
+\item \alert{Homogeneous}: \student{$g(t)=0$}
+\item \alert{Inhomogeneous}:\student{ $g(t)$ is not zero everywhere.}
+\item \alert{Constant coefficient} $p(t)=a$, with constant $a$.
+\student{\itmz{
+\item General solution of form: $y_g=y_h+y_p$
+\item $y_h = C e^{-at}$
+\item $y_p$ – Method of undetermined coefficients\\\hspace{4em}-Skipped, will revisit
+}
+}
+}
+}
+\vfill
+What to do if $p(t)$ is not constant, or if undetermined coefficients doesn't work for a specific $g(t)$?
+\student{\subitem{Use the method of integrating factors.}}
+}
+\subsection{Preamble}
+\slide[Want to solve $y\p+p(t)y=g(t)$]{
+Instead, lets do something easier. Solve \[\dd{}{t}\left(q \cdot y \right) = h(t)\] with some known $q(t)$ and $\int h(t) dt = H(t)+C$.
+
+\student{\algn{\dd{}{t}\left(q(t) \cdot y(t) \right) &= h(t) & \rightarrow && \text{d} \left(q \cdot y \right)&= h(t) \text{d}t\\
+q(t)y(t)& = H(t)+C &  \leftarrow && \int \text{d} \left(q(t)y(t)\right) &= \int h(t) \text{d}t}
+\vfill
+\[\Rightarrow y(t) = \frac{H(t)+C}{q(t)}\]
+}
+
+}
+
+
+
+\slide[Idea]{
+It would be very nice if we could multiply \[ y\p + p(t) y = g(t)\] by some magical function $\mu(t)$ such that \[\mu(t)\cdot \left[y\p + p(t) y\right] =\dd{}{t}\left[q(t)\cdot y(t)\right]  \]
+\vfill
+\student{Unique choice of $\mu(t)$:\[\mu(t)=e^{\intop p(t)dt}\]
+\vfill See full notes on Canvas for details. }
+\vfill
+}
+
+
+
+\subsection{Method of integrating factors}
+\slide[Method of integrating factors: $y\p+p(t)y=g(t) $ ]{
+\enum{
+\item Multiply by the integrating factor $\mu(t)=e^{\intop p(t)\text{d}t  }$ \student{\algn{\mu(t)y\p +\underbrace{p(t)\mu(t)}_{\mu\p(t)}y &= g(t)\mu(t) \\
+\dd{}{t}(\mu \cdot y) &= g(t)\mu(t)\\
+\text{d}(\mu \cdot y) &= g(t)\mu(t)\text{d}t
+}}
+\item Integrate: \student{\[\mu \cdot y = \intop g(t)\mu(t)\text{d}t + C \]}
+
+\item Isolate $y(t)$: \student{\[ y(t) = \frac{\intop g(t)\mu(t)\text{d}t + C}{\mu(t)} \]}
+
+}\vfill
+\student{All boils down to evaluating two integrals, no geussing.}
+}
+\subsection{Method of integrating factors: $y\p+p(t)y=g(t) $}
+\slide[Existence and Uniqueness \hspace{4em} $\rarray{ y(t) = \frac{\intop g(t)\mu(t)\text{d}t + C}{\mu(t)} \\ \mu(t)=e^{\intop p(t)\text{d}t }}$]{
+\itmz{
+\item What properties does $p(t)$ need to ensure $\mu(t)$ is differentiable?
+\student{\subitem{Continuous and integrable.}}
+\vfill
+\item What properties does $g(t)$ need to ensure $y(t)$ is differentiable?
+\student{\subitem{Continuous and $\mu(t) \cdot g(t)$ is integrable.}
+\vfill
+These conditions are pretty lax:\subitem{ almost all linear 1st Order DEs can be solved.}
+\vfill
+Evaluating the integrals can be tough.
+}
+}
+}
+
+\slide{\ex{Find the general solution of $y\p-3y=e^t$.} \hfill $\boxed {\rarray{ y(t) = \frac{\intop g(t)\mu(t)\text{d}t + C}{\mu(t)} \\ \mu(t)=e^{\intop p(t)\text{d}t }}}$
+
+\student{\algn{\mu(t)&=e^{\intop(-3)dt}=e^{-3t}\\
+e^{-3t}y\p-3e^{-3t}y&=e^te^{-3t}\\
+\dd{}{t}\left( e^{-3t}y \right ) &=e^{-2t}\\
+\text{d}\left( e^{-3t}y \right ) &=e^{-2t}\text{d}t\\
+e^{-3t}y(t)  &= \intop e^{-2t}\text{d}t+C\\
+y(t) &= \frac{ -\frac12 e^{-2t}+C}{e^{-3t}}\\
+&=\underbrace{-\frac12e^t}_{y_p}+\underbrace{Ce^{3t}}_{y_h}
+}
+}
+
+}
+
+\slide{\ex{Find the general solution of $y\p-3t^2y=3t^2$.}  \hfill $\boxed {\rarray{ y(t) = \frac{\intop g(t)\mu(t)\text{d}t + C}{\mu(t)} \\ \mu(t)=e^{\intop p(t)\text{d}t }}}$
+\vfill\student{\algn{\mu(t)&=e^{-\intop3t^2dt}=e^{-t^3} &                                                                                    & \carray{\text{let }u=t^3\\du=3t^2}\\
+e^{-t^3}y(t)  &= \intop3t^2e^{-t^3}\text{d}t&                                                          \intop 3t^2e^{-t^3}\text{d}t & = \intop e^{-u} du\\
+                       &                                                                                                                                                             &   & = -e^{-u}+C\\
+e^{-t^3}y(t) &= -e^{-t^3}+C\\
+y(t)&=\underbrace{-1}_{y_p}+\underbrace{Ce^{t^3}}_{y_h}
+}
+}
+}
+
+\slide[Solution Structure for $y\p+ay=g(t)$]{
+Do we always have a general solution of the form $y_g=y_p+y_h$?
+\vfill
+\cstudent{Yes, always.\vfill For all \uline{linear} DEs.}
+}
+
+\slide[Solution Structure  for $y\p+p(t)y=g(t)$]{
+Do we always have a general solution of the form $y_g=y_p+y_h$?
+
+Suppose $y_p$ and $y_h$ solve the following DEs \algnlbl{y_p\p+p(t)y_p&=g(t)\\y_h\p+p(t)y_h&=0}
+
+What DE does $y_g$ solve?
+\student{\algn{y_g\p+p(t)y_g &= y_p\p+y_g\p+p(t)(y_p+y_h) \\ &  =\left(y_p\p+p(t)y_p\right) +\left(y_h\p+p(t)y_h\right) \\&=g(t) + 0 = g(t)} \vfill $y_g$ also solves Eq. (1)! Give me some $y_p$ that solves (1), I can always add $y_h$ and still have a solution to (1).}
+}
+
+
+\slide[Solution Structure  for $y\p+p(t)y=g(t)$]{\vspace{-1em}
+Do we always have a general solution of the form $y_g=y_p+y_h$?
+
+Suppose $y_p$ solves the following DEs \algn{y_p\p+p(t)y_p&=g(t) && \hfill (1) }
+
+Is $y_p$ necessarily a particular solution?\student{Proof by contradiction\\Assume $y_p$ has some arbitrary constant.\vfill
+
+\twomini[.4]{.5}{.5}{
+Additive Constant: $y_p\rightarrow y_p+C$ \algn{y_p\p+a(y_p+C)&=y_p\p+ay_p+aC\\&= g(t)+aC \\&\neq g(t)}
+}{
+Multiplicative Constant: $y_p\rightarrow C y_p$ \algn{Cy_p\p+aCy_p&=C\left(y_p\p+ay_p\right)\\&= Cg(t) \\&\neq g(t)}
+}
+$y_p$ cannot have any arbitrary constants!
+}
+}
+
+\slide[Summary]{
+\itmz{
+\item Looked at general linear 1st order DEs: $y\p +p(t)y=g(t)$
+\itmz{
+\item Tried to turn the LHS into an exact derivative: $$y\p +p(t)y \quad \rightarrow \quad \text{d}(q\cdot y ) = q\p y +q y\p$$
+\subitem{ Multiplied by an integrating factor $\mu(t)$
+\item After some algebra find that $\mu=q$
+\item General solution: $ y(t) = \frac{\intop g(t)\mu(t)\text{d}t + C}{\mu(t)}$
+\item Integrating factor: $\mu(t)=e^{\intop p(t)\text{d}t }$}
+
+}
+\item Found that we could solve all linear 1st order DEs by this method, provided e.g. that $p(t)$and $g(t)$ are continuous.
+\item General solution to a linear DE: $y_g = y_p +y_h$
+}
+}
+\end{document}

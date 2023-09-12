@@ -1,0 +1,30 @@
+\input{notes.tex}
+
+\iftoggle{dualscreen}{\setbeameroption{show notes on second screen=right}}{}
+
+\usepackage{gensymb}
+\begin{document}
+
+\slide[Dirichlet Problems on Rectangular Domains]{
+\algn{ u_N &= \sum_n a_n \sin \left( \frac{n\pi}{w}x \right) \sinh \left( \frac{n\pi}{w} y\right)\\
+u_S &= \sum_n b_n \sin \left( \frac{n\pi}{w}x \right) \sinh \left( \frac{n\pi}{w} (h-y)\right)\\
+u_E &= \sum_n c_n \sin \left( \frac{n\pi}{h}y \right) \sinh \left( \frac{n\pi}{h} x\right)\\
+u_W &= \sum_n d_n \sin \left( \frac{n\pi}{h} y \right) \sinh \left( \frac{n\pi}{h} (w-x)\right)
+}
+We can rewrite $u_S$ and $u_W$ using the identity \[\sinh(a-b)=\sinh(a)\cosh(b) - \cosh(a)\sinh(b)\]
+}
+
+\slide[]{
+From  \[\sinh(a-b)=\sinh(a)\cosh(b) - \cosh(a)\sinh(b)\]
+we obtain
+\algn{ \sinh \left( \frac{n\pi}{w} (h-y)\right) &= \sinh\left( \frac{n\pi}{w} h  \right) \cosh \left( \frac{n\pi}{w} y  \right) \\
+&\phantom{=} - \cosh\left( \frac{n\pi}{w} h  \right) \sinh \left( \frac{n\pi}{w} y  \right)\\
+&\vdots  }\small
+\algn{ 
+u_S &= \sum_n b_n \sin \left( \frac{n\pi}{w}x \right) \left[  \sinh\left( \frac{n\pi}{w} h  \right) \cosh \left( \frac{n\pi}{w} y  \right)  - \cosh\left( \frac{n\pi}{w} h  \right) \sinh \left( \frac{n\pi}{w} y  \right)  \right]\\
+u_W &= \sum_n d_n \sin \left( \frac{n\pi}{h} y \right)  \left[  \sinh\left( \frac{n\pi}{h} w  \right) \cosh \left( \frac{n\pi}{h}x  \right)  - \cosh\left( \frac{n\pi}{h} w  \right) \sinh \left( \frac{n\pi}{w} x  \right)  \right]
+}
+
+}
+
+\end{document}

@@ -1,0 +1,191 @@
+\input{notes.tex}
+
+\iftoggle{dualscreen}{\setbeameroption{show notes on second screen=right}}{}
+
+\usepackage{gensymb}
+\begin{document}
+
+\section{Lecture 28}
+\subsection{D'Alembert}
+\slide[D'Alembert's Method: $y_tt=c^2y+xx$]{
+The Separation of Variables/Fourier method can be used to analyze the spectrum of frequencies present in the wave.
+\vfill
+\centerline{Useful to understand music - not useful to visualize a wave.}
+\vfill
+\hrule
+\vfill
+D'Alembert's Method: an alternative approach based on change of coordinates:
+\[\xi = x - ct,\qquad \eta = x+ct\]
+\vfill
+Basic idea, solutions are waves travelling with speed $\pm c$. 
+
+\vfill
+
+
+\centerline{\tikzplot[\xcoord{9.4247}{L}]{0.1}{9.5}{.02}{1.4}{x}{y}{
+
+\draw[smooth, ultra  thick, red, domain=0:3.1415, samples=50] plot ({\x*3},{exp(-((\x-0.75)^2)/.06)}) node[xshift=-6cm, yshift=.65cm]{$c \rightarrow$};
+}
+}
+
+}
+
+\slide[D'Alembert's Method]{
+\[\xi = x - ct,\qquad \eta = x+ct\]\vfill
+Let's compute $\pdn{}{x}{2}$ in this new coordinate system.\vfill
+\student{
+Apply the chain rule:
+\algn{\pd{}{x} &= \cancelto{1}{\pd{\xi}{x}}\pd{}{\eta} + \cancelto{1}{\pd{\eta}{x}}\pd{}{\eta} = \pd{}{\xi}+\pd{}{\eta}\\
+\pdn{}{x}{2} = \pd{}{x} \pd{}{x} &= \left(\pd{}{\xi}+\pd{}{\eta}\right) \left(\pd{}{\xi}+\pd{}{\eta}\right) \\
+&=\pdn{}{\xi}{2} + 2\frac{\partial^2}{\partial\xi\partial\eta} + \pdn{}{\eta}{2}  }
+}
+}
+
+\slide[D'Alembert's Method]{
+\[\xi = x - ct,\qquad \eta = x+ct\]\vfill
+Let's compute $\pdn{}{t}{2}$ in this new coordinate system.\vfill
+\student{
+Apply the chain rule:
+\algn{\pd{}{t} &= \cancelto{-c}{\pd{\xi}{t}}\pd{}{\eta} + \cancelto{+c}{\pd{\eta}{x}}\pd{}{\eta} = -c\pd{}{\xi}+c\pd{}{\eta}\\
+\pdn{}{t}{2} = \pd{}{t} \pd{}{t} &= \left(-c\pd{}{\xi}+c\pd{}{\eta}\right) \left(-c\pd{}{\xi}+c\pd{}{\eta}\right) \\
+&=c^2\left( \pdn{}{\xi}{2} - 2\frac{\partial^2}{\partial\xi\partial\eta} + \pdn{}{\eta}{2} \right)  }
+}
+}
+
+\slide[D'Alembert's Method]{
+\[ \pdn{}{x}{2}  = \pdn{}{\xi}{2} + 2\frac{\partial^2}{\partial\xi\partial\eta} + \pdn{}{\eta}{2} \qquad \pdn{}{t}{2} = c^2\pdn{}{\xi}{2} - 2c^2\frac{\partial^2}{\partial\xi\partial\eta} + c^2\pdn{}{\eta}{2} \]\vfill
+Write down the wave equation in the new coordinate system.\vfill
+\student{
+
+\algn{  y_{tt} &= c^2 y_{xx} \\
+    c^2\pdn{y}{\xi}{2} - 2c^2\frac{\partial^2y}{\partial\xi\partial\eta} + c^2\pdn{y}{\eta}{2}&= c^2\pdn{y}{\xi}{2} + c^2 2\frac{\partial^2y}{\partial\xi\partial\eta} + c^2\pdn{y}{\eta}{2}\\
+0&=4c^2 \frac{\partial^2y}{\partial\xi\partial\eta}
+}
+}
+}
+
+\slide[D'Alembert's Method]{
+\[0= \frac{\partial^2y}{\partial\xi\partial\eta}\]
+Find the general solution to the wave equation:\vfill
+\student{Drop the multiplicative constants, integrate w.r.t. $\xi$
+\algn{y_\eta(\xi,\eta) &= \int \frac{\partial^2y}{\partial\xi\partial\eta} d\xi =   \int 0 d\xi = C(\eta)\\
+y(\xi,\eta) &= \int C(\eta) d\eta = A(\eta) + B(\xi)}
+where $A$ and $B$ are single variable functions.\[y(x,t)=A(x-ct)+B(x+ct)\]
+}
+}
+
+\slide[]{\vspace{-1.5em}\[y(x,t)=A(x-ct)+B(x+ct)\]
+$A(x-ct)$: moves rightwards
+\centerline{\tikzplot[\xcoord{9.4247}{L}]{0.1}{9.5}{.02}{1.4}{x}{y}{
+\draw[smooth, ultra  thick, red, domain=0:3.1415, samples=50] plot ({\x*3},{exp(-((\x-0.75)^2)/.06)}) node[xshift=-7.5cm, yshift=1.2cm]{$c \rightarrow$};
+\foreach \ct in {1,2,3,4,5}{
+\draw[smooth, thick, red, domain=0:3.1415, samples=50] plot ({\x*3+\ct},{exp(-((\x-0.75)^2)/.06)});
+\draw (3*.75+\ct,1.2) node[red]{t=\ct};
+}
+}
+}
+\vfill
+$B(x+ct)$: moves leftwards
+\centerline{\tikzplot[\xcoord{9.4247}{L}]{0.1}{9.5}{1}{1.4}{x}{y}{
+\draw[smooth, ultra  thick, Plum, domain=0:3.1415, samples=50] plot ({\x*3},{8*(\x-2.5)*exp(-((\x-2.5)^2)/.06)}) node[xshift=-1cm, yshift=1.2cm]{$ \leftarrow -c $};
+\foreach \ct in {1,2,3,4,5}{
+\draw[smooth, thick, Plum, domain=0:3.1415, samples=50] plot ({\x*3-\ct},{8*(\x-2.5)*exp(-((\x-2.5)^2)/.06)});
+\draw (3*2.75-\ct,1.2) node[Plum]{t=\ct};
+}
+}
+}
+\vfill
+These are just two unrelated examples, the wave profiles $A$ and $B$ are not completely different like in this slide.
+}
+
+\slide[D'Alembert's Formula]{
+\vspace{-1em}
+General Solution to:
+\vspace{-.5em}
+\algn{y_{tt}&=c^2y_{xx} \quad 0<x<L & y(0)&=y(L)=0, \\   y(x,0)&= f(x)& y_t(x,0)&=g(x)}
+\vfill
+\[\boxed{y(x,t)=A(x-ct)+B(x+ct)}\]
+\vfill
+\algn{A(z) &= \frac12 \left[ F(z) - \frac1c\int_0^z G(x)dx\right]& B(z) &= \frac12 \left[ F(z) + \frac1c\int_0^z G(x)dx \right]}
+\vfill
+$F$ is the odd periodic extension of $f(x)$\\
+$G$ is the odd periodic extension of $g(x)$
+
+}
+
+
+\slide[Intepreting D'Alembert's Formula]{\vspace{-3em}
+\algn{y_{tt}&=c^2y_{xx} \quad 0<x<L & y(0)&=y(L)=0, \\   y(x,0)&= f(x)& y_t(x,0)&=g(x)}
+\vfill
+\[\boxed{y(x,t)=A(x-ct)+B(x+ct)}\]\vfill
+
+Suppose $g(x)=0$, then $G(x)=0$ so \[A(x)=B(x)=\frac12 F(z)\]
+
+We have odd periodic extensions of the initial condition moving left and right.\vfill This leads to reflection of the wave at the domain boundaries.
+
+}
+
+\slide[]{
+$t=0$ - \textcolor{red}{$A$} and \textcolor{YellowOrange}{$B$} sum to give the \textcolor{black}{initial condition} \hfill \href{https://www.desmos.com/calculator/drbitic8pw}{[Desmos Version]}
+\newcommand{\xzero}{1}
+\centerline{
+\newcommand{\ct}{0}
+\tikz[scale=.6,domain=-5:5,samples=50]{
+    \begin{axis}[axis on top=false, axis x line=middle, axis y line=middle, xmin=-5, xmax=5, ymin=-1.05, ymax=1.05,  width=20cm, height=6cm, xtick = {-5,0,5}, xticklabels = {-L,0,L}, ymajorticks=false]
+        \draw (axis cs:2.25,0.5) node[red]{\Huge $c \rightarrow$};
+       \draw (axis cs:0,0.5) node[YellowOrange]{\Huge $\leftarrow -c $};
+        \addplot+[red, mark=none, smooth, line width=5pt,  samples=200, domain=-5:5] {0.5*exp(-(((x-\ct)-\xzero)^2)/0.02)-0.5*exp(-(((x-\ct)+\xzero)^2)/0.02)};
+        \addplot+[YellowOrange, dashed,  mark=none, smooth, line width=5pt,  samples=200, domain=-5:5] {0.5*exp(-(((x+\ct)-\xzero)^2)/0.02)-0.5*exp(-(((x+\ct)+\xzero)^2)/0.02)};
+        \addplot+[black, mark=none, line width=1pt, smooth, samples=200, domain=0:5] {0.5*exp(-(((x-\ct)-\xzero)^2)/0.02)-0.5*exp(-(((x-\ct)+\xzero)^2)/0.02)+0.5*exp(-(((x+\ct)-\xzero)^2)/0.02)-0.5*exp(-(((x+\ct)+\xzero)^2)/0.02)};
+
+   \end{axis}
+}
+}
+\vfill
+$t=0.8$ - \textcolor{YellowOrange}{$B$} hits the boundary at $x=0$
+\centerline{
+\newcommand{\ct}{.8}
+\tikz[scale=.6,domain=-5:5,samples=50]{
+    \begin{axis}[axis on top=false, axis x line=middle, axis y line=middle, xmin=-5, xmax=5, ymin=-.65, ymax=.65,  width=20cm, height=3.5cm, xtick = {-5,0,5}, xticklabels = {-L,0,L}, ymajorticks=false]
+        % plot first function
+        \addplot+[red, mark=none, smooth, line width=5pt,  samples=200, domain=-5:5] {0.5*exp(-(((x-\ct)-\xzero)^2)/0.02)-0.5*exp(-((((x-\ct))+\xzero)^2)/0.02)};
+        \addplot+[YellowOrange, dashed,  mark=none, smooth, line width=5pt,  samples=200, domain=-5:5] {0.5*exp(-(((x+\ct)-\xzero)^2)/0.02)-0.5*exp(-(((x+\ct)+\xzero)^2)/0.02)};
+        \addplot+[black, mark=none, line width=1pt, smooth, samples=200, domain=0:5] {0.5*exp(-(((x-\ct)-\xzero)^2)/0.02)-0.5*exp(-(((x-\ct)+\xzero)^2)/0.02)+0.5*exp(-(((x+\ct)-\xzero)^2)/0.02)-0.5*exp(-(((x+\ct)+\xzero)^2)/0.02)};
+
+   \end{axis}
+}
+}
+
+\vfill
+$t=1$ - primary wave from \textcolor{YellowOrange}{$B$} annihilates with the odd extension of  \textcolor{red}{$A$}
+\centerline{
+\newcommand{\ct}{1}
+\tikz[scale=.6,domain=-5:5,samples=50]{
+    \begin{axis}[axis on top=false, axis x line=middle, axis y line=middle, xmin=-5, xmax=5, ymin=-.65, ymax=.65,  width=20cm, height=3.5cm, xtick = {-5,0,5}, xticklabels = {-L,0,L}, ymajorticks=false]
+        % plot first function
+        \addplot+[red, mark=none, smooth, line width=5pt,  samples=200, domain=-5:5] {0.5*exp(-(((x-\ct)-\xzero)^2)/0.02)-0.5*exp(-((((x-\ct))+\xzero)^2)/0.02)};
+        \addplot+[YellowOrange, dashed,  mark=none, smooth, line width=5pt,  samples=200, domain=-5:5] {0.5*exp(-(((x+\ct)-\xzero)^2)/0.02)-0.5*exp(-(((x+\ct)+\xzero)^2)/0.02)};
+        \addplot+[black, mark=none, line width=1pt, smooth, samples=200, domain=0:5] {0.5*exp(-(((x-\ct)-\xzero)^2)/0.02)-0.5*exp(-(((x-\ct)+\xzero)^2)/0.02)+0.5*exp(-(((x+\ct)-\xzero)^2)/0.02)-0.5*exp(-(((x+\ct)+\xzero)^2)/0.02)};
+
+   \end{axis}
+}
+}
+\vfill
+$t=1.8$ - wave is reflected after hitting boundary
+\centerline{
+\newcommand{\ct}{1.8}
+\tikz[scale=.6,domain=-5:5,samples=50]{
+    \begin{axis}[axis on top=false, axis x line=middle, axis y line=middle, xmin=-5, xmax=5, ymin=-.65, ymax=.65,  width=20cm, height=3.5cm, xtick = {-5,0,5}, xticklabels = {-L,0,L}, ymajorticks=false]
+        % plot first function
+        \addplot+[red, mark=none, smooth, line width=5pt,  samples=200, domain=-5:5] {0.5*exp(-(((x-\ct)-\xzero)^2)/0.02)-0.5*exp(-((((x-\ct))+\xzero)^2)/0.02)};
+        \addplot+[YellowOrange, dashed,  mark=none, smooth, line width=5pt,  samples=200, domain=-5:5] {0.5*exp(-(((x+\ct)-\xzero)^2)/0.02)-0.5*exp(-(((x+\ct)+\xzero)^2)/0.02)};
+        \addplot+[black, mark=none, line width=1pt, smooth, samples=200, domain=0:5] {0.5*exp(-(((x-\ct)-\xzero)^2)/0.02)-0.5*exp(-(((x-\ct)+\xzero)^2)/0.02)+0.5*exp(-(((x+\ct)-\xzero)^2)/0.02)-0.5*exp(-(((x+\ct)+\xzero)^2)/0.02)};
+
+   \end{axis}
+}
+}
+
+
+}
+
+\end{document}

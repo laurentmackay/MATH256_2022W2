@@ -1,0 +1,139 @@
+\input{notes.tex}
+
+
+\iftoggle{dualscreen}{\setbeameroption{show notes on second screen=right}}{}
+
+
+\begin{document}
+\section{Lecture 11}
+\subsection{Review}
+
+\slide[Recall: Constant coefficient 2$^{nd}$ order homogeneous ODEs ]{\vspace{-1.5em}
+\[ ay\pp+by\p+cy=0\]
+\student{Guess $y=e^{rt}$ \hfill char. poly.: $ar^2+br+c=0$ }
+\vfill
+These have three possible homogeneous solutions:
+\enum{
+\item $y_h=c_1e^{r_1t}+c_2e^{r_2t}, \qquad\qquad  \qquad \quad  r_{1,2}=\frac{-b\pm\sqrt{b^2-4ac}}{2a}$
+\item $y_h=c_1e^{rt} +c_2te^{rt}, \qquad \qquad \qquad \quad     r=\frac{-b}{2a}$
+\item $y_h=e^{-\frac{b}{2a}t}\paren{\cos(\omega t) + \sin(\omega t)}, \qquad \omega = \sqrt{4ac-b^2}$
+}
+\vfill
+What about when we have non-constant coefficient ODEs?
+\vfill
+\student{
+\ex{}
+\[p(t)y\pp+q(t)y\p+r(t)y=0\]
+}
+}
+\subsection{Euler Equations}
+\slide[Special Case: Euler Equations]{
+\vspace{-1.5em}
+\[ at^2y\pp+bty\p+cy=0\]
+\student{
+Guess: $y=t^k$
+\algn{
+y\p&=kt^{k-1}& y\pp&=(k-1)kt^{k-2}\\
+}
+\algn{at^2(k-1)kt^{k-2} + btkt^{k-1}+ct^k =& 0\\
+\intertext{factor out the $t^k$}
+a(k-1)k+bk+c&=0\\
+ak^2+(b-a)k+c&=0\\
+k_{1,2} &= \frac{a-b\pm\sqrt{(b-a)^2-4ac}}{2a}
+}
+}
+
+}
+
+
+\slide[Special Case: Euler Equations]{
+\vspace{-1.5em}
+\[ at^2y\pp+bty\p+cy=0\]
+Guess: $y=t^k$ \hfill $k_{1,2} = \dfrac{a-b\pm\sqrt{(b-a)^2-4ac}}{2a}$
+\vfill
+Three cases:
+\enum{\item \student{Real and distinct values of k \[y=c_1t^{k_1}+c_2t^{k_2}\]}\vspace{-1em}
+\item \student{Repeated real values of k \[y=c_1t^k+c_2 ??\qquad k=\frac{a-b}{2a}\]} \vspace{-1em}
+\item \student{Complex conjugate values \hspace{2em}$y=????????$\vfill \centering (unclear how to make it real)}
+
+
+}
+}
+\subsection{Euler Equations - Reapeated Roots}
+\slide[Case 2: Repeated real values of $k$ ]{\vspace{-.5em}
+$ at^2y\pp+bty\p+cy=0$\\
+ $y_1=t^k$ \hfill $k = \dfrac{a-b}{2a}$ \hfill $(b-a)^2-4ac=0$\vfill
+\student{Guess $y_2=r(t)y_1(t)=rt^k$
+\algn{y\p&=r\p t^k+kr\p t^{k-1} & y\pp &=r\pp t^k + 2k r\p t^{k-1} + (k-1)krt^{k-2}}
+\algn{ar\pp t^{k+2} + a2k r\p t^{k+1} + a(k-1)krt^{k+1} + br\p t^{k+1}+bkr t^{k}+crt^k &=0 \intertext{factor out $t^k$, refactor as an ODE for $r$}
+at^2r\pp + (2ak+b)tr\p+\paren{a(k-1)k+bk+c}r &=0
+}
+}
+}
+
+\slide[ ]{
+\[ at^2r\pp + (2ak+b)tr\p+\paren{a(k-1)k+bk+c}r =0\]
+$k = \dfrac{a-b}{2a}$  \hspace{1em} \& \hspace{1em} $(b-a)^2-4ac=0$\vfill
+\student{
+\algn{a(k-1)k+bk+c &= ak^2-ak+bk+c\\
+&= \frac{(a-b)^2}{4a} + (b-a)\frac{a-b}{2a} + c \\
+&= \frac{(a-b)^2}{4a} - \frac{(a-b)^2}{2a} + c  \\
+&= -\frac{(a-b)^2}{4a} + c \\
+&=-\frac{1}{4a}\paren{(a-b)^2-4ac} =0 }
+}
+}
+
+\slide[ ]{
+\[ at^2r\pp + (2ak+b)tr\p+=0\]
+$k = \dfrac{a-b}{2a}$  \hspace{1em} \& \hspace{1em} $(b-a)^2-4ac=0$\vfill
+\student{
+\algn{(2ak+b)t &= (a-b+b)t =at\\
+at^2r\pp + atr\p&=0\\
+r\pp+\frac1tr\p=0\intertext{define a new function $v(t)=r\p$}
+v\p+\frac1tv&=0 \intertext{solve by integrating factors}
+}
+}
+}
+\slide[]{\vspace{-.5em}
+$ at^2y\pp+bty\p+cy=0$\\
+ $y_1=t^k$, \hfill $y_2=r(t)t^k$, \hfill $r\p=v(t)$
+\[v\p+\frac1tv=0 \]
+\student{
+\algn{\mu(t)&=e^{\int \frac{dt}{t}} =e^{\ln(t)}=t\\
+tv(t)&=\int 0 \cdot dt = C& v(t)=\frac{C}{t}\\
+r(t)&=\int v(t) dt = C\ln(t)\\
+}
+\[\boxed{y_h = c_1t^k+c_2t^k\ln(t)} \]
+}
+}
+\subsection{Reduction of Order}
+\slide[Reduction of order]{
+Given\[p(t)y\pp + q(t)y\p+ r(t)y=0\] and one solution $y_1(t)$, we want to find the second solution $y_2(t)$.\vfill
+\enum{\item Guess $y_2(t) = a(t)y_1(t)$
+\item Substitute into ODE, rearrange to get an ODE for $a\p(t)=v(t)$
+\item Solve for $v(t)$ using integrating factors
+\item Integrate $v(t)$ to find $a(t)$ and $y_2(t)$}\vfill
+\[y_h=c_1y_1(t)+c_2y_2(t)\]
+}
+
+\slide[Inhomogeneous ODEs]{
+Given\[p(t)y\pp + q(t)y\p+ r(t)y=h(t)\] and one solution $y_1(t)$, we want to find the general solution.
+\vfill
+\enum{\item Find $y_2(t)$ by reduction of order
+\item Use the method of undetermined coefficients to find the particular part of the solution
+\subitem{Watch out for mathematical resonance}
+}\vfill
+\[y_g=y_p+c_1y_1(t)+c_2y_2(t)\]
+}
+\subsection{Euler Equations - Complex Roots}
+\slide[Case 3: Complex conjugate values of $k$]{
+\student{
+\algn{ y&=t^k & k_{1,2} &= \frac{a-b\pm\sqrt{(b-a)^2-4ac}}{2a}\\&=e^{\ln\paren{t^k}}&&=\frac{a-b}{2a}\pm i \frac{\sqrt{4ac-(b-a)^2}}{2a}\\&=e^{kln(t)}&&=\lambda\pm i \mu\\
+y_{1,2}&=e^{\lambda ln(t)} e^{\pm i \mu ln(t)}\\
+&=t^\lambda e^{\pm i \mu ln(t)}}\vfill
+\[y_h=t^\lambda\paren{ c_1 \cos(\mu \ln(t)) +c_2 \sin(\mu \ln(t)) }\]
+
+}
+
+}
+\end{document}

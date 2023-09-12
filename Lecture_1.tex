@@ -1,0 +1,185 @@
+\input{notes.tex}
+
+
+\iftoggle{dualscreen}{\setbeameroption{show notes on second screen=right}}{}
+
+\begin{document}
+\section{Introduction}
+\subsection{Overview}
+\slide[Differential Equations]{
+\vfill
+\enum{
+
+\item What are they and why do we solve them?
+\item Basic Terminology
+\item Separable Equations
+}\vfill
+}
+\subsection{Preliminaries}
+
+
+\slide[Disclaimer]{
+\itemize{
+\item Differential equations can be pretty hard  -  for many different reasons\vspace{0.5cm}
+\subitem{Lots of confusing vocabulary terms \item Lots of "tricks"}
+\vfill
+\item This course is all about teaching you as many techniques as possible in a very short time.\vspace{0.5cm}
+\subitem{Many things will not fully make sense this term, you may only understand them in a later course. }
+\vfill
+
+}
+}
+
+
+\slide[Disclaimer]{
+\itemize{
+\item Please ask questions if you are confused! \hfill-\hfill I may  seem annoyed.\vspace{0.5cm}
+\subitem{ I may get annoyed with how little time we have to cover a deep topic.
+\item I am most likely annoyed at myself for explaining things poorly.
+\item I am almost certainly not annoyed with you.}
+\vfill
+\item I will makes lots of helpful algebraic mistakes and clever typographic errors that are carefully designed to assist your learning experience.\vspace{0.5cm}
+\subitem{Please point them out! \hfill - \hfill Discussion is always good.}
+}
+}
+
+
+
+\slide[What is a Differential Equation?]{\vspace{-.5em}
+A differential equation (DE) is an equation involving an unknown function $y$ and atleast one derivative of $y$ w.r.t. one or more independent variables.
+\vfill
+\twomini[.8]{.02}{.98}{\hspace{.15cm}}{\itmz{
+\item [Given:]  A DE with an unknown function $y(t)$. \hfill  \student{e.x., $\carray{\dd{y}{t} = - 3 y(t) \\ \text{\uline{or}} \\ \\y\p = -3y}$}
+\item[Task:]  Find the function(s) $y(t)$.\hfill  \student{Solution: $y(t)=C_1e^{-3t}$}
+\vfill
+\item[Tools:]
+\itmz{\item Calculus (i.e., integration/differentiation) \item Geuss and check (does some function $f(t)$ make LHS=RHS?) \item Specialized procedures (informed by experience geussing) \item Geometry/Linear Algebra (useful for systems of DEs)}
+}
+}
+}
+
+\slide[Example: Skydiving \hfill\begin{minipage}{0.25\textwidth}{ \includegraphics[height=1cm]{images/airplane.pdf}}\end{minipage} ]{
+\begin{center}
+\includegraphics[height=2cm]{images/skydiver_solo.pdf}
+\end{center}
+Newton's Second Law:\[F=ma\]
+\student{\algn{
+ma &= \underbrace{-mg}_{\text{gravitational force}} \hspace{2em} \underbrace{-\mu v}_{\text{drag force}}\\
+a&=v'\\
+\Aboxed{mv' &= -mg - \mu v} \qquad \text{DE for } v(t)
+}
+}
+}
+
+
+\subsection{Terminology}
+\slide[Terminology]{
+\itmz{
+\item Ordinary differential equations (ODEs)
+\student{\subitem{A DE with derivatives w.r.t. only one independent variable. \vfill \item $\sim80\%$ of this course}}\vfill
+\item Partial differential equations  (PDEs)
+\student{\subitem{A DE with multiple derivatives (e.g., $\nicefrac{\partial}{\partial t}$ and $\nicefrac{\partial}{\partial x}$) \vfill \item Partial derivatives are necessary for solutions to match when working in different coordinate systems \subitem{Polar coordinates \item Spherical coordinates}}}\vfill
+
+}
+}
+
+
+\slide[Terminology]{
+\itmz{
+\item Linear DEs
+\student{\subitem{Linear combination of the function and its derivatives. \item Linear: $c_1+c_2y+c_3y\p +c_4y\pp=0$  \item Nonlinear: $c_1(y)^2+c_2yy\p +c_3(y\pp)^3=0$}}\vfill
+\item Order of a DE
+\student{\subitem{Pick out the highest derivative of $y(x$) in the DE. 
+\item If $n$ is the number of derivatives, then the order of the ODE is also $n$.
+\item First order: $y\p+3y^2 = e^{x} $
+\item Fourth order: $\ddn{y}{x}{4} +\ddn{y}{x}{2} = x^2$
+}
+} \vfill
+
+
+}
+}
+
+
+\slide[Terminology]{
+\vfill
+\itmz{
+\item Solution of a differential equation\vfill
+\student{\subitem{Any function that satisfies the eq (i.e., makes LHS=RHS) for \uline{all} values of the independent variable(s). \vfill
+\item This seems very silly, but when in doubt it is the most useful thing to remember.}
+
+}
+
+}
+\vfill
+}
+
+\subsection{Seperable equations}
+\slide[This is not a differential eqaution]{\vspace{-.5em}
+Suppose\[\dd{y}{t} = t^2\]
+Find $y(t)$
+\student{
+Multiply both sides by $dt$
+\algn{
+\dd{y}{t}dt&=t^2 dt\intertext{Integrate}
+\int dy &=\int t^2 dt\\
+y(t) + C_1 &= \frac{t^3}{3} + C_2\\
+y(t)  &= \frac{t^3}{3} + C
+}}
+\vfill
+Since $y(t)$ does not appear in the equation \hfill - \hfill not a differential equation.
+
+}
+
+\slide[A first order linear ODE]{\vspace{-.5em}
+Suppose\[\dd{y}{t} = t^2 y(t) \]
+Find $y(t)$
+\student{
+Divide by $y$, then mulitply dt
+\algn{
+\frac{dy}{\cancel{dt}} \frac{1}y{} \cancel{dt}  &=t^2 dt\intertext{integrate}
+\int \frac{dy}{y} &=\int t^2 dt\\
+\ln(y) &= \frac{t^3}{3} + C\intertext{exponentiate both sides}
+y(t)  &= e^{\frac{t^3}{3} + C}=Ce^{\frac{t^3}{3}}
+}}
+}
+
+\slide[A first order nonlinear ODE]{\vspace{-.5em}
+Suppose\[\dd{y}{t} = \cos(3t)  y^2 \]
+Find $y(t)$
+\student{\algn{
+\frac{dy}{\cancel{dt}} \frac{1}{y^2}\cancel{ dt} &= \cos(3t) dt\\
+\int \frac{dy}{y^2} &=\int \cos(3t) dt\\
+\frac{-1}{y} &= \frac{\sin(3t)}{3} + C_1\\\\
+y(t)  &= \dfrac{-1}{\frac{\sin(3t)}{3}+C_1} = \dfrac{-3}{\sin(3t)+C}
+}}
+}
+
+\slide[The generic separable first order ODE]{\vspace{-.5em}
+Suppose \[\dd{y}{t} = f(t) g(y)\]
+the dependence on $t$ and $y$ can be divided up into two factors multiplying each other. The functions $f$ and $g$ are known.
+\vfill
+\student{\algn{
+\frac{dy}{\cancel{dt}}\frac{1} {g(y)}\cancel{ dt} &=f(t) dt\\
+\int \frac{dy}{g(y)} &=\int f(t) dt\\
+\Gamma(y) &=F(t) + C\\\\
+y(t) &= \Gamma^{-1} \paren{F(t) + C}
+}\vfill
+Works as long as $1/g(y)$ and $f(t)$ are integrable functions.
+}
+
+
+}
+
+\slide[Summary]{
+\enum{\item What are DEs?
+\subitem{Equations involving unknown function(s) and function derivatives. \item Specify rates of change of certain quantities. \item Useful for modelling many natural phenomena.}\vfill
+\item Terminology \subitem{ODEs (\& PDEs). 
+\item Order of DEs, systems of DEs, solutions to DEs.}\vfill
+\item Separable equations:
+\subitem{Move everything related to the unknown function on one side, and everything related to the independent variable on the other side.
+\item Integrate, then isolate the unknown function.}
+}
+
+}
+\end{document}

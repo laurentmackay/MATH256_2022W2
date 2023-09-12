@@ -1,0 +1,184 @@
+\input{notes.tex}
+
+\iftoggle{dualscreen}{\setbeameroption{show notes on second screen=right}}{}
+
+\usepackage{circuitikz}
+
+\begin{document}
+\section{Lecture 4}
+\subsection{Introduction}
+
+\slide[Recall]{
+
+ Linear 1$^{st}$ Order ODEs: $y\p +p(t) y = h(t)$\vspace{.5em}
+\itmz{
+\item \alert{$h(t)$ is called the inhomogeneity}
+\item \alert{$h(t)=0$: Homogeneous ODE}\vspace{.5em}
+\item \alert{$h(t)\neq0$: Inhomogeneous ODE}
+}\vfill
+General Solution:
+\algn{ y_{\rm general} &= y_{\rm particular} + y_{\rm homogeneous}\\\student{y_g(t)}&\student{=y_p(t)+Cy_h(t)}}
+\small
+\itmz{\item Particular part: depends on $h(t)$  \hspace{1em} - \hspace{1em} no arbitrary constants\vfill \student{\subitem{$h(t)=0 \Rightarrow  y_p=0$} }\vfill
+\item Homogeneous part: independent of $h(t)$ \hfill - \hfill multiplicative arbitrary constant}
+
+}
+
+\slide[Recall]{
+
+ Linear 1$^{st}$ Order Initial Value Problems (IVPs): \[y\p +p(t) y = h(t); \qquad y(0)=y_0 \]\vspace{.5em}
+\vfill
+General Solution + Initial Condition:
+\algn{y(0)&=y_p(0)+Cy_h(0)\\&=y_0\\
+\student{C}&\student{=\frac{y_0-y_p(0)}{y_h(0)}}}
+\vfill \student{ 1 Integration Constant + 1 Initial condition = Unique Solution}
+
+}
+
+\slide[ Linear 2$^{nd}$ order ODEs]{
+General: \student{$y\pp +p(t)y\p +q(t)y=h(t)$}\\~\\
+ICs: \student{$y(0)=y_0,\qquad y\p(0)=v_0$}
+\vfill 
+For this week (and beyond):
+\enum{\item Constant coefficient, homog. \student{\[ ay\pp +by\p+cy=0\]}
+\item Constant coefficient, inhomog. \student{\[ ay\pp +by\p+cy=h(t)\]}}
+}%end slide
+
+
+\slide{\huge \vfill \centering Where do 2$^{nd}$ order linear ODEs\\come from? \vfill}
+\subsection{Some example systems}
+\slide[Spring-dashpot system:]{
+\twomini{.4}{.65}{\includegraphics[width=\columnwidth]{images/spring_dashpot.pdf}}{\vfill
+$x(t)=$ displacement from rest position\\
+$f(t)=$ applied force
+\vfill
+Newton's 2$^{nd}$ Law:
+\algn{ F &= ma\\
+ - kx - \beta \dd{x}{t} +f(t) &= m\ddn{x}{t}{2}\\\\ mx\pp+\beta x\p+kx&=f(t)}\vspace*{\fill} }
+}
+
+
+\slide[Torsional motion of a weight on a twisted shaft:]{
+\twomini{.32}{.65}{\includegraphics[width=\columnwidth]{images/twisted_shaft.pdf}}{
+\vfill\[ I\ddn{\theta}{t}{2} +c \dd{\theta}{t} + k\theta = T(t)\]\vspace*{\fill}
+}
+}
+
+\slide[L-R-C series circuits:]{
+\twomini{.45}{.55}{
+\begin{circuitikz} \draw
+       (0,-1.5)   to[vsourcesin, l=\textcolor{black}{$E(t)$}] (0,1.5)
+	[black] -- (0.5,1.5)
+        to[L, l=$L$, black] (1.5,1.5) -- (2.5,1.5)
+        to[C, l=$C$, black] (2.5,0) -- (2.5,-1.5)
+        to[R, l=$R$, black] (.5,-1.5) -- (0,-1.5) ;
+    \end{circuitikz}
+}{\vfill
+Q=charge on capacitor\\~\\
+$\dd{Q}{t}$=current in circuit\\~\\
+$E(t)$ = applied voltage\\
+\vfill
+Kirchoff's Laws:
+\[ L\ddn{Q}{t}{2} +R \dd{Q}{t} + \frac1CQ = E(t)\]\vspace*{\fill}
+}
+}
+
+\slide[Small oscillations of a pendulum:]{
+\twomini{.45}{.55}{\includegraphics[width=\columnwidth]{images/pendulum.pdf}}{
+\vfill\[ mL^2\ddn{\theta}{t}{2}=-cL \dd{\theta}{t} -mgL\theta + F(t) \]\vspace*{\fill}
+}
+}
+
+\slide[Equivalence of Problems]{
+These 4 physical systems are modelled identically by:\[Ay\pp+By\p+Cy=D(t)\]
+\vfill
+Constants have different physical meaning (\& units)
+\small\vfill
+\begin{tabular}{|>{\centering}m{2cm}|>{\centering}m{2cm}|>{\centering}m{2cm}|>{\centering}m{2cm}|>{\centering}p{2cm}|}
+\hline 
+\textbf{System} & \textbf{A} & \textbf{B} & \textbf{C} & \textbf{D}\tabularnewline
+\hline 
+\hline 
+\textbf{Spring Dashpot} & Mass & Damping Coeff. & Spring Constant & Applied Force\tabularnewline
+\hline 
+\textbf{Pendulum} & Mass x (Length)$^{2}$ & Damping x Length & Gravitational Moment & Applied Moment\tabularnewline
+\hline 
+\textbf{Series Circuit} & Inductance & Resistance & Capacitance$^{-1}$ & Imposed Voltage\tabularnewline
+\hline 
+\textbf{Twisted Shaft} & Moment of Inertia & Damping & Elastic Shaft Constant & Applied Torque\tabularnewline
+\hline 
+\end{tabular}
+
+}
+
+\slide[General Linear 2nd Order DE’s]{\vspace{-1em}
+\[
+\ddn{y}{t}{2} + p(t)\dd{y}{t} +q(t)y=h(t)  
+\]
+
+\itmz{\item $h(t)$ represents the "forcing" term, an external influence.
+\student{\subitem{$h(t)=0$: solutions tell you the intrinsic behaviour of the system \vfill\subitem{e.g., pull on a spring-mass system, and then let it go} \vfill \item $h(t)\neq0$: solutions tell you the response of the system to forcing \vfill \subitem{e.g., periodically hit a spring-mass system}}}\vfill
+\item $p(t)$ and $q(t)$ represent the intrinsic properties of the physical system.
+\student{\subitem{Often consant, but not always \subitem{ e.g., an aging spring could be modelled by $q=q(t)$.}}}
+}
+}
+\subsection{Finding solutions - the ansatz method}
+\slide{
+\ex{$y\pp+3y\p=0$}
+\student{We can reduce the order by integrating!
+\algn{y\p+3y &= C &
+\paren{e^{3t}y}\p &=ce^{3t} \\
+e^{3t}y &=\underbrace{\frac{C}{3}}_{c_1}e^{3t} +c_2 &
+y &=\textcolor{red}{c_1}+\textcolor{blue}{c_2e^{-3t}}\\
+}
+This is a special ODE where we can simplify by integrating.\vfill In general, solve using the \uline{ansatz} $y=e^{rt}:$
+\algn{y\p &=re^{rt}&
+y\pp&=r^2e^{rt}\\
+r^2e^{rt}+3re^{rt}&=0&
+r(r+3) &=0 \\&&\Rightarrow r=\textcolor{red}{0},\textcolor{blue}{-3}\\
+y&=\textcolor{red}{c_1e^0 }+\textcolor{blue}{c_2e^{-3t}} &=\textcolor{red}{c_1 }+\textcolor{blue}{c_2e^{-3t}}
+}
+}
+}%end slide
+
+\slide{
+\ex{Solve $y\pp+3y\p=0$ with $y(0)=2$ and $y\p(0)=-2$}
+\student{
+
+\algn{ y_g(t) &= c_1+c_2e^{-3t} & y(0) &= c_1 +c_2  = 2\\ y_g\p (t) &= -3c_2e^{3t} & y\p(0) &=-3c_2 = -2\\\\
+c_2&=\frac23\\
+c_1 +\frac23&=2=\frac63& c_1&=\frac43\\\\
+y(t) &= \frac43 + \frac23e^{-3t}
+}
+
+}
+}%end slide
+
+
+\slide{
+\ex{Find the general solution to $-2y\pp+5y\p+3y=0$}\\~\\
+Hint: guess an ansatz $y=e^{rt}$
+
+\student{
+\algn{y\p &=re^{rt}&
+y\pp&=r^2e^{rt}\\
+-2r^2e^{rt}+5re^{rt}+3e^{rt}&=0&
+-2r^2+5r+3 &=0 \\ r_{1,2}&=\frac{-5\pm\sqrt{25+24}}{-4} &&=\frac{-5\pm\sqrt{49}}{-4}\\
+&=\frac{-5\pm 7}{-4} & &=\frac{2}{-4}, \frac{-12}{-4}\\
+&=-\frac12, 3\\
+y(t)&=c_1e^{-\frac{t}{2}}+c_2e^{3t}}
+}
+}%end slide
+
+\slide[Summary]{
+\itmz{\item  Linear 2$^{nd}$ order ODEs are useful for modelling many physical systems\vfill
+\item  2$^{nd}$ order $\Rightarrow$ 2 Initial Conditions\vfill
+\item  Linear 2$^{nd}$ order homogeneous ODEs with constant coefficients \[ ay\pp +by\p+cy=0\]
+ Ansatz method:
+\enum{\item Guess $y(t)=e^{rt}$ \item Plug guess into the ODE \item Find (up to) 2 values of $r$  }\[y_h=c_1e^{r_1t}+c_2e^{r_2t}\]
+}
+}
+
+
+
+\end{document}

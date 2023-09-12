@@ -1,0 +1,195 @@
+\input{notes.tex}
+\iftoggle{dualscreen}{\setbeameroption{show notes on second screen=right}}{}
+
+\settoggle{covered}{true}
+\begin{document}
+\section{Lecture 22}
+\subsection{Example}
+\slide{Compute the Fourier Series for $f(x)=|x|$ for $x\in[-2,2]$ with $f(x+4)=f(x)$
+\student{
+
+\centerline{\tikzplot[\xcoord{-1}{-2} \xcoord{1}{2}]{6}{6}{.05}{1.05}{x}{f(x)}{
+\foreach \i in {-3,-2,-1,0,1,2,3}{
+\draw[domain=0:1, thick] plot ({\x-2*\i},{\x});
+\draw[domain=-1:0, thick] plot ({\x-2*\i},{-\x});
+}
+}
+}
+\algn{a_n &= \frac12 \int_{-2}^2 \underbrace{\underbrace{ |x|}_{\text{even func.}} \underbrace{\cos\left(  n \frac{\pi}{2} x \right)}_{\text{even func.}}}_{\text{even func.}} dx\intertext{The integral of an even function on $[0, L]$ is half its integral from $[-L,L]$}
+a_n &=  \int_{0}^2  x  \cos\left(  n \frac{\pi}{2} x \right) dx  }
+
+}
+}
+
+\slide{Compute the Fourier Series for $f(x)=|x|$ for $x\in[-2,2]$ with $f(x+4)=f(x)$
+\student{
+
+
+\algn{a_n &=  \int_{0}^2  x  \cos\left(  n \frac{\pi}{2} x \right) dx \\
+ \text{let} &\arr{ll}{u=x&du=dx\\dv=  \cos\left(  n \frac{\pi}{2} x \right)  & v=2\frac{  \sin\left(  n \frac{\pi}{2} x \right) }{n\pi}} \\
+&= 2\cancelto{0}{ \left(  x \frac{  \sin\left(  n \frac{\pi}{2} x \right) }{n\pi} \right) \evalat{0}{2}} - 2 \int_0^2 \frac{  \sin\left(  n \frac{\pi}{2} x \right) }{n\pi} dx\\
+&= \frac{4}{n^2 \pi^2}\cos\left(  n \frac{\pi}{2} x \right)\evalat{0}{2} =  \frac{4}{n^2 \pi^2} \left[  \cos\left( n \pi \right) -1 \right]\\
+&= \frac{4}{n^2 \pi^2} \left[  (-1)^n - 1 \right] = \begin{cases} -\frac{8}{n^2 \pi^2} & n \text{ odd} \\ 0& n \text{ even}\end{cases}
+}
+
+
+}
+}
+
+\slide{Compute the Fourier Series for $f(x)=|x|$ for $x\in[-2,2]$ with $f(x+4)=f(x)$
+\student{
+\vfill
+$\frac{a_0}{2}$ is the average value of the function (DC component)
+
+\algn{a_0 &= \frac12 \int_{-2}^2 |x| dx =  \int_{0}^2  x   dx \\
+ &=\frac{x^2}{2} \evalat{0}{2}\\
+& = \frac42-0\\
+&=2
+}
+
+
+}
+}
+
+
+\slide{Compute the Fourier Series for $f(x)=|x|$ for $x\in[-2,2]$ with $f(x+4)=f(x)$
+\student{
+\vfill
+
+
+\algn{b_n &= \frac12 \int_{-2}^2 \underbrace{\underbrace{ |x|}_{\text{even func.}} \underbrace{\sin\left(  n \frac{\pi}{2} x \right)}_{\text{odd func.}}}_{\text{odd func.}} dx\intertext{Any integral that is symmetric about $x=0$ of an odd function is zero}\intertext{...opposite AUC on both sides...}\Rightarrow  b_n&=0
+}
+
+
+}
+}
+
+\slide[Finite Fourier Series]{
+
+\[f(x) \approx \frac{a_0}{2} + \sum_{n=1}^k a_n \cos \left( \omega_n x\right)   + \sum_{n=1}^k  b_n \sin\left(  \omega_n  x\right) \qquad \omega_n=n\frac{ \pi}{L}\]
+\vfill
+$a_0= 2 \qquad a_n= \begin{cases} -\frac{8}{n^2 \pi^2} & n \text{ odd} \\ 0& n \text{ even}\end{cases}  \qquad b_n=0$
+\vfill
+\centerline{\tikzplot[\xcoord{-1}{-2} \xcoord{1}{2}]{6}{6}{.2}{1.05}{x}{f(x)}{
+\foreach \i in {-3,-2,-1,0,1,2,3}{
+\draw[domain=0:1, thick] plot ({\x-2*\i},{\x});
+\draw[domain=-1:0, thick] plot ({\x-2*\i},{-\x});
+}
+
+\draw (1.95,.9) node[align=left,text=black]{$k=1$};
+
+
+\draw[domain=-6:6, black, samples=200, smooth, thick] plot ({\x},{ 1/2  - 4/(3.141459^2)*cos((3.141459)*deg(\x))   });
+
+}
+}
+
+\vfill
+
+
+\centerline{\tikzplot[\xcoord{-1}{-2} \xcoord{1}{2}]{6}{6}{.2}{1.05}{x}{f(x)}{
+\foreach \i in {-3,-2,-1,0,1,2,3}{
+\draw[domain=0:1, thick] plot ({\x-2*\i},{\x});
+\draw[domain=-1:0, thick] plot ({\x-2*\i},{-\x});
+}
+
+\draw (1.9,.9) node[align=left,text=black]{$k=7$};
+
+
+\draw[domain=-6:6, black, samples=200, smooth, thick] plot ({\x},{ 1/2  - 4/(3.141459^2)*cos((3.141459)*deg(\x))    -  4/(9*3.141459^2)*cos(3*(3.141459)*deg(\x))  - 4/(25*3.141459^2)*cos(5*(3.141459)*deg(\x)) - 4/(49*3.141459^2)*cos(7*(3.141459)*deg(\x))     });
+
+}
+}
+}
+\subsection{Even and Odd Functions}
+\slide[Even and Odd Functions:]{
+Even Functions:\[f(x) = f(-x)\]
+\centerline{
+\tikzplot{5}{5}{1.05}{1.05}{x}{}{
+\draw[samples=50, red, smooth, domain=-3:2.9, thick] plot ({\x},{0.1*\x*\x}) node[right]{$x^2$};
+\draw[samples=50, Plum, smooth, domain=-3.5:3.5, thick] plot ({\x},{cos(deg(\x))}) node[right]{$\cos(x)$};
+\draw[samples=50, YellowOrange, smooth, domain=-2:2, thick] plot ({\x},{-0.5*abs(\x)}) node[right, xshift=-1.8cm, yshift=.2cm]{$-|x|$};
+}}
+\vfill
+Odd Functions: \[f(x) = -f(x)\]
+\centerline{
+\tikzplot{5}{5}{1.05}{1.05}{x}{}{
+\draw[samples=50, red, smooth, domain=-3:3, thick] plot ({\x},{-0.03*\x*\x*\x}) node[right]{$-x^3$};
+\draw[samples=50, Plum, smooth, domain=-3.5:3.5, thick] plot ({\x},{sin(deg(\x))}) node[right]{$\sin(x)$};
+\draw[samples=50, YellowOrange, smooth, domain=-2:2, thick] plot ({\x},{0.5*\x}) node[right, xshift=-1.0cm, yshift=-.6cm]{$x$};
+}}
+}
+
+
+\slide[Even and Odd Functions: Integral Properties]{
+Even Functions: The integral of an even function on the interval $[-L, L]$ is double its integral on $[0,L]$\vfill 
+\centerline{
+\tikz[scale=.6,domain=-5:5,samples=50]{
+    \begin{axis}[axis on top=false, axis x line=middle, axis y line=middle, stack plots=y, xmin=-5, xmax=5, ymin=-.05, ymax=1.05,  width=15cm, height=4cm,ticks=none]
+        % plot first function
+        \addplot+[mark=none, domain=-6:6] {0};
+        % substract first function from the second one, since they are stacked, and plot successively the positive and negative parts
+        \addplot+[mark=none, fill=lblue,draw=red, domain=-6:6, pattern=north west lines, pattern color=lblue, thick] {0.1*x^2} \closedcycle;
+    \end{axis}
+}
+}
+\vfill
+Odd Functions: The integral of an odd function on the interval $[-L, L]$ is $0$.\vfill
+\centerline{
+\tikz[scale=.6,domain=-5:5,samples=50]{
+    \begin{axis}[axis on top=false, axis x line=middle, axis y line=middle, stack plots=y, xmin=-5, xmax=5, ymin=-1.05, ymax=1.05,  width=15cm, height=7cm,ticks=none]
+        % plot first function
+        \addplot+[mark=none, domain=0:6] {0};
+        % substract first function from the second one, since they are stacked, and plot successively the positive and negative parts
+        \addplot+[mark=none, fill=lblue,draw=red, domain=0:6, pattern=north west lines, pattern color=lblue, thick] {0.03*x^3} \closedcycle;
+
+        \addplot[mark=none, domain=-6:0, thick] {-0.03*(x+6)^3};
+        % substract first function from the second one, since they are stacked, and plot successively the positive and negative parts
+        \addplot+[mark=none, fill=lblue,draw=red, domain=-6:0, pattern=north west lines, pattern color=orange, thick] {0.03*(x)^3} \closedcycle;
+    \end{axis}
+}
+}
+}
+
+\slide[Even and Odd Functions: Products of odd/even functions]{
+Works like multiplying real numbers\algn{\text{even} &\Leftrightarrow +1 \\ \text{odd} &\Leftrightarrow -1}
+\algn{ \text{odd} \cdot \text{odd} = \text{even} & & \text{even} \cdot \text{even} &= \text{even} &  \text{even} \cdot \text{odd} &= \text{odd}\\
+-1 \cdot -1 = +1 && +1 \cdot +1 &= +1 & +1 \cdot -1 &= -1
+}
+}
+\subsection{Properties of Fourier series}
+
+\slide[Even and Odd Functions: Fourier Series]{
+Even Function: $\qquad f(x) \approx \frac{a_0}{2}+\sum_{n=1}^\infty a_n \cos(\omega_n x) $\hfill
+\vfill
+\student{Proof: \[ b_n = \int_{-L}^L \underbrace{\text{even func.} \times \sin(\omega_n)}_{\text{odd func.}} = 0 \]}\vfill
+Odd Function: $\qquad f(x) \approx \sum_{n=1}^\infty b_n \sin(\omega_n x) $\hfill\vfill
+\student{Proof: \[ a_n = \int_{-L}^L \underbrace{\text{odd func.} \times \cos(\omega_n)}_{\text{odd func.}} = 0 \]}\vfill
+\student{Even function, only $\cos$ terms \hfill - \hfill Odd function, only $\sin$ terms}
+}
+
+
+\slide[Fourier Series Convergence]{
+\scriptsize $f(x)=x$ for $x\in[-1,1]$ with $f(t+2)=f(t)$ \hfill $f(x)=|x|$ for $x\in[-1,1]$ with $f(t+2)=f(t)$ \normalsize
+\twomini[.9]{.5}{.5}{
+\includegraphics[width=\columnwidth]{images/sawtooth_series.pdf}\vfill
+\raggedright Zoom in on discontinuity \vfill
+\includegraphics[width=\columnwidth]{images/sawtooth_zoom_in.pdf}
+}{\includegraphics[width=\columnwidth]{images/triangle_series.pdf}\vfill
+\raggedright Zoom in on discontinuity \vfill
+\includegraphics[width=\columnwidth]{images/triangle_zoom_in.pdf}}
+}
+
+
+\slide[Fourier Series Convergence]{
+
+\itmz{\item The Fourier Series of any continuous function converges (as $k\to\infty$) to the function value at every point. $\Rightarrow f(x)=\text{FS}(f(x))$\vfill
+\item The Fourier Series of a function with jump discontinuities exhibits \alert{Gibb's phenomena}\vfill
+\subitem{High frequency over/undershooting of the function \\
+\centerline{\includegraphics[width=4cm]{images/gibbs.png}}}\vfill
+\item The Fourier Series converges to the midpoint between the two function values at any point of discontinuity. $\Rightarrow f(x)\approx \text{FS}(f(x))$\vfill
+\item The rate of convergence of smooth functions is  faster than for functions with discontinuities.}
+
+}
+
+\end{document}

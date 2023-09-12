@@ -1,0 +1,173 @@
+\input{notes.tex}
+\usetikzlibrary{arrows}
+
+\iftoggle{dualscreen}{\setbeameroption{show notes on second screen=right}}{}
+
+
+\begin{document}
+\section{Lecture 16}
+\subsection{Review}
+\slide{\centerline{
+\begin{tikzpicture}
+\draw[-left to, thick, ] (1,0) node[align=center, left]{time-domain} to [out=5,in=175]   node[label= above:$\mathcal{L}$]  {} (6,0) node[align=center, right]{s-domain};
+\draw[-left to, thick]   (6,-0.1)  to [out=175,in=5]  node[label= below:$\mathcal{L}^{-1}$] {}(1,-0.1) ;
+\draw (0.5,-4.25) ellipse (2cm and 3.8cm);
+\draw (7,-4.25) ellipse (2cm and 3.8cm);
+\draw[<->] (0.75,-1.5) node[left]{$f(t)$} to [out=7,in=173]  (6.5,-1.5) node[right]{$F(s)$} ;
+\student{
+\foreach \y\Y\i in
+ { C/\frac{C}{s}/2, 
+Ce^{-at}/\frac{C}{s+a}/3, 
+t^n/\frac{n!}{s^{n+1}}/4,
+\sin(\omega t)/\frac{\omega}{\omega^2+s^2}/5 ,
+\cos(\omega t)/\frac{s}{\omega^2+s^2}/6 ,
+\vdots\quad/\quad\vdots/7  }{
+\draw[<->] (0.75,-\i-.5) node[left]{$\y$}  to [out=7,in=173]  (6.5,-\i-.5) node[right]{$\Y$} ;
+
+}
+}
+
+\end{tikzpicture}}
+
+}
+
+\subsection{Standard Laplace Transforms}
+\slide[Argument Scaling: $t \to \alpha t$ with constant $\alpha$]{
+\student{\algn{\lap{f(\alpha t)}&=\lapint{f(\alpha t)} &\arr{l}{v=\alpha t\\du=\alpha dt}\\
+&=\int_0^\infty e^{-\frac{s}{\alpha}u} f(u)\frac{du}{\alpha}\\
+&=\frac1\alpha \underbrace{\int_0^\infty e^{-\frac{s}{\alpha}u} f(u)du}_{F\paren{\frac{s}{\alpha}}}\\
+&=\frac{1}{\alpha} F\paren{\nicefrac{s}{\alpha}}   }
+}}
+
+\slide[First Shift Theorem: Multiplication by $e^{\alpha t}$]{
+\student{
+\algn{\lap{e^{\alpha t}f(t)}&=\lapint{e^{\alpha t}f(t)}\\
+&=\int_0^\infty e^{-(s-\alpha)t}f(t)dt=F(s-\alpha)}
+}\vfill
+\ex{Suppose $Y(s)=\frac{1}{s+6}$, find $y(t)$.}
+\student{\algn{ Y(s) &=  \underbrace{\frac{1}{s}}_{\lap{1}} \text{ with } s \to s+6 \\
+y(t)& = e^{-6t} \lapinv{1/s}\\
+y(t) &= e^{-6t}}
+}\vfill
+}
+
+\slide{\ex{The LT of $\sin(4t)$ is $G(s)=\frac{4}{s^2+16}$.\\~\\What is the inverse of $F(s)=\frac{4}{s^2-6s+25}$?}
+\student{
+\algn{F(s)&=\frac{4}{\underbrace{s^2-6s+9}_{(s-3)^2} + 16} \\ 
+&=\frac{4}{(s-3)^2+16}\\
+&=\frac{4}{s^2+16} \text{ with } s\to s-3 \\\\
+f(t)&=e^{3t}\lapinv{\frac{4}{s^2+16}}\\
+&=e^{3t}\sin(4t) }
+}
+}
+
+\slide[Resonance $\Leftrightarrow$ Differentiation in $s$-domain]{
+\student{\algn{\lap{t^kf(t)} & = \lapint{t^kf(t)}& = \int_0^\infty \underbrace{e^{-st}t}_{-\dd{}{s}e^{-st}} t^{k-1} &f(t) dt\\
+= -\dd{}{s} \int_0^\infty &e^{-st}t^{k-1} f(t) dt & \carray{\text{\tiny repeat same thing}\\ \dots \\ \text{\tiny k-1 more times}} = (-1)^k\ddn{}{s}{k}&F(s)
+\intertext{with k=1}
+\lap{tf(t)}&=-\dd{}{s} F(s) &ex: \lap{t\sin(\omega t)}=&\frac{2 \omega s}{(s^2+\omega^2)^2}\\
+&& \lap{t\cos(\omega t)}=&\frac{s^2-\omega^2}{(s^2+\omega^2)^2}
+}
+}
+}
+
+
+\slide[The Heaviside Step Function: $u_c(t)$ or $u(t-c)$ or $H(t-c)$]
+{
+\student{Used to model effects that "turn-on" at some time $c$.}\vfill
+\centerline{\tikzplot[\xcoord{3}{c}\ycoord{0}{0}\ycoord{2}{1}]{.1}{6}{.5}{2.5}{t}{u_c(t)}{
+\draw[ultra thick, \studentcolor] (0,0)--(3,0);
+\draw[ultra thick, \studentcolor] (3,2)--(6,2);
+\draw[ultra thick, dashed, \studentcolor] (3,0)--(3,2);
+\draw[\studentcolor] (3,0) node[vertex]{};
+\draw[\studentcolor] (3,2) node[opendot]{};
+\draw[->] (3.5,1.7)--(3.3,1.95) node[pos=0,yshift=-.75em, xshift=3em]{$u_c(c^+)=1$};
+\draw[->] (2.5,.3)--(2.8,.05) node[pos=0,yshift=.75em, xshift=-2.85em]{$u_c(c^-)=0$};
+}}
+\vfill
+\[u_c(t) = \begin{cases}  0 & \text{if } t\leq c \\ 1 & \text{if } t> c  \end{cases}\]
+
+}
+
+\slide[Laplace Transform of Heaviside]{
+\centerline{\student{\begin{tikzpicture}[xscale=2, yscale=2] \draw[] (0,0)--(0.5,0)--(0.5,0.3)--(1,0.3); \draw[] (-.15,0) node{\tiny 0}; \draw[] (-.15,0.3) node{\tiny 1}; \draw[] (0.5,.45) node{\tiny c};\end{tikzpicture}}}
+\student{\algn{\lap{u_c(t)}&=\lapint{u_c(t)}=\int_c^\infty e^{-st}dt=\frac1se^{-sc}\\
+&=\boxed{e^{-sc}\frac1s}=e^{-sc}\lap{1}}
+\vfill
+Q: In general, how can we invert $e^{-sc}\lap{f(t)}$ ?
+}
+}
+\slide[Second Shift Theorem]{
+\student{\algn{\lap{f(t-c)u_c(t)}&=\int_0^\infty e^{-st}\underbrace{f(t-c)u_c(t)}_{0 \text{ for } t<c}dt\\
+&=\int_c^\infty e^{-st}f(t-c)dt &\arr{l}{u=t-c\\du=dt}\\
+&=\int_0^\infty e^{-s(u+c)}f(u)du\\
+&= e^{-sc}\int_0^\infty e^{-su}f(u)du=e^{-sc}\lap{f(t)}
+}
+}
+}
+
+\slide{\ex{Suppose $Y(s)=\frac{e^{-s}+e^{-2s} - e^{-3s} - e^{-4s}}{s}$, find and sketch $y(t)$.}
+\student{\algn{Y(s)&=\frac{e^{-s}}{s}+\frac{e^{-2s}}{s}-\frac{e^{-3s}}{s}-\frac{e^{-4s}}{s}\\
+&=e^{-s}\lap{1} + e^{-2s}\lap{1} -e^{-3s}\lap{1}-e^{-4s}\lap{1}\\
+&=u_1(t) \cdot1\evalat{t\to t-c}{} \dots\\
+&=u_1(t)  + u_2(t) - u_3(t) -u_4(t)
+}\vfill
+\tikzplot{.1}{7}{.1}{3}{t}{y(t)}{
+\draw[black, ultra thick] (0,0)--(1,0);
+\draw[black, dashed, ultra thick] (1,0)--(1,1);
+\draw[black, ultra thick] (1,1)--(2,1);
+\draw[black, dashed, ultra thick] (2,1)--(2,2);
+\draw[black, ultra thick] (2,2)--(3,2);
+\draw[black, dashed, ultra thick] (3,2)--(3,1);
+\draw[black, ultra thick] (3,1)--(4,1);
+\draw[black, dashed, ultra thick] (4,1)--(4,0);
+\draw[black, ultra thick] (4,0)--(7,0);
+}
+}
+
+}
+
+\slide{
+\ex{Suppose $Y(s)=e^{-4s} \frac{3}{9+s^2}$, find $y(t)$.}
+
+\student{
+\algn{y(t) &= u_4(t) \left[\lapinv{\frac{3}{9+s^2}} \right]_{t=t-4}\\
+&= u_4(t) \left[ \sin(3t) \right]_{t=t-4}\\
+&= u_4(t)  \sin(3(t-4))}
+
+}
+\vfill
+\ex{Suppose $Y(s)=e^{-4s} \frac{3}{9+(s+11)^2}$, find $y(t)$.}
+
+\student{
+\algn{y(t) &= u_4(t) \left[  e^{-11 t}\lapinv{\frac{3}{9+s^2}} \right]_{t=t-4}\\
+&= u_4(t) \left[   e^{-11 t}\sin(3t) \right]_{t=t-4}\\
+&= u_4(t)  e^{-11(t-4)}  \sin(3(t-4))}
+
+}
+
+}
+
+
+
+
+\slide[Common Laplace Transforms]{
+\vspace{-.5em}
+\centerline{$\lap{y\p(t)}=sY(s)-y_0$ \hspace{2em} $\lap{y\pp(t)}=s^2Y(s)-sy_0-v_0$}\vspace{.5em}
+\hrule 
+\algn{\lap{C}&=\frac{C}{s}&\text{Constant}\\
+\lap{t^n}&=\frac{n!}{s^{n+1}}&\text{Power Func.}\\
+\lap{e^{at}f(t)}&=F(s-a)&\text{First Shift Theorem}\\
+\lap{u_c(t-c)}&=e^{-sc}\frac1s &\text{Heaviside Transfer}\\
+\lap{f(t-c)u(t-c)}&=e^{-sc}F(s)&\text{Second Shift Theorem}\\
+\lap{t^{n}f(t)}&=(-1)^n\ddn{}{s}{n}F(s)&\text{Resonance}\\
+\lap{\sin \omega t}&=\frac{\omega}{\omega^2+s^2}\\
+\lap{\cos \omega t}&=\frac{s}{\omega^2+s^2}\\
+}
+}
+
+
+
+
+
+\end{document}

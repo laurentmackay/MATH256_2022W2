@@ -1,0 +1,235 @@
+\input{notes.tex}
+
+
+\iftoggle{dualscreen}{\setbeameroption{show notes on second screen=right}}{}
+
+
+\begin{document}
+\section{Lecture 10}
+
+\subsection{Introduction}
+\settoggle{covered}{true}
+
+\slide[Recall: Spring-dashpot system without forcing]{
+\twomini[.6]{.35}{.65}{\includegraphics[width=.8\columnwidth]{images/spring_dashpot.pdf}}{\vfill
+$x(t)=$ displacement from rest position\\
+\vfill
+Newton's 2$^{nd}$ Law:
+\algn{ F &= ma\\
+x\pp + \beta x\p +k x &= 0}\vspace*{\fill} }
+\vfill
+\twomini{.33}{.66}{\uline{Simple Harmonic Motion}
+\includegraphics[width=\columnwidth]{images/sin_graph.pdf}
+
+}{ 
+\twomini{.5}{.5}{\uline{Underdamped Motion}
+
+ \includegraphics[width=\columnwidth]{images/sin_exp_graph.pdf}}{ \uline{Overdamped Motion}
+
+\includegraphics[width=\columnwidth]{images/exp_graph.pdf} }
+
+}
+
+}
+
+\slide[Spring oscillators with forcing]{\vfill
+\centerline{\includegraphics{images/spring_dashpot_forced.pdf}}
+\vfill}
+
+\slide[Harmonic motion with forcing]{\vspace{-1.5em}
+\[x\pp+\omega_0^2 x =f(t)= \frac{F_0}{m}\cos (\omega t)\hspace{2em}\text{with}\qquad\larray{\omega\neq\omega_0\\x(0)=x\p(0)=0}\]
+\student{\algn{x_h &= c_1 \cos (\omega_0 t)  +c_2 \sin (\omega_0 t)&
+x_p &= A \cos (\omega t) + \cancelto{0}{B} \sin (\omega t)\\
+x_p\pp&=-\omega^2A\cos (\omega t)}
+\[-\omega^2A\cos (\omega t)+\omega_0^2A\cos (\omega t) = \frac{F_0}{m}\cos (\omega t)\]
+\algn{-\omega^2A+\omega_0^2A &= \frac{F_0}{m} &\Rightarrow A=&\frac{F_0}{m\left(\omega_0^2-\omega^2 \right)}\\
+x_p&=\frac{F_0}{m\left(\omega_0^2-\omega^2 \right)}\cos (\omega t)
+}
+}
+
+}
+\slide{\vspace{-1.5em}\[x\pp+\omega_0^2 x = \frac{F_0}{m}\cos (\omega t)\hspace{2em}\text{with}\qquad\larray{\omega\neq\omega_0\\x(0)=x\p(0)=0}\]
+$x_h= c_1 \cos (\omega_0 t)  +c_2 \sin (\omega_0 t)$ \hfill $x_p=\frac{F_0}{m\left(\omega_0^2-\omega^2 \right)}\cos (\omega t)$\vfill
+\vspace{-1.5em}\student{\algn{
+\intertext{Initial Conditions:}
+x(0)=0&=c_1+\frac{F_0}{m\left(\omega_0^2-\omega^2 \right)}\\
+c_1&=\frac{F_0}{m\left(\omega^2-\omega_0^2 \right)}\\
+x\p(0)=0&=c_2\\
+x(t)& = \frac{F_0}{m\left(\omega_0^2-\omega^2 \right)} \underbrace{\left( \cos(\omega t) - \cos (\omega_0 t)  \right)}_{\carray{\sin\left( \frac{\omega_0+\omega}{2}t \right) \sin\left( \frac{\omega_0-\omega}{2} t \right)}}
+}
+}\vfill
+}
+
+\slide[Beat phenomena]{\vspace{-1.5em}
+\[ x(t) = \frac{F_0}{m\left(\omega_0^2-\omega^2 \right)} \sin\left( \frac{\omega_0+\omega}{2}t \right) \sin\left( \frac{\omega_0-\omega}{2} t \right) \]
+\vspace{.25em}
+\twomini[.65]{.4}{.6}{
+\tikzplot[\xcoord{1.75}{\omega_0}]{.1}{3.5}{0.1}{4}{\omega}{Amplitude}{
+\draw[domain=0:1.74, samples=100, red] plot (\x, {1/(1.75*1.75-\x*\x)});
+\draw[domain=1.76:3.5, samples=100, red] plot (\x, {-1/(1.75*1.75-\x*\x)});
+}
+}{
+\tikzplot[.3]{.1}{6.5}{2}{2}{t}{x(t)}{
+\draw[domain=0:10, samples=100, red] plot (\x, {sin(8000*0.01*\x)});
+\draw[domain=0:10, samples=100, red] plot (\x, {-sin(8000*0.01*\x)});
+\draw[domain=0:10, samples=450] plot (\x, {sin(8000*0.2*\x)*sin(8000*0.01*\x)});
+\draw[|-|] (1.125,1.125) -- (3.375,1.125) node[midway, above]{$T_{beat}=\frac{4\pi}{|\omega-\omega_0|}$};
+\draw[|-|] (3.2,-1.125) -- (3.4,-1.125) node[midway, below]{$T_{avg}=\frac{4\pi}{|\omega+\omega_0|}$};
+}}\vfill
+\centerline{What happens to $x(t)$ as $\omega\to\omega_0$?}
+}
+
+\slide[Resonance ($\omega\to\omega_0$)]{\vspace{-1.5em}
+\[x\pp+\omega_0^2 x =f(t)= \frac{F_0}{m}\cos (\omega_0 t)\]
+
+$x_h= c_1 \cos (\omega_0 t)  +c_2 \sin (\omega_0 t)$ \hspace{2em} $y_p=?$\student{\algn{y_p&\neq A \cos (\omega_0 t)  + B \sin (\omega_0 t)\\ y_p&= \cancelto{0}{A} t\cos (\omega_0 t)  + Bt \sin (\omega_0 t) & B=\frac{F_0}{2m\omega_0} }}
+
+\twomini[.65]{.6}{.4}{
+\tikzplot[.3]{.1}{6.5}{1.75}{1.75}{t}{x(t)}{
+\draw[domain=0:10, samples=100, red] plot (\x, {0.25*\x)});
+\draw[domain=0:10, samples=100, red] plot (\x, {-0.25*\x)});
+\draw[domain=0:10, samples=450] plot (\x, {0.25*\x*sin(8000*0.1*\x)});
+
+}
+}{
+As $t\to\infty$\\
+\student{\centerline{Amplitude $\to\infty$}\\~\\
+\centerline{Finite input power}\\~\\
+\centerline{Very large response}\\~\\
+\centerline{Physical Resonance}}
+}
+}
+
+\slide[Damped oscillator with forcing]{
+\[mx\pp+\beta x\p+kx=F_0\cos(\omega t)\]
+$x(t)=x_h(t)+x_p(t)$
+\vfill\student{Three cases:}
+\[x_{h}(t)=\begin{cases}
+e^{-\frac{\beta}{2m}t}\left(c_{1}\cos\left(\omega_{1}t\right)+c_{2}\sin\left(\omega_{1}t\right)\right) & \beta^{2}<4km\\
+c_{1}e^{r_{1}t}+c_{2}e^{r_{2}t} & \beta^{2}>4km\\
+c_{1}e^{rt}+c_{2}te^{rt} & \beta^{2}=4km
+\end{cases}\]\vfill
+\student{All exponents are negative\\\centerline{$\Rightarrow \quad x_h \to 0$ as $t\to\infty$ }}
+}
+
+
+\slide[Damped oscillator with forcing]{
+\[mx\pp+\beta x\p+kx=F_0\cos(\omega t)\]
+$x(t)=x_h(t)+x_p(t)$
+\vfill
+From the Method of Undetermined Coefficients:
+\[x_p = A \cos (\omega t)+B \sin (\omega t)\]\vfill
+As $t\to\infty$\\ \centerline{\student{$x(t) \to x_p(t)$}}\vfill
+}
+
+\slide{
+
+\tikzplot{.1}{11}{1}{1}{t}{x_h(t)}{
+\draw[domain=0:11, samples=300, smooth, Dandelion, thick] plot (\x, {  0.3*exp(-0.05*10*\x)*(-2.1611*cos(686.954*1.19896*\x) - 0.499779*sin(686.954*1.19896*\x))     });
+}
+\vfill
+\tikzplot{.1}{11}{1}{1}{t}{x_p(t)}{
+\draw[domain=0:11, samples=400, smooth, lblue, thick] plot (\x, {  0.3*(2.1611*cos(686.954*\x) + 0.491159*sin(686.954*\x))     });
+}
+\vfill
+\tikzplot{.1}{11}{1.65}{1}{t}{x(t)}{
+%\draw[domain=0:11, samples=500, Dandelion] plot (\x, {  0.3*exp(-0.05*10*\x)*(-2.1611*cos(686.954*1.19896*\x) - 0.499779*sin(686.954*1.19896*\x))     });
+%\draw[domain=0:11, samples=500, lblue] plot (\x, {  0.3*(2.1611*cos(686.954*\x) + 0.491159*sin(686.954*\x))     });
+\draw[domain=0:11, samples=400, smooth,  black, thick] plot (\x, {  0.3*(2.1611*cos(686.954*\x) - 2.1611*exp(-0.05*10*\x)*cos(686.954*1.19896*\x) + 0.491159*sin(686.954*\x) - 
+ 0.499779*exp(-0.05*10*\x)*sin(686.954*1.19896*\x))     });
+\draw[|-|] (0.1,-1.125) -- (6,-1.125) node[midway, below]{transient response};
+\draw[|->] (6.1,-1.125) -- (11,-1.125) node[midway, below]{steady state response};
+}
+
+}
+
+\slide{\[mx\pp+\beta x\p+k x=\cos(\omega t)\]
+How does the amplitude of the steady state response vary with $\omega$?
+
+\student{\algn{x_p&=A\cos (\omega t) + B\sin (\omega t)\\
+x_p\p &=- \omega A\sin (\omega t) + \omega B\cos (\omega t)\\
+x_p\pp &=- \omega^2 A\cos (\omega t) - \omega^2 B\sin (\omega t)
+}
+\algn{m\left(- \omega^2 A\cos (\omega t) - \omega^2 B\sin (\omega t) \right) &+ \beta \left(  - \omega A\sin (\omega t) + \omega B\cos (\omega t) \right)\\
++ k \left( A\cos (\omega t) + B\sin (\omega t) \right) &= \cos(\omega t)\\\\
+(Ak+B\beta \omega -mA\omega^2)\cos (\omega t) &+  (Bk-A\beta \omega -mB\omega^2)\sin (\omega t)  \\&= \cos (\omega t)}
+}
+}
+
+\slide{
+\student{Match coefficients\algn{\uline{\cos:} \qquad (Ak+B\beta \omega -mA\omega^2)&= 1\\
+\uline{\sin:} \qquad  (Bk-A\beta \omega -mB\omega^2)&=0\\
+B=A\frac{\beta\omega}{k-m \omega^2}&\\
+ \left(Ak+A\frac{(\beta\omega)^2}{k-m \omega^2} -mA\omega^2\right)&= 1\\
+A=\frac{k-m\omega^2}{(\beta\omega)^2-(k-m\omega^2)^2}&\qquad B=\frac{\beta\omega }{(\beta\omega)^2-(k-m\omega^2)^2}
+}
+}
+}
+
+\slide{\student{Amplitude:\algn{
+R&=\sqrt{A^2+B^2}\\
+&=\frac{\sqrt{(k-m\omega^2)^2 + (\beta \omega^2)}}{(\beta\omega)^2-(k-m\omega^2)^2}\\
+&= \frac{1}{\sqrt{k^2 - 2 k m \omega^2 + m^2 \omega^4 + \omega^2 \beta^2}}
+}
+\twomini{.6}{.4}{\ucover{
+\tikzplot[]{.1}{6}{.1}{4}{\omega}{}{
+\draw[domain=0:11, samples=400, smooth,  black, thick] plot (\x, { 0.5/sqrt(4-3.99*\x*\x+\x*\x*\x*\x)  });
+}}}{
+}
+}
+}
+\settoggle{covered}{false}
+
+\slide[Amplitude vs Forcing Frequency]{
+Steady-state response: $x_p = R \cos(\omega t-\phi)$ with
+\algn{R(\omega) & =  \frac{1}{\sqrt{k^2 - 2 k m \omega^2 + m^2 \omega^4 + \omega^2 \beta^2}} \\ &= \frac{1}{\sqrt{\beta ^2 \omega ^2+\left(k-m \omega ^2\right)^2}} }
+What value of $\omega$ creates the largest amplitude response?
+\student{
+\algn{\dd{}{\omega} R & = -\frac{\omega  \left(\beta ^2-2 k m+2 m^2 \omega ^2\right)}{\left(\beta ^2 \omega ^2+\left(k-m \omega ^2\right)^2\right)^{3/2}} =0\\\\
+\text{Critical points:} \qquad \omega^* &= 0, \quad \pm \sqrt{ \frac{k}{m}- \frac12\paren{\frac{\beta}{m}} ^2}}
+
+}
+
+}
+
+
+\slide[Amplitude vs Forcing Frequency]{
+\twomini{0.55}{0.45}{
+Underdamped:
+\[x_h = e^{-\frac{\beta}{2m}t}(c_1\cos(\omega_1 t) + c_2\sin(\omega_1 t))\]
+$\omega_1 = \sqrt{\frac{k}{m}-\paren{\frac{\beta}{2m}}^2 }$
+
+\tikzplot[\xcoord{1.105}{\quad\; \omega_1} \xcoord{1.05}{\omega^*\quad\;}]{.1}{4}{.1}{2.5}{\omega}{}{
+\draw[domain=0:4, samples=400, smooth,  black, thick] plot (\x, { 10/sqrt(64-80*\x*\x+36*\x*\x*\x*\x)  });
+\draw[black, dashed] (1.05,0) -- (1.05,2.26134);
+}
+\[\omega^* = \sqrt{ \frac{k}{m}- \frac12\paren{\frac{\beta}{m}} ^2} \approx \omega_1\]
+}{Overdamped:
+\[x_h = c_1e^{r_1t} + c_2e^{r_2t}\]
+$r_{1,2} = \frac{-\beta \pm \sqrt{\beta^2 -4km}}{2m}$
+
+\tikzplot[ \xcoord{0}{\omega^*}]{.1}{4}{.1}{2.5}{\omega}{}{
+\draw[domain=0:4, samples=400, smooth,  black, thick] plot (\x, { 15/sqrt(64+80*\x*\x+36*\x*\x*\x*\x)  });
+
+
+}
+\[\omega^*=0\]
+}
+}
+
+\slide[Resonance with damped oscillators?]{
+\[mx\pp+\beta x\p+ kx=\frac{F_0}{m}\cos(\omega t)\]
+What happens as $\omega \to \omega^*$?
+
+\vfill
+\student{
+\itmz{
+\item  Transient response \subitem{amplitude and duration both grow larger}
+\item Steady state response  \subitem{amplitude grows larger}
+}\vfill
+\centerline{This is called quasi-resonance.}
+}
+\vfill
+}
+
+\end{document}

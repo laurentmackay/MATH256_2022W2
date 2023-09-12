@@ -1,0 +1,85 @@
+\input{notes.tex}
+
+\iftoggle{dualscreen}{\setbeameroption{show notes on second screen=right}}{}
+
+\usepackage{gensymb}
+\begin{document}
+
+\section{Lecture 27}\subsection{Wave Equation Examples}
+
+\slide{\ex{Imagine a guitar string length of 2 pulled 0.1 units away from its rest position.}
+\vfill
+\centerline{\includegraphics[width=10cm]{images/sps-vibstr-tex4ht.pdf}}
+\vfill
+\centerline{\includegraphics[width=10cm]{images/plucked_initial_condition.pdf}}
+}
+
+
+\slide{\vspace{-2.75em}
+\algn{\uline{\text{ex:}}\qquad y_{tt}&=y_{xx} \quad 0<x<2 & y(0)&=y(2)=0, \\   y(x,0)&= \begin{cases}  0.1 x& 0<x<1\\ 0.1(2-x)&1 \leq x<2\end{cases}& y_t(x,0)&=0}
+\vspace{-1em}
+\student{
+\algn{y(x,t)&= \sum_{n=1}^\infty   c_n \cos\left( \frac{n\pi}{L}t\right) \sin\left( \frac{n\pi}{2}x\right)
+\intertext{$c_n$ is obtained from an odd periodic extension of the initial condition}  
+c_n &= \frac{2}{2} \left[\int_0^1 0.1 x \sin\left( \frac{n \pi}{2} x  \right) dx  + \int_1^2  0.1 (2-x) \sin\left( \frac{n \pi}{2} x  \right) dx \right] \\
+&=0.1\left[  \frac{4 \sin\left( \frac{n\pi}{2} \right) -2n \pi \cos\left( \frac{n\pi}{2} \right)    }{\pi^2 n^2} + \frac{4 \sin\left( \frac{n\pi}{2} \right) +2n \pi \cos\left( \frac{n\pi}{2} \right)    }{\pi^2 n^2}  \right]\\
+&= \frac{0.8}{n^2 \pi^2} \sin\left( \frac{n\pi}{2} \right) }
+}
+
+\vfill
+\tiny
+\enum{
+\item \url{https://www.wolframalpha.com/input?key=&i=integral+of+x*sin\%28n*pi*x\%2F2\%29+from+0+to+1+assuming+n+is+an+integer}
+\item \url{https://www.wolframalpha.com/input?key=&i=integral+of+\%282-x\%29sin\%28n*pi*x\%2F2\%29+from+1+to+2+assuming+n+is+an+integerr}}
+}
+
+\slide{\vspace{-1.5em}
+\[y(x,t)= \sum_{n=1}^\infty    \frac{0.8}{n^2 \pi^2} \sin\left( \frac{n\pi}{2} \right)  \cos\left( \frac{n\pi}{L}t\right) \sin\left( \frac{n\pi}{2}x\right)\]
+\vfill
+\centerline{\includegraphics[width=9cm]{images/plucked_solution.pdf}}
+\vfill
+}
+\slide{
+\algn{\uline{\text{ex:}}\qquad y_{tt}&=16y_{xx} \quad 0<x<1 & y(0)&=y(1)=0, \\   y(x,0)&= 0& y_t(x,0)&=\sin(5\pi x)}
+\student{\algn{y(x,t) &= \sum_{n=1}^\infty b_n  \sin\left( n\pi x\right) \frac{1}{4 n\pi} \sin\left( 4 n\pi t\right) 
+\intertext{$b_n$ is obtained from an odd periodic extension of the initial condition}  
+b_n &= \begin{cases} 1 &n=5 \\ 0&\text{otherwise}\end{cases}\\\\
+y(x,t) &= \frac{1}{20\pi}\sin(5\pi x)\sin(20\pi t)
+}
+
+}
+}
+
+\slide[Vibrational Modes - vibrations in space and time ]{
+Standing wave with a temporal period and spatial period (wavelength)
+\vfill
+$n^{th}$ vibrational mode
+\algn{\text{Temporal Period}&&\text{Wavelength}&\\
+T_n&=\frac{2L}{cn}&\lambda_n&=\frac{2L}{n}}
+\vfill
+Each mode crosses zero $n+1$ times
+
+\centerline{\tikzplot[\xcoord{9.4247}{L}]{0.1}{9.5}{1.05}{1.4}{x}{y}{
+
+
+\draw[smooth, thick, YellowOrange, domain=0:3.1415] plot ({\x*3},{sin(2*deg(\x))})node[xshift=-2cm, yshift=-.6cm]{$n=2$};
+\draw[smooth, Plum, domain=0:3.1415] plot ({\x*3},{sin(3*deg(\x))})node[xshift=-6.35cm, yshift=-.6cm]{$n=3$};
+\draw[smooth, ultra  thick, domain=0:3.1415] plot ({\x*3},{sin(deg(\x))}) node[xshift=-2cm, yshift=1.25cm]{$n=1$: fundamental mode};
+}
+}\vfill
+\url{https://www.youtube.com/watch?v=PVX4V5Adbzk}
+}
+
+\slide[Physical manipulation of frequencies]{
+ \[c^2=\frac{\text{Tension}}{\text{mass density}}\]
+
+\algn{f_n &= \frac{1}{T_n} = \frac{cn}{2L}\\\\
+f_n&\propto \sqrt{\text{Tension}}\\
+f_n&\propto \frac{1}{\text{Length}}\\
+}
+
+Tigthen a guitar string - frequency goes up \hfill (pitch gets higher)\\
+Hold guitar note - frequency goes up \hfill (pitch gets higher)\\
+}
+
+\end{document}

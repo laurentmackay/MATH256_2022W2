@@ -1,0 +1,162 @@
+\input{notes.tex}
+
+
+\iftoggle{dualscreen}{\setbeameroption{show notes on second screen=right}}{}
+
+\begin{document}
+\section{Lecture 6}
+\subsection{Introduction}
+
+\slide[Recall: Constant Coefficient Homogeneous 2$^{nd}$ Order ODE]{\vspace{-1em}
+\[ay\pp +by\p+cy=0 \qquad \text{we need 2 linearly independent solutions}\]
+\centerline{Try \uline{ansatz} $y=e^{rt}$ \hspace{3em} $\rightarrow$\hspace{3em}$e^{rt}\cdot \underbrace{(ar^2+br+c)}_{\text{characterisitc polynomial}} = 0$}
+
+\[r_{1,2} = \frac{-b\pm\sqrt{b^2-4ac} }{2a}\]
+\enum{\item Two distinct real roots: $\underbrace{b^2-4ac}_{\text{discriminant}}>0$ \\$y_h = c_1e^{r_1 t} + c_2 e^{r_2 t}$\vfill
+\item Repeated real roots: discriminant $= 0$  \vfill \item Complex conjugate roots: discriminant $<0$}
+}
+
+
+\subsection{Case 2: repeated root}
+
+\slide[Repeated real root ($r_1=r_2=r$)]{
+Straighforward solution \[y_1=e^{rt}\]  with \[r = \frac{-b\pm\sqrt{b^2-4ac} }{2a} = \frac{-b}{2a}\]
+\student{
+\vfill
+We need another solution that is linearly independent of $y_1$
+\vfill
+Lets try \[y_2=ty_1\]
+}
+}
+\slide[Checking $y_2=te^{rt}$]{\vspace{-2em}
+\[ay\pp + by\p+cy=0 \qquad \text{with } b^2-4ac=0 \]
+\centerline{$\Rightarrow r_{1,2}=r=\frac{-b}{2a}$}\vspace{-2em}
+\algn{\text{Try: } y_2 &= te^{rt}\\
+y_2\p &= e^{rt}+rte^{rt}\\
+y_2\pp &= 2 re^{rt} + r^2te^{rt} 
+\intertext{plug these into the ODE}
+&&\student{a\left( 2 re^{rt} + r^2te^{rt}  \right) + b \left( e^{rt}+rte^{rt} \right) + c e^{rt}} &\student{= 0} \\
+&&\student{\left( ar^2 + br + c \right) te^{rt} +\left( 2ar +b \right)e^{rt}} &\student{=0 }
+\intertext{\student{sub in $r=\frac{-b}{2a}}$} 
+&&\student{\underbrace{\left( \cancel{a}\frac{b^2}{4a^{\cancel{2}}} -\frac{b^2}{2a} + c \right)}_{\frac{1}{4a}(4ac-b^2)=0} te^{rt} +\underbrace{\left( \cancel{2a}\frac{-b}{\cancel{2a}} +b \right)}_{0}e^{rt} }&\student{=0} \\
+&&\student{0}&\student{=0 \checkmark}}
+}
+
+\slide[Constant Coefficient Homogeneous 2$^{nd}$ Order ODE]{\vspace{-1em}
+\[ay\pp +by\p+cy=0\]
+\centerline{Try \uline{ansatz} $y=e^{rt}$ \hspace{3em} $\rightarrow$\hspace{3em}$e^{rt}\cdot \underbrace{(ar^2+br+c)}_{\text{characterisitc polynomial}} = 0$}
+
+\[r_{1,2} = \frac{-b\pm\sqrt{b^2-4ac} }{2a}\]
+\enum{\item Two distinct real roots: $\underbrace{b^2-4ac}_{\text{discriminant}}>0$ \\$y_h = c_1e^{r_1 t} + c_2 e^{r_2 t}$\vfill
+\item Repeated real roots: discriminant $= 0$ \\$y_h = c_1e^{r t} + c_2 t e^{rt}$ \vfill \item Complex conjugate roots: discriminant $<0$}
+}
+
+
+\slide[Solve the IVP: $y\pp+4y\p+4y=0 \qquad \rarray{y(0)=2\\y\p(0)=0}$ ]{
+
+\student{\algn{r_{1,2} &= \frac{-4\pm\sqrt{16-4\cdot 4}}{2} = \frac{-4\pm 0}{2} =,-2\\
+y_h&=c_1e^{-2t}+c_2te^{-2t} \intertext{initial conditions:}
+y(0)=2&=c_1\\
+y\p(0)=0&=-2c_1 + c_2(e^{-2t}-2te^{-2t})\evalat{t=0}{} \\&= -4 +c_2 \qquad \Rightarrow \qquad c_2=4\\
+\Aboxed{y(t) &= 2 e^{-2t} + 4 t e^{-2t}}
+}
+}
+
+}
+
+\slide[Complex roots ($b^2-4ac<0$)]{
+Roots are given by:\algn{r_1&=\lambda + i \mu & \text{where } i =\sqrt{-1} \\
+r_2&=\lambda - i \mu}
+\student{\vspace{-.75em}\[\lambda = \frac{-b}{2a},\qquad \mu =\frac{\sqrt{4ac-b^2}}{2a}\]}\vfill
+The two functions $e^{(\lambda +i\mu )t}$ \& $e^{(\lambda  - i\mu) t}$ are solutions to $ay\pp +by\p+cy=0$.\vfill
+\student{What is the exponential of a complex number?\vfill Euler's formula:\[e^{\pm i \alpha} = \cos \alpha \pm i \sin \alpha\]}
+
+}
+\slide{\vspace{-1.5em}
+\student{
+\algn{e^{(\lambda  \pm i\mu ) t} &= e^{\lambda t} e^{\pm i \mu t} \\ &=  \underbrace{e^{\lambda t}}_{\text{Real}} \underbrace{\left[ \cos(\mu t) \pm i \sin (\mu t)\right] }_{\text{Complex}}}
+
+We don't want complex solutions, try a linear combination of the two.
+
+\algn{\tilde{y}_1 & = \frac{y_1+y_2}{2}= \frac{e^{\lambda t + i\mu t} + e^{\lambda t - i\mu t}}{2}  & \\  \tilde{y}_1 & = \frac{e^{\lambda t}}{2} \left[\cos(\mu t) + \cancel{i \sin (\mu t) }+ \cos(\mu t) - \cancel{i \sin (\mu t)} \right]  = \frac{e^{\lambda t}}{2} 2\cos(\mu t) \\ &=e^{\lambda t} \cos(\mu t)   }
+\vfill
+Similarly, $\tilde{y}_2=\dfrac{y_1-y_2}{2i}=\dfrac{e^{\lambda t + i\mu t} - i e^{\lambda t - i\mu t}}{2i} \quad \rightarrow \quad \tilde{y}_2=e^{\lambda t} \sin (\mu t)$
+
+}
+}
+
+\slide[Complex roots ($r_{1,2}=\lambda\pm i \mu$)]{
+The functions $y_1=e^{\lambda t} \cos (\mu t)$ and $y_2=e^{\lambda t} \sin (\mu t)$ are linearly independent real solutions. 
+
+\student{
+\vfill
+Sketch the two functions if you are not convinced.\vfill
+General solution: $y_h = c_1e^{\lambda t} \cos (\mu t) + c_2 e^{\lambda t} \sin (\mu t)$}
+
+}
+
+\slide[Find the general solution to: $y\pp+6y=0 $ ]{
+\student{\algn{r_{1,2} &= \frac{\pm\sqrt{-4\cdot 6}}{2} = \pm \sqrt{-6} = \pm i\sqrt{6} \\
+y_h&=c_1 \cos \left(\sqrt{6}t\right) + c_2 \sin\left( \sqrt{6}t\right) 
+}
+}
+}
+
+\slide[Solve the IVP: $y\pp+2y\p+5y=0 \qquad \rarray{y(0)=1\\y\p(0)=-1}$ ]{
+\student{\algn{r_{1,2} &= \frac{-2\pm\sqrt{4-4\cdot 5}}{2} = \frac{-2\pm \sqrt{-16}}{2}=-1\pm \frac{\sqrt{16}}{2} i = -1\pm 2i \\
+y_h&=e^{-t} \left(c_1 \cos \left(2t\right) + c_2 \sin\left( 2t\right) \right)\intertext{initial conditions:}
+y(0)=1&=c_1\\
+y\p(0)=-1&= -c_1+ \left(-2 c_1 \sin \left(0\right) + 2 c_2 \cos\left( 0 \right) \right) = -c_1+2c_2\\
+-1&=-1+2c_2  \qquad \Rightarrow  \qquad  c_2=0\\\\
+\Aboxed{y(t) &= e^{-t}\cos (2t)}
+}
+}
+}
+
+\slide[Qualitative Behaviour: complex roots]{\vspace{-1em}
+Three subcases:
+
+\student{
+\enum{
+\item  $\lambda < 0\quad\Rightarrow\quad$ Exponentially decaying oscillations.
+\tikzplot{.1}{10}{.75}{.75}{t}{}{
+\draw[domain=0:10, samples=300,  thick, color=blue] plot ({\x}, {0.75*exp(-.2*\x)*sin(360*\x)});
+\draw[domain=0:10, samples=300,  thick, color=red] plot ({\x}, {0.75*exp(-.2*\x)*cos(360*\x)});
+\draw[domain=0:10, samples=300,  thick, dashed] plot ({\x}, {0.75*exp(-.2*\x)})  node[left, xshift=-4cm, yshift=.4cm]{$e^{\lambda t}$};
+\draw[domain=0:10, samples=300,  thick, dashed] plot ({\x}, {-0.75*exp(-.2*\x)}) node[left, xshift=-4cm, yshift=-.4cm]{$-e^{\lambda t}$};
+}
+\vfill
+\item   $\lambda = 0 \quad\Rightarrow\quad$ Sustained periodic oscillations.
+\tikzplot{.1}{10}{.75}{.75}{t}{}{
+\draw[domain=0:10, samples=300,  thick, color=blue] plot ({\x}, {.72*sin(360*\x)});
+\draw[domain=0:10, samples=300,  thick, color=red] plot ({\x}, {.72*cos(360*\x)});
+}
+\vfill
+\item  $\lambda > 0\quad\Rightarrow\quad$ Exponentially growing oscillations.
+\tikzplot{.1}{10}{.75}{.75}{t}{}{
+\draw[domain=0:10, samples=300,  thick, color=blue] plot ({\x}, {0.1*exp(.2*\x)*sin(360*\x)});
+\draw[domain=0:10, samples=300,  thick, color=red] plot ({\x}, {0.1*exp(.2*\x)*cos(360*\x)});
+\draw[domain=0:10, samples=300,  thick, dashed] plot ({\x}, {0.1*exp(.2*\x)})  node[left, xshift=-4cm, yshift=-.15cm]{$e^{\lambda t}$};
+\draw[domain=0:10, samples=300,  thick, dashed] plot ({\x}, {-0.1*exp(.2*\x)}) node[left, xshift=-4cm, yshift=.15cm]{$-e^{\lambda t}$};
+}
+}
+}
+}
+
+\slide[Summary]{
+\itmz{
+\item For linear ODEs:
+\subitem{\item Pick an ansatz (e.g., $e^{rt}$) \item Write down the characteristic equation
+\item Find the roots \subitem{If you don't have enough functions, make a new one by multiplying by $t$}}
+\vfill
+\item Write down the general solution according to the roots
+\subitem{ Real and distinct $\Rightarrow y_h = c_1e^{r_1t} + c_2 e^{r_2t}$ }
+\subitem{ Real and repeated $\Rightarrow y_h = c_1e^{rt} + c_2 te^{rt} $ }
+\subitem{ Complex $\Rightarrow y_h= c_1e^{\lambda t} \cos (\mu t) + c_2 e^{\lambda t} \sin (\mu t)$ }
+\vfill
+\item Fit the constants $c_1$ and $c_2$ to the initial conditions
+}
+}
+
+
+\end{document}

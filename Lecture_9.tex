@@ -1,0 +1,211 @@
+\input{notes.tex}
+
+
+\iftoggle{dualscreen}{\setbeameroption{show notes on second screen=right}}{}
+
+\settoggle{covered}{true}
+\begin{document}
+\section{Lecture 9}
+\subsection{Derivation of ODE}
+\slide[Derivation of spring-dashpot ODE: ]{
+\twomini[.45]{.25}{.65}{\includegraphics[width=\columnwidth, angle=90, origin=c]{images/spring_dashpot.pdf}}{
+$x(t)=$ displacement from rest position\student{\subitem{$x=0 \Rightarrow$ no elastic  restoring force}}
+\vfill
+Newton's 2$^{nd}$ Law:\[ F = ma \qquad \text{where $a = \ddn{x}{t}{2}$}\]
+
+
+}
+\algn{F&=\text{sum of forces}\\&=\underbrace{\carray{\text{elastic restoring} \\ \text{force}}}_{\student{\carray{\text{Hooke's Law}\\=-kx }}} + \underbrace{\text{drag force}}_{\student{\carray{\text{opposes motion}\\ =-\beta\dd{x}{t}}}} + \quad \underbrace{\text{external forces}}_{\carray{\student{f(t)}}}\\
+&= \student{-kx - \beta \dd{x}{t} +f(t)} }
+}
+
+
+\slide[Derivation of spring-dashpot ODE:]{
+\twomini[.45]{.25}{.65}{\includegraphics[width=\columnwidth, angle=90, origin=c]{images/spring_dashpot.pdf}}{
+$x(t)=$ displacement from rest position\subitem{$x=0 \Rightarrow$ no elastic  restoring force}
+\vfill
+Newton's 2$^{nd}$ Law:\[ F = ma \qquad \text{where $a = \ddn{x}{t}{2}$}\]
+
+
+}
+\algn{F&=-kx - \beta \dd{x}{t} +f(t) \\
+\student{m \ddn{x}{t}{2}} &\student{= -kx - \beta \dd{x}{t} +f(t)}}
+
+\student{\[\boxed{ m x\pp + \beta x\p  + kx=  f(t) }\]}
+}
+
+\slide[Adding a constant pre-stress:  $f(t) \rightarrow f_0+f(t)$ ]{
+\twomini[.55]{.25}{.65}{\includegraphics[width=\columnwidth]{images/spring_dashpot_gravity.pdf}}{\vspace{-1.5em}
+\algn{mx\pp +\beta x\p +kx &= f_0 +  f(t)\intertext{Change of coordinate $\tilde{x} =  x-\frac{f_0}{k}$}
+\student{m\tilde{x}\pp +\beta \tilde{x}\p +k\tilde{x} }&= \student{ f(t)}}\vspace{-1.5em}
+\student{\subitem{$\tilde{x}=0 \Rightarrow$ restoring force + pre-stress = 0 \item $\tilde{x}$ = displacement from equilibirum position}}
+\vfill
+}
+\itmz{\item Position dynamics do not change due to constant pre-stress.
+\item Equilibrium position changes by $\Delta x = \frac{f_0}{k}$
+\item Given $\Delta x$ and $f_0$ you can find $k=\frac{f_0}{\Delta x}$\vfill
+\student{\subitem{e.x. $f_0=mg \Rightarrow k=\frac{mg}{\Delta x}$}}\vfill
+}
+}
+
+\subsection{Simple Harmonic Motion}
+
+\slide[Simple Harmonic Motion]{
+Spring with no damping and no forcing, i.e. \[mx\pp+kx=0\]
+
+\itmz{\item Similar: frictionless pendulum, circuit with no resistance….
+\item General solution: \student{ 
+Homogeneous problem
+\algn{\text{Guess}: x(t)&=e^{rt} &mr^2e^{rt} +k e^{rt} &=0\\
+&&mr^2+k&=0\\
+r&=\pm\frac{\sqrt{-4km}}{2m}\quad =\pm i \sqrt{\frac{k}{m}}}
+\[x(t)=c_1 \cos(\omega_0 t) + c_2 \sin(\omega_0 t); \qquad \omega_0=\sqrt{\nicefrac{k}{m}}\]
+}
+}
+}
+
+\slide[Simple Harmonic Motion:  $mx\pp+kx=0$ ]{
+
+\itmz{
+\item General solution:\[x(t) = c_1 \cos(\omega_0 t)  + c_2 \sin(\omega_0 t), \quad \omega_0 = \sqrt{\nicefrac{k}{m}} \]\vfill
+\item All solutions have periodic motion with period: $T=\frac{2\pi}{\omega_0}$\vfill
+\item The quantity $\omega_0$ is called the \student{\alert{natural frequency}.}\vfill
+\item Obtaining a unique solution requires two initial conditions:
+\student{\itmz{\item $x(0)$ = initial displacement away from rest position.\item $x\p(0)$ = initial velocity of the mass }}
+}
+}
+
+\slide[Amplitude-phase form of solution:]{
+
+\vfill Solution can also be expressed as \[x(t) = R \cos (\omega_0 t - \varphi)\]
+\student{
+\itmz{\item $R=$ amplitude of motion \subitem{max displacement}
+\item $\varphi=$ phase angle \subitem{by convention $-\pi<\varphi<\pi$}}
+}
+\vfill
+}
+
+\slide[Amplitude-phase form of solution:]{\vspace{-2em}
+\student{\algn{ \ucover{\text{Gen Solution:} \quad R\cos( \omega t -\varphi) } &\ucover{=\quad c_1\cos (\omega t)  \quad + \quad c_2\sin (\omega t)} \\
+\ucover{\text{Trig ident:}\quad  R\cos( \omega t - \varphi)}  &\ucover{= R\left[ \cos \paren{ \omega t}\cos (\varphi) +\sin \paren{ \omega t }\sin (\varphi)   \right]} \\\\
+\intertext{by visual inspection} R\cos \varphi &= c_1 &(1)\\
+R\sin \varphi &= c_2 &(2)
+}
+\vfill
+\twomini{.5}{.5}{$(2)/(1)$: \algn{\frac{R \sin \varphi}{R\cos\varphi}=\tan \varphi &=\frac{c_2}{c_1}\\
+\Rightarrow  \Aboxed{\varphi = \arctan \paren{\frac{c_2}{c_1}}}}
+}{$(1)^2+(2)^2$:
+\algn{R^2\underbrace{(\cos^2 \varphi +\sin^2 \varphi)}_{1}&=c_1^2+c_2^2\\R^2&=c_1^2+c_2^2\\\Aboxed{R&= \pm \sqrt{c_1^2+c_2^2}}}
+
+\vspace{-.5em}
+Check at $t=0$ to determine + or -
+} 
+}
+}
+\settoggle{covered}{false}
+\slide{A spring has spring constant of 15 N/m. A mass of 3 kg is attached to the spring, and is then displaced from the equilibrium position by 1cm and released with a velocity of 14 cm/s at $t=0$. \\~\\
+\enum{ \item  Find the  displacement for  $t>0$. 
+\item Find the natural frequency, period, amplitude, and phase angle of motion. }\vspace{-1em}
+\student{\algn{3 x\pp + 15 x &= 0 \\
+x(t) &= c_1 \cos (\omega_0 t) +c_2 \sin (\omega_0 t)\\
+w_0&=\sqrt{k/m} = \sqrt{15/3} = \sqrt{5}
+\intertext{Initial Conditions:}
+x(0) &=  0.01 \text{m} = c_1\\
+x'(0)  & = 0.14 \text{m/s} = \omega_0 c_2 =\sqrt{5} c_2\\
+c_2&=\frac{0.14}{\sqrt{5}}
+}
+}
+}
+
+\slide{
+\student{
+\[\boxed{x(t) = 0.01 \cos{\sqrt{5} t } +  \frac{0.14}{\sqrt{5}} \sin{\sqrt{5} t}}\]
+Amplitude and phase angle
+\[x(t) = R\cos (\omega_0 t - \phi)\]
+
+\algn{R &=\sqrt{c_1^2 +c_2^2} & \varphi & = \arctan\left({\frac{c_2}{c_1}}\right)\\
+&=\sqrt{0.01^2+\frac{0.14^2}{5}} & &= \arctan{\left(\frac{14}{\sqrt{5}}\right)}\\
+&\approx 0.0626 & &\approx 1.412\\\\
+x(t)&\approx0.0626\cos \left(\frac{ t}{\sqrt{5}} -1.412\right)
+}
+
+}
+}
+\subsection{Damped Dynamics}
+\slide[Free oscillations with damping]{
+\[x\pp +\beta x\p +kx = 0 \]
+What happens for small and large $\beta$?
+\student{
+\itmz{ 
+\item  $\beta \to 0$, no damping $\Rightarrow$ recover simple harmonic oscillations
+\item  $\beta \to \infty$, infinite damping $\Rightarrow$ no oscillations
+}
+}\vfill
+Characterisitc equation: $mr^2+\beta r +k =0$ has two roots
+\student{\[ r_{1,2} = \frac{-\beta \pm \sqrt{\beta^2-4km}}{2m}\]
+\vfill
+Note: Since $\beta>0$, the real part of $r_{1,2}$ is always negative \\\centerline{ $\Rightarrow$ exponentially decaying solutions.}}
+}
+
+\slide[]{
+\[ r_{1,2} = \frac{-\beta \pm \sqrt{\beta^2-4km}}{2m}\]
+Three cases:\student{
+\enum{
+\item $\beta^2<4km$: roots are complex \subitem{exp * (sin + cos) solutions - \alert{underdamped} motion}\vfill
+\item $\beta^2>4km$: roots distinct and real \subitem{(bi-exponential solutions) - \alert{overdamped} motion}
+\vfill
+\item $\beta^2=4km$: repeated real root \subitem{($e^{rt} + te^{rt}$ solutions) - \alert{critically damped} motion}
+}
+}
+}
+
+\slide[Underdamped Motion]{
+General solution: \[x(t) = e^{-\frac{\beta}{2m}t}\left( c_1 \cos (\omega_1 t) + c_2 \sin (\omega_1 t)\right)\] where $\omega_1=\sqrt{\nicefrac{k}{m} -(\nicefrac{\beta}{2m})^2} \student{\leq \omega_0}$ \student{(damping slows the oscillations)}
+\vfill
+We can write this in amplitude-phase form \student{\[x(t) = e^{-\frac{\beta}{2m}t}R \cos (\omega_1 t - \varphi) \]}\vspace{-1.25em}
+\itmz{
+\item $e^{-\frac{\beta}{2m}t}R$ is the time-varying amplitude (or amplitude)
+\item $\omega_1$ is called the quasi-frequency of motion
+\subitem{ $T=\nicefrac{2\pi}{\omega_1}$ is the quasi-period of motion}
+\item $\varphi$ is the phase angle of motion (or phase shift)
+}
+\student{Again,  we have \hfill  $\varphi = \arctan \paren{\dfrac{c_2}{c_1}}, \qquad R=\sqrt{c_1^2+c_2^2}$ \hfill}
+} 
+
+
+\slide{\alert{Overdamped Motion:}\\
+General Solution: \[x(t)=c_1e^{r_1t}+c_2e^{r_2t}\] with $r_1<r_2<0$.\vfill
+
+\alert{Critically-Damped:} \student{$\beta=2 \sqrt{k \cdot m}$}\\
+General Solution: \[x(t)=c_1e^{rt}+c_2te^{rt}\] with $r=\frac{-\beta}{2m}=-\sqrt{\nicefrac{k}{m}}<0$.\vfill
+
+}
+
+
+
+\slide{A spring has spring constant of 15 N/m. A mass of 3 kg is attached to the spring, and is then displaced from the equilibrium position by 3cm and released with an initial velocity of 0 cm/s  at $t=0$. \\~\\
+\enum{ \item  Determine the value of the damping consant $\beta$ for which the system is critically damped.
+\item Find the displacement $x(t)$ of the mass if the system is critically damped, assuming an inital velocity of 0 cm/s.}
+}
+
+\slide{A spring has spring constant of 15 N/m. A mass of 3 kg is attached to the spring, and is then displaced from the equilibrium position by 3cm and released with an initial velocity of 0 cm/s  at $t=0$. \\~\\
+\enum{ \item  Determine the value of the damping consant $\beta$ for which the system is critically damped.
+}\vfill
+\student{\algn{\text{Critical damping:} \quad \beta^2 &= 4km\\&=4\cdot 3 \cdot 15=180\\
+\beta &=\sqrt{180}\approx 13.416}}\vfill
+}
+
+
+\slide{A spring has spring constant of 15 N/m. A mass of 3 kg is attached to the spring, is then displaced from the equilibrium position by 3cm and released with an initial velocity of 0 cm/s  at $t=0$. \\~\\
+\enum{ \setcounter{enumi}{1} \item Find the displacement $x(t)$ of the mass if the system is critically damped, assuming an inital velocity of 0 cm/s.
+}
+\student{\algn{x(t) &= c_1 e^{-\sqrt{\frac{k}{m}}t} +c_2 t e^{-\sqrt{\frac{k}{m}}t}= c_1 e^{-\sqrt{5}t} +c_2 t e^{-\sqrt{5}t}\\ \intertext{Initial conditions:}
+x(0) &= 0.03 \text{m}  =  c_1\\
+x\p(0) & = 0 = -\sqrt{5} c_1 + c_2 \left( 1 - \sqrt{5}\cdot 0  \cdot 1\right) = -\sqrt{5} c_1 + c_2\\
+c_2 &= \sqrt{5} c_1 = \sqrt{5}\cdot  0.03 \approx 0.067 \\
+x(t) &= 0.03 e^{-\sqrt{5}t} + 0.067t e^{-\sqrt{5}t}
+}
+}
+}
+
+\end{document}

@@ -1,0 +1,281 @@
+\input{notes.tex}
+
+
+\iftoggle{dualscreen}{\setbeameroption{show notes on second screen=right}}{}
+\usetikzlibrary{arrows}
+
+\begin{document}
+\settoggle{covered}{true}
+
+\section{Lecture 15}
+\subsection{Preamble}
+
+\slide[Recall:]{
+ \[\dd{}{t}\vec{x} = \mathbf{A} \vec{x} \qquad \text{with }\vec{x}(0) =\vec{x}_0 \]
+Since $\mathbf{A}$ is an $n\times n$ matrix, our solutions live in $\mathbb{R}^n$
+\vfill
+Superposition:
+\[\vec{x}(t) = c_1\vec{x}_1(t) +c_2 \vec{x}_2 + \dots + c_n \vec{x}_n(t)\]
+\vfill
+Each $\vec{x}_i(t)$ was found by solving an eigenproblem.\vfill
+\student{\[\vec{x}_i (t)= e^{\lambda_i t} \vec{v}_i \qquad \text{where} \qquad A\vec{v}_i = \lambda_i \vec{v}_i\]}
+
+}
+
+\slide[Recall:]{
+
+\[\vec{x}(t) = c_1\vec{x}_1(t) +c_2 \vec{x}_2 + \dots + c_n \vec{x}_n(t)\]
+\vfill
+The coefficients $c_i$ come from projecting the initial conditions $\vec{x}_0$ onto the basis
+\[\left\{\vec{x}_1(0), \vec{x}_2(0), \dots, \vec{x}_n(0)  \right\}\]
+\vfill
+\student{
+\[c_i = \vec{x}_0 \cdot \vec{x}_i(0) \qquad - \qquad \text{change of basis} \]\vfill
+This an "inner product" defined on the vector space $\mathbb{R}^n$
+\[\vec{a}\cdot \vec{b} = \left<\vec{a},\vec{b}\right> = \sum_i a_i \cdot b_i\]
+}
+}
+
+\slide{For the rest of the semester, we will be using techniques based on inner products in a \uline{function space} - effectively an infinite dimensional vector space.
+\vfill
+\student{
+Consider two functions $h(x)$ and $g(x)$ defined on an interval $[a,b]$, then the "standard" inner product is given by \[\left<h, g \right>=\intop_a^b h(x) g^*(x) dx\] where $g^*$ is the complex conjugate of $g$.}
+}
+\slide[]{
+The two main techniques we will use are: \vfill
+1) Laplace Transforms\vfill
+\student{
+\itmz{
+\item ODE does not need to reduce to any specific eigenproblem.\vfill
+\item Project ODE+ICs onto the space of exponential solutions. \subitem{ Use pattern recognition skills to convert projection back into a time-dependent solution.}\vfill
+\item Very useful for ODEs with non-smooth forcing and understanding complicated modular systems.
+}}\vfill
+}
+\settoggle{covered}{false}
+\slide[]{
+The two main techniques we will use are: \vfill
+2) Fourier Series\vfill
+\student{
+\itmz{
+\item ODE/PDE must reduce to specific eigenproblem(s)\vfill
+\item Project ICs onto the space of periodic functions (sin/cos basis). \subitem{Projections can be directly interpreted as constant coefficients in an infinite series solution.}\vfill
+\item We may also see some applications with hyperbolic trig. functions.
+}}\vfill
+}
+
+
+\slide[\small Solving ODEs: $ay\pp +by\p+cy=h(t)$\hfill  with $\larray{y(0)=y_0\\y\p(0)=v_0}$]{
+\vfill
+\centerline{How do we "normally" solve this?}
+\student{\[y=y_p+y_h\]}
+\vfill
+\enum{\item Solve homogeneous problem, get $y_h=c_1y_1+c_2y_2$. \vfill
+\item Apply method of undetermined coefficients, get $y_p$ \vfill\student{\subitem{Requires knowing $h\p,h\pp,\dots$}}\vfill
+\item Find $c_1$ \& $c_2$ by solving: \hspace{.5cm}$\carray{y_0=y_p(t_0)+c_1y_1(t_0)+c_2y_2(t_0) \\ v_0=y_p\p(t_0)+c_1y_1\p(t_0)+c_2y_2\p(t_0) }$\vfill
+\item Finally \[y(t) =y_p+c_1y_1+c_2y_2\]
+}
+}
+
+\newcommand{\interval}{\draw[|-|]}
+\newcommand{\midnode}{node[midway, below]}
+\slide[Non-smooth forcing]{\vspace{-1em}
+Suppose some function $h(t)$ jumps abruptly between two values
+\[\text{e.g., } h(t) = \begin{cases} 0 & t\leq a\\ 1 & t>a \end{cases}\]\vspace{-1em}
+
+\tikzplot[\xcoord{3}{\text{kink}}; 
+
+\interval (0,-.15) --(3,-.15) \midnode{$t\leq a$} ; 
+\interval (3,-.15) --(5,-.15) \midnode{$t>a$} ; 
+
+
+ ]{.1}{5}{.1}{1.5}{t}{\text{\small{y(t)}}}{
+\draw (2,1) node{$y\pp+6y\p+y=h(t)$};
+\draw[domain=0:2, thick, samples=100] plot ({\x*1.5}, {.8*exp(-\x)});
+\draw[domain=2:10, thick, samples=100] plot ({\x*1.5}, {.8*exp(-\x)+(1-exp(-(\x-2)))*1.25});
+
+}\hfil \tikzplot[\xcoord{3}{\text{jump}}
+
+\interval (0,-.15) --(3,-.15) \midnode{$t\leq a$} ; 
+\interval (3,-.15) --(5,-.15) \midnode{$t>a$} ; 
+  ]{.1}{5}{.1}{1.5}{t}{\text{\small{y(t)}}}{
+\draw (1.5,1.15) node{$y\p+6y=\dd{}{t}h(t)$};
+\draw[domain=0:2, thick, samples=100] plot ({\x*1.5}, {.8*exp(-\x)});
+\draw[domain=2:10, thick, samples=100] plot ({\x*1.5}, {.8*exp(-(\x-2))});
+\draw[thick , dashed] (3,0.1)--(3,.8);
+}
+\student{Since the derivative of $h(t)$ is undefined at $t=a$, we cannot use the method of undetermined coefficients...\vfill
+\centerline{We must use Laplace Transforms!}}
+}
+
+\subsection{Laplace Transforms}
+\slide[Laplace Transforms]{
+Suppose you have a real-valued function $y(t)$ defned for $t\in[0,\infty)$ that solves some ODE of interest.
+\vfill
+Its Laplace Transform is given by 
+
+
+\algn{Y(s) = \lap{y(t)} &=  \left<e^{-st}, y(t) \right>\\\\&\student{=\int_0^\infty e^{-st} y(t)dt}}
+
+
+}
+
+
+\slide{\ex{$y(t)=\frac12$}\student{\hspace{3em}$\lap{y(t)}=Y(s)=\lapint{\frac12}$
+\algn{&=-\frac{1}{2s}e^{-st}\Big|_0^\infty
+&=-\lim_{A\to\infty}\frac{1}{2s}e^{-st}\Big|_0^A\\
+&=-\frac{1}{2s}\lim_{A\to\infty}\paren{e^{-sA}-1}\\
+&=\begin{cases}
+\frac{1}{2s}& \text{if }s>0\\
+DNE & \text{if }s\leq0
+\end{cases}}
+}\vfill
+\centerline{
+\tikzplot[\textnode{4.75}{1.5}{\overset{\mathcal{L}}{\rightarrow}}]{1}{3}{.1}{2.1}{\color{RubineRed}t}{\color{RubineRed}y(t)}{
+\draw[domain=-1:6, smooth, RubineRed, thick, samples=150] plot ({\x}, {1.5});}
+\hfill 
+\tikzplot{1}{3}{.1}{2.1}{\color{YellowOrange}s}{\color{YellowOrange}Y(s)}{
+\draw[domain=0.01:6, YellowOrange, thick, samples=100] plot ({\x}, {.02/(\x/5)});
+\draw[pattern=north west lines, pattern color=\normcolor] (-2,-2) rectangle (0,4);}
+}
+}
+
+
+
+\slide{
+\ex{$y(t)=e^{-6t}$}\student{
+\algn{\lap{y(t)}&=Y(s)=\lapint{e^{-6t}}\\
+&\dots\\
+&=\begin{cases}
+\frac{1}{s+6} & \text{if }s>-6\\
+DNE & \text{if }s\leq-6
+\end{cases}
+}}
+\vfill
+\centerline{
+\tikzplot[\textnode{4.75}{1.5}{\overset{\mathcal{L}}{\rightarrow}}]{1}{3}{.1}{1.5}
+{\color{RubineRed}t}
+{\color{RubineRed}y(t)}{
+\draw[domain=-1:6, smooth, RubineRed, thick, samples=150] plot ({\x}, {.4*exp(-\x)});}
+\hfill 
+\tikzplot[\xcoord{-.5}{-6}]{1}{3}{.1}{1.25}{\color{YellowOrange}s}{\color{YellowOrange}Y(s)}{
+\draw[domain=-.499:6, YellowOrange, thick, samples=100] plot ({\x}, {.15/(\x+.5)});
+\draw[pattern=north west lines, pattern color=\normcolor] (-2,-2) rectangle (-.5,4);}
+}
+}
+
+
+
+\slide[Laplace Transform of Derivatives]{
+Suppose $\lap{y(t)}=Y(s)$. What is $\lap{y\p(t)}?$\vfill \student{
+\algn{\lap{y\p(t)}&=\int_0^\infty \underbrace{e^{-st}}_{u} \underbrace{y\p(t)dt}_{dv} &\arr{l}{v=y(t)\\du=-se^{-st}dt} \\
+&=e^{-st}y(t)\evalat{0}{\infty}-(-s)\underbrace{\lapint{y(t)}}_{\lap{y(t)}}\\
+&\overset{s>0}{=} - y(0)+s\lap{y(t)} \\\\&=  \boxed{sY(s)-y_0} } 
+}\vfill
+}%end slide
+
+\slide[Laplace Transform of Derivatives]{
+Given that $\lap{y\p(t)}=sY(s)-y_0$. What is $\lap{y\pp(t)}?$ \student{
+\vfill
+\algn{
+\lap{y\pp(t)}&= s\lap{y\p(t)} - y\p(0)=s\left[ sY(s)-y_0 \right] -\underbrace{y\p(0)}_{v_0}\\\\
+&=\boxed{s^2Y(s)-sy_0-v_0}}
+}\vfill
+}%end slide
+
+\slide[Linearity of Laplace Transforms:]{
+\vfill
+\enum{\item $\lap{f(t)+g(t)}=\student{\lapint{\paren{f(t)+g(t)}}}$\\~\\
+\student{$=\lap{f(t)}+\lap{g(t)}=F(s)+G(s)$}\vfill
+\item $\lap{cf(t)}=\student{c\lap{f(t)}=cF(s)}$}
+
+\vfill\ex{What is the Laplace transform of $y\p+6y$  with $y(0)=y_0$? }\vfill
+\student{\algn{\lap{y\p+6y}&=\lap{y\p}+\lap{6y}\\
+&=s\lap{y}-y_0+6\lap{y}\\
+&=(s+6)Y(s)-y_0
+}}
+}
+\slide{\ex{Find $Y(s)$ for $y\p+6y=3$  with $y(0)=y_0$.}\vfill
+\student{
+\algn{(s+6)Y(s)-y_0&=\lap{3}\\
+\lap{y\p}+6\lap{y}&=\frac3s\\
+sY(s)-y_0+6Y(s)&=\frac3s\\
+Y(s)&=\underbrace{\frac{3}{s(s+6)}}_{\lap{???}}+\underbrace{\frac{y_0}{s+6}}_{y_0 \lap{e^{-6t}}}
+}}\vfill}
+
+\slide{\ex{Solve $y\p+6y=3$ with $y(0)=y_0$ using Laplace Transforms.}\vfill
+\student{
+Partial fraction decomposition
+\algn{Y(s)=\frac{3}{s(s+6)}+\frac{y_0}{s+6}&=\frac{A}{s}+\frac{B}{s+6}+\frac{y_0}{s+6}\\
+3+\cancel{y_0 \cdot s}&=A (s+6)+B\cdot s+\cancel{y_0 \cdot s}\\
+3&=6A + (A+B)s\\
+\intertext{True for all $s$ $\Rightarrow$ coefficients must match}
+\text{\uline{constant terms}:}\quad 3&=6A &&A=\frac12\\
+\text{\uline{$s$ terms}:}\quad 0&=A+B &&B=-A=-\frac12\\\\
+Y(s) = \frac{1}{2s}-\frac{1}{2(s+6)} +\frac{y_0}{s+6}&=\frac{1}{2s}+\paren{y_0-\frac12}\frac{1}{s+6}
+}
+
+}\vfill}
+
+\slide{
+
+\student{
+\algn{\ucover{Y(s)}&\ucover{=\frac{1}{2s}+\paren{y_0-\frac12}\frac{1}{s+6}}\\
+&=F(s)+\paren{y_0-\frac12}G(s) & F(s)=\frac{1}{2s} \Rightarrow f(t)& = \frac12 \\
+&& G(s)=\frac{1}{s+6} \Rightarrow g(t) &= e^{-6t}\\\
+&=\lap{\frac12} + \paren{y_0-\frac12}\lap{e^{-6t}} \\
+y(t)&=\frac{1}{2}+\paren{y_0-\frac12}e^{-6t}}
+}\vfill
+}
+
+\slide[General Laplace Transform Method for IVPs]{\vspace{-1em}
+\enum{\item Take Laplace transform of the entire DE \student{(ex. $y\p +6y=3$)}
+\subitem{Use linearity and rules for transforming derivatives.}\vfill\student{\centerline{$sY(s)-y_0+6Y(s)=\frac3s$}}\vfill
+\item Solve the resulting equation for $Y(s)$ \vfill
+\student{\centerline{$Y(s)=\frac{3}{s(s+6)}+\frac{y_0}{s+6}$}}\vfill
+\item Do some algebra to get a sum of  "easy" terms \vfill
+\student{\centerline{$Y(s)=\frac{1}{2s}+\paren{y_0-\frac12}\frac{1}{s+6}$}}\vfill
+\item Transform back from $Y(s)$ to $y(t)$ \subitem{Tackle each term in the sum individually.}\vfill
+\student{\centerline{$y(t)=\frac{1}{2}+\paren{y_0-\frac12}e^{-6t}$}}\vfill  }
+}
+
+\slide[What are "easy" terms?]{
+Spot a term in s-space $\rightarrow$ you now know what it corresponds to in t-space
+\vfill
+\algn{\lap{C}&=\frac{C}{s}&\text{Constant}\\
+\lap{Ce^{-at}} & = \frac{C}{s+a}&\text{Exponential func.}\\
+\lap{t^n}&=\frac{n!}{s^{n+1}}&\text{Power func.}\\
+\lap{\sin \omega t}&=\frac{\omega}{\omega^2+s^2}\\
+\lap{\cos \omega t}&=\frac{s}{\omega^2+s^2}\\
+}\vfill
+Tables exist with even more terms...
+
+}
+\slide{\ex{Use Laplace transforms to solve $y\pp+9y=0$ with $y(0)=1$ and $y\p(0)=-1$.}
+\student{
+\algn{s^2Y(s)-sy_0-v_0&+9Y(s)=0\\
+(9+s^2)Y(s)&-s\cancelto{1}{y_0}-\cancelto{-1}{v_0} =0 \\
+(9+s^2)Y(s)  &= -1 + s\\\\
+Y(s) &=\frac{-1}{9+s^2} +\frac{s}{9+s^2}\\
+&=A \frac{3}{9+s^2} +\frac{s}{9+s^2} && A\cdot3=-1\\
+Y(s)&=\frac{-1}{3} \frac{3}{9+s^2} +\frac{s}{9+s^2} &&A=-\frac13\intertext{Invert the transform}
+y(t)&=-\frac13 \sin(3t)+\cos(3t)
+}
+}
+}
+
+
+\slide[Summary]{
+
+\itmz{
+\item Laplace transform (LT): $\lap{f(t)}=\lapint{f(t)}$ \vfill
+\item Maps $f(t) \rightarrow F(s)$ , from "t-space" to "s-space" \vfill
+\item  LT is linear because the integral is linear \vfill
+\item LT of derivatives (from integration by parts)
+\algn{\lap{y\p(t)}&=sY(s)-y_0 \\
+\lap{y\pp(t)}&=s^2Y(s)-sy_0-v_0} 
+\item Using these we can take LT of constant coefficient DE’s \vfill
+\item Solve the algebraic equation and invert the transform \vfill
+\subitem{ Use tables of LT’s to do this}}
+}
+\end{document}
+

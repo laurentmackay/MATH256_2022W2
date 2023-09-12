@@ -1,0 +1,31 @@
+\input{notes.tex}
+
+
+\iftoggle{dualscreen}{\setbeameroption{show notes on second screen=right}}{}
+\usetikzlibrary{arrows}
+
+\begin{document}
+
+\slide[Application: Linear Time Invariant Systems]{
+
+\tikzstyle{int}=[draw, fill=blue!20, minimum size=2em]
+\tikzstyle{init} = [pin edge={to-,thin,black}]
+\vfill
+\begin{tikzpicture}[node distance=4.5cm,auto,>=latex']
+    \node [int, pin={[init]below:$F_1(s) = \frac{1}{a_1s^2+b_1s+c_1}$}] (a) {System 1};
+    \node (b) [left of=a,node distance=3.75cm, coordinate] {a};
+    \node [int, pin={[init]below:$F_2(s) = \frac{1}{a_2s^2+b_2s+c_2}$}] (c) [right of=a] {System 2};
+    \node [coordinate] (end) [right of=c, node distance=3.75cm]{};
+    \path[->] (b) edge node {Input: $ x(t)$} (a);
+    \path[->] (a) edge node {Output: $y_1(t)$} (c);
+    \draw[->] (c) edge node {Output: $y_2(t)$} (end) ;
+\end{tikzpicture} \vfill
+\algn{y_1(t) &=x(t) \ast f_1(t) \\
+y_2(t) &= y_1(t) \ast f_2(t) \\&= x(t) \ast f_1(t) \ast f_2(t)  \\
+&= x(t) \ast (f_1(t) \ast f_2(t))\\\\
+f_1(t) \ast f_2(t)&=\text{Impulse response for total system} }
+
+}
+
+
+\end{document}
